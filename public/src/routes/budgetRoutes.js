@@ -18,14 +18,6 @@ const BudgetSelect = resolve => {
 	}, 'budget');
 }
 
-const DisplayBudget = resolve => {
-	// Whenever we want to load something that lives in the path...
-	require.ensure(['../components/Budgets/DisplayBudget.vue'], () => {
-		// ...execute this function which is like resolving a promise
-		resolve(require('../components/Budgets/DisplayBudget.vue'));
-	}, 'budget');
-}
-
 const CreateBudget = resolve => {
 	// Whenever we want to load something that lives in the path...
 	require.ensure(['../components/Budgets/CreateBudget.vue'], () => {
@@ -33,6 +25,15 @@ const CreateBudget = resolve => {
 		resolve(require('../components/Budgets/CreateBudget.vue'));
 	}, 'budget');
 }
+
+const MainLayout = resolve => {
+	// Whenever we want to load something that lives in the path...
+	require.ensure(['../components/Layouts/MainLayout.vue'], () => {
+		// ...execute this function which is like resolving a promise
+		resolve(require('../components/Layouts/MainLayout.vue'));
+	}, 'budget');
+}
+
 
 
 export const budgetRoutes = {
@@ -43,7 +44,7 @@ export const budgetRoutes = {
 		{ path: 'new', component: CreateBudget},
 		{ 
 			path: ':budget_id', 
-			component: DisplayBudget,
+			component: MainLayout,
 			children: mainDisplayRoutes
 		}
 	]
