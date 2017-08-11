@@ -1,18 +1,17 @@
 <template>
 	<div class="nav_accounts">
-
 		<div class="nav_account_block">
 			<div class="nav_account_name">BUDGET</div>
 			<div class="nav_account_spacer"></div>
 			<div class="nav_account_value user_data">$0.00</div>
 		</div>
-			<router-link to="/budget/1/1" tag="a" class="nav_account_row">
+			<router-link to="/app/budget/1/acc/1" tag="a" class="nav_account_row">
 				<div class="nav_account_name">Checking</div>
 				<div class="nav_account_spacer"></div>
 				<div class="nav_account_value user_data">$0.00</div>
 			</router-link>
 			<router-link
-				to="/budget/1/1"
+				to="/app/budget/1/acc/1"
 				tag="a"
 				class="nav_account_row"
 				>
@@ -21,7 +20,7 @@
 				<div class="nav_account_value user_data">$0.00</div>
 			</router-link>
 			<router-link
-				to="/budget/1/1"
+				to="/app/budget/1/acc/1"
 				tag="a"
 				class="nav_account_row"
 				>

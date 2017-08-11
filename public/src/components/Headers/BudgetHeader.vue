@@ -18,7 +18,7 @@
 			<div class="budget_allocate_display budget_header_item">
 				<div class="to_be_budgeted">
 					<div class="tbb_totals_amount">
-						<h1 class="tbb_value">$0.00</h1>
+						<h1 class="tbb_value">$3000.00</h1>
 						<p class="tbb_text">To Be Budgeted</p>
 					</div>
 				</div>

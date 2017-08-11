@@ -11,13 +11,17 @@
 				>
 				<i class="law icon"></i> Budget</router-link>
 			<router-link
-				to="/app/budget/1/accounts"
+				to="/app/budget/1/acc/accounts"
 				tag="li"
 				style="cursor: pointer"
 				>
 				<i class="folder open icon"></i>All Accounts</router-link>
 		</ul>
 		<app-account-list></app-account-list>
+		<button class="button_sidebar nav_add_account">
+			<i class="icon add circle"></i>
+			Add Account
+		</button>
 	</div>
 </template>
 
@@ -75,5 +79,21 @@
 
 	.button_prefs:hover {
 		background-color: #1b8095;
+	}
+
+	.button_sidebar {
+		margin: .8rem 1rem 5.5rem 1rem;
+	}
+
+	.button_sidebar {
+		background-color: rgba(255,255,255,0.2);
+		border: none;
+		border-radius: 1000px;
+		box-shadow: none;
+		padding: .3em .6em .4em .4em;
+		font-size: .8em;
+		line-height: 1em;
+		float: right;
+		color: #fff;
 	}
 </style>
