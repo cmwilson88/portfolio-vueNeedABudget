@@ -1,7 +1,11 @@
 <template>
 	<div class="budget_content">
-		<button @click="addNewGroup = !addNewGroup">Add New Category Group</button>
-		<app-add-cat-group v-if="addNewGroup"></app-add-cat-group>
+		<ul class="budget_table_header">
+			<li class="budget_table_cell_name">CATEGORY</li>
+			<li class="budget_table_cell_budgeted">BUDGETED</li>
+			<li class="budget_table_cell_activity">ACTIVITY</li>
+			<li class="budget_table_cell_available">AVAILABLE</li>
+		</ul>
 		<div class="budget_table">
 			<ul class="budget_table_row category_group">
 				<li class="category_group_name">
@@ -303,17 +307,14 @@
 </template>
 
 <script>
-	import AddCategoryGroup from './AddCategoryGroup.vue'
 	import AddSpendCategory from './AddSpendCategory.vue'
 	export default {
 		data() {
 			return {
-				addNewGroup: false,
 				addNewSpend: false
 			}
 		},
 		components: {
-			appAddCatGroup: AddCategoryGroup,
 			appAddSpendCat: AddSpendCategory
 		}
 	}
@@ -355,6 +356,33 @@
 		text-overflow: ellipsis;
 		overflow: hidden;
 		white-space: nowrap;
+	}
+
+	.budget_table_header {
+		background-color: #fff;
+		border-bottom: 1px solid #dee3e8;
+		height: 1.75em !important;
+
+		min-width: 562px;
+		display: block;
+	}
+
+	.budget_table_header li {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-end;
+		font-weight: normal;
+		color: #4c7079;
+	}
+
+	.budget_table_header .budget_table_cell_name {
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		padding-left: 1% !important;
+		text-align: left;
+		width: 40%;
 	}
 
 	.budget_table {
@@ -405,6 +433,9 @@
 		color: #588697;
 		
 	}
+	.budget_table_cell_budgeted,
+	.budget_table_cell_activity,
+	.budget_table_cell_available,
 	.category_group_budgeted,
 	.category_group_activity,
 	.category_group_available,
@@ -416,7 +447,8 @@
 		width: 15%;
 		font-size:.9285em;
 	}
-
+	
+	.budget_table_cell_available,
 	.category_group_available,
 	.spend_cat_available {
 		width: 20%;

@@ -10,3 +10,20 @@ html {
 body {
 	font-family: 'Lato', sans-serif;
 }
+
+button {
+	border: none;
+}
+.button {
+	padding: .3em .6em;
+	border-radius: .4em;
+	border: 2px solid #dee3e8;
+	background-color: transparent;
+	color: #009cc2;
+	font-size: 1em;
+	text-align: left;
+}
+.button:hover {
+	border-color: #005076;
+	color: #fff;
+}

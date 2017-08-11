@@ -1,42 +1,58 @@
 <template>
 	<header class="budget_header">
-		<div class="month_display budget_header_item">
-			<div class="last_month_button"></div>
-			<h1>Aug 2017</h1>
-			<div class="next_month_button"></div>
-		</div>
+		<div class="budget_header_flex">
+			<div class="month_display budget_header_item">
+				<div class="month_button">
+					<div class="month_button_inner">
+						<i class="icon chevron left"></i>
+					</div>
+				</div>
+				<h1>Aug 2017</h1>
+				<div class="month_button">
+					<div class="month_button_inner">
+						<i class="icon chevron right"></i>
+					</div>
+				</div>
+			</div>
 
-		<div class="budget_allocate_display budget_header_item">
-			<div class="to_be_budgeted">
-				<div class="tbb_totals_amount">
-					<h1 class="tbb_value">$0.00</h1>
-					<p class="tbb_text">To Be Budgeted</p>
+			<div class="budget_allocate_display budget_header_item">
+				<div class="to_be_budgeted">
+					<div class="tbb_totals_amount">
+						<h1 class="tbb_value">$0.00</h1>
+						<p class="tbb_text">To Be Budgeted</p>
+					</div>
 				</div>
-			</div>
-			<div class="budget_totals_details">
-				<div class="budget_totals_details_values">
-					<div class="budget_totals_cell_value"><span>+$0.00</span></div>
-					<div class="budget_totals_cell_value"><span>-$0.00</span></div>
-					<div class="budget_totals_cell_value"><span>-$0.00</span></div>
-					<div class="budget_totals_cell_value"><span>-$0.00</span></div>
-				</div>
-				<div class="budget_totals_details_names">
-					<div class="budget_totals_cell_name">Funds for Aug</div>
-					<div class="budget_totals_cell_name">Overspent in Jul</div>
-					<div class="budget_totals_cell_name">Budgeted in Aug</div>
-					<div class="budget_totals_cell_name">Budgeted in Future</div>
+				<div class="budget_totals_details">
+					<div class="budget_totals_details_values">
+						<div class="budget_totals_cell_value"><span>+$0.00</span></div>
+						<div class="budget_totals_cell_value"><span>-$0.00</span></div>
+						<div class="budget_totals_cell_value"><span>-$0.00</span></div>
+						<div class="budget_totals_cell_value"><span>-$0.00</span></div>
+					</div>
+					<div class="budget_totals_details_names">
+						<div class="budget_totals_cell_name">Funds for Aug</div>
+						<div class="budget_totals_cell_name">Overspent in Jul</div>
+						<div class="budget_totals_cell_name">Budgeted in Aug</div>
+						<div class="budget_totals_cell_name">Budgeted in Future</div>
+					</div>
 				</div>
 			</div>
 		</div>
+		<app-add-category-group></app-add-category-group>
 	</header>
 </template>
 
 <script>
-	
+	import AddCategoryGroup from '../Categories/AddCategoryGroup.vue'
+	export default {
+		components: {
+			appAddCategoryGroup: AddCategoryGroup
+		}
+	}
 </script>
 
 <style>
-	.budget_header {
+	.budget_header_flex {
 		display: flex;
 	}
 
@@ -79,17 +95,38 @@
 		padding: 0 .5em 0 .5em;
 	}
 
-	.last_month_button,
-	.next_month_button {
-		height: 35px;
-		width: 35px;
+	.month_button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 45px;
+		width: 45px;
 		background-color: #23B2CE;
 		border-radius: 50%;
 	}
 
-	.last_month_button:hover,
-	.next_month_button:hover {
-		background-color: #22D4FF;
+	.month_button_inner{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 35px;
+		width: 35px;
+		background-color: #003540;
+		border-radius: 50%;
+	}
+
+	.month_button_inner i {
+		margin: 0;
+		font-size: 1.5em;
+		color: #23b2ce;
+	}
+
+	.chevron.left {
+		margin-right: .225em;
+	}
+
+	.chevron.right {
+		margin-left: .225em;
 	}
 
 	.budget_allocate_display {

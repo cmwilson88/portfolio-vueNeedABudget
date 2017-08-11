@@ -1,15 +1,16 @@
 <template>
 	<aside class="budget_inspector">
-		<div class="budget_inspector_category_header">
-			<div class="budget_inspector_category">
-				
-			</div>
-		</div>
+		<app-default-inspector></app-default-inspector>
 	</aside>
 </template>
 
 <script>
-	
+	import DefaultInspector from './DefaultInspector.vue';
+	export default {
+		components: {
+			appDefaultInspector: DefaultInspector
+		}
+	}
 </script>
 
 <style>
@@ -18,7 +19,7 @@
 		display: block;
 		width: 33%;
 		min-width: 276px;
-		top: 8.2em;
+		top: 9.5em;
 		right: 0;
 		bottom: 0;
 		z-index: 10;

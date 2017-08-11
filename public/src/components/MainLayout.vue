@@ -1,33 +1,15 @@
 <template>
 	<div class="layout">
 		<div class="layout_sidebar">
-			<h2>Wilson Budget</h2>
-			<app-budget-nav></app-budget-nav>
-			<hr>
-			<app-main-accounts-list></app-main-accounts-list>
+			<router-view name="sidebar"></router-view>
 		</div>
 		<div class="layout_content">
-			<app-display-budget></app-display-budget>
+			<router-view name="content"></router-view>
 		</div>
 	</div>
 </template>
 
 <script>
-	import DisplayBudget from '../Budgets/DisplayBudget.vue'
-	import MainAccountsList from '../Accounts/MainAccountsList.vue'
-	import BudgetNav from '../Budgets/BudgetNav.vue'
-	export default {
-		data() {
-			return {
-
-			}
-		},
-		components: {
-			appDisplayBudget: DisplayBudget,
-			appMainAccountsList: MainAccountsList,
-			appBudgetNav: BudgetNav
-		}
-	}
 </script>
 
 <style>
@@ -43,6 +25,11 @@
 		width: 260px;
 		height: 100%;
 		background: linear-gradient(to bottom, #34aebe, #23809b);
+		color: #fff;
+	}
+
+	.layout_sidebar a {
+		text-decoration: none;
 		color: #fff;
 	}
 
