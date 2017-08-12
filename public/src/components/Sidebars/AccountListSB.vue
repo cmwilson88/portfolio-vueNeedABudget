@@ -11,7 +11,7 @@
 				<div class="nav_account_value user_data">$0.00</div>
 			</router-link>
 			<router-link
-				to="/app/budget/1/acc/1"
+				to="/app/budget/1/acc/2"
 				tag="a"
 				class="nav_account_row"
 				>
@@ -20,7 +20,7 @@
 				<div class="nav_account_value user_data">$0.00</div>
 			</router-link>
 			<router-link
-				to="/app/budget/1/acc/1"
+				to="/app/budget/1/acc/3"
 				tag="a"
 				class="nav_account_row"
 				>

@@ -35,91 +35,62 @@
 		</div>
 		<div class="account_grid_container">
 			<div class="account_grid_body">
-				<div class="account_grid_body_row">
-					<div class="account_grid_cell account_grid_cell_checkbox"></div>
-					<div class="account_grid_cell account_grid_cell_notification"></div>
-					<div class="account_grid_cell account_grid_cell_flag"></div>
-					<div class="account_grid_cell account_grid_cell_accountName">Checking</div>
-					<div class="account_grid_cell account_grid_cell_date">08/07/2017</div>
-					<div class="account_grid_cell account_grid_cell_payeeName">Starting Balance</div>
-					<div class="account_grid_cell account_grid_cell_subCategoryName">Inflow: to be Budgeted</div>
-					<div class="account_grid_cell account_grid_cell_memo">starting balance</div>
-					<div class="account_grid_cell account_grid_cell_outflow"></div>
-					<div class="account_grid_cell account_grid_cell_inflow">$500.00</div>
-					<div class="account_grid_cell account_grid_cell_cleared"></div>
-				</div>
-				<div class="account_grid_body_row">
-					<div class="account_grid_cell account_grid_cell_checkbox"></div>
-					<div class="account_grid_cell account_grid_cell_notification"></div>
-					<div class="account_grid_cell account_grid_cell_flag"></div>
-					<div class="account_grid_cell account_grid_cell_accountName">Checking</div>
-					<div class="account_grid_cell account_grid_cell_date">08/07/2017</div>
-					<div class="account_grid_cell account_grid_cell_payeeName">Starting Balance</div>
-					<div class="account_grid_cell account_grid_cell_subCategoryName">Inflow: to be Budgeted</div>
-					<div class="account_grid_cell account_grid_cell_memo">starting balance</div>
-					<div class="account_grid_cell account_grid_cell_outflow"></div>
-					<div class="account_grid_cell account_grid_cell_inflow">$500.00</div>
-					<div class="account_grid_cell account_grid_cell_cleared"></div>
-				</div>
-				<div class="account_grid_body_row">
-					<div class="account_grid_cell account_grid_cell_checkbox"></div>
-					<div class="account_grid_cell account_grid_cell_notification"></div>
-					<div class="account_grid_cell account_grid_cell_flag"></div>
-					<div class="account_grid_cell account_grid_cell_accountName">Checking</div>
-					<div class="account_grid_cell account_grid_cell_date">08/07/2017</div>
-					<div class="account_grid_cell account_grid_cell_payeeName">Starting Balance</div>
-					<div class="account_grid_cell account_grid_cell_subCategoryName">Inflow: to be Budgeted</div>
-					<div class="account_grid_cell account_grid_cell_memo">starting balance</div>
-					<div class="account_grid_cell account_grid_cell_outflow"></div>
-					<div class="account_grid_cell account_grid_cell_inflow">$500.00</div>
-					<div class="account_grid_cell account_grid_cell_cleared"></div>
-				</div>
-				<div class="account_grid_body_row">
-					<div class="account_grid_cell account_grid_cell_checkbox"></div>
-					<div class="account_grid_cell account_grid_cell_notification"></div>
-					<div class="account_grid_cell account_grid_cell_flag"></div>
-					<div class="account_grid_cell account_grid_cell_accountName">Checking</div>
-					<div class="account_grid_cell account_grid_cell_date">08/07/2017</div>
-					<div class="account_grid_cell account_grid_cell_payeeName">Starting Balance</div>
-					<div class="account_grid_cell account_grid_cell_subCategoryName">Inflow: to be Budgeted</div>
-					<div class="account_grid_cell account_grid_cell_memo">starting balance</div>
-					<div class="account_grid_cell account_grid_cell_outflow"></div>
-					<div class="account_grid_cell account_grid_cell_inflow">$500.00</div>
-					<div class="account_grid_cell account_grid_cell_cleared"></div>
-				</div>
-				<div class="account_grid_body_row">
-					<div class="account_grid_cell account_grid_cell_checkbox"></div>
-					<div class="account_grid_cell account_grid_cell_notification"></div>
-					<div class="account_grid_cell account_grid_cell_flag"></div>
-					<div class="account_grid_cell account_grid_cell_accountName">Checking</div>
-					<div class="account_grid_cell account_grid_cell_date">08/07/2017</div>
-					<div class="account_grid_cell account_grid_cell_payeeName">Starting Balance</div>
-					<div class="account_grid_cell account_grid_cell_subCategoryName">Inflow: to be Budgeted</div>
-					<div class="account_grid_cell account_grid_cell_memo">starting balance</div>
-					<div class="account_grid_cell account_grid_cell_outflow"></div>
-					<div class="account_grid_cell account_grid_cell_inflow">$500.00</div>
-					<div class="account_grid_cell account_grid_cell_cleared"></div>
-				</div>
-				<div class="account_grid_body_row">
-					<div class="account_grid_cell account_grid_cell_checkbox"></div>
-					<div class="account_grid_cell account_grid_cell_notification"></div>
-					<div class="account_grid_cell account_grid_cell_flag"></div>
-					<div class="account_grid_cell account_grid_cell_accountName">Checking</div>
-					<div class="account_grid_cell account_grid_cell_date">08/07/2017</div>
-					<div class="account_grid_cell account_grid_cell_payeeName">Starting Balance</div>
-					<div class="account_grid_cell account_grid_cell_subCategoryName">Inflow: to be Budgeted</div>
-					<div class="account_grid_cell account_grid_cell_memo">starting balance</div>
-					<div class="account_grid_cell account_grid_cell_outflow"></div>
-					<div class="account_grid_cell account_grid_cell_inflow">$500.00</div>
-					<div class="account_grid_cell account_grid_cell_cleared"></div>
-				</div>
+				<app-transaction-row
+					v-for="transaction in transactions"
+					:transaction="transaction"
+					key="transaction.id"
+					>
+				</app-transaction-row>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-
+	import axios from 'axios';
+	import TransactionRow from './TransactionRow.vue'
+	export default {
+		data() {
+			return {
+				transactions: []
+			}
+		},
+		created() {
+			if(this.$route.params.acc_id){
+				console.log('has params')
+				axios.get('http://localhost:3000/api/accounts/' + this.$route.params.acc_id)
+					.then(res => {
+						this.transactions = res.data;
+					})
+			} else {
+				console.log('does not have params')
+				axios.get('http://localhost:3000/api/transactions')
+					.then(res => {
+						this.transactions = res.data;
+					})
+				
+			}
+		},
+		updated() {
+			if(this.$route.params.acc_id){
+				console.log('has params')
+				axios.get('http://localhost:3000/api/accounts/' + this.$route.params.acc_id)
+					.then(res => {
+						this.transactions = res.data;
+					})
+			} else {
+				console.log('does not have params')
+				axios.get('http://localhost:3000/api/transactions')
+					.then(res => {
+						this.transactions = res.data;
+					})
+				
+			}
+		},
+		components: {
+			appTransactionRow: TransactionRow
+		}
+	}
 </script>
 
 <style>
