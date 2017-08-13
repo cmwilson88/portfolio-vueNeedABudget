@@ -30,6 +30,9 @@ CREATE TABLE IF NOT EXISTS Accounts (
 	name text not null,
 	type text not null,
 	start_amount decimal(11,2) not null,
+	uncleared decimal(11,2),
+	cleared decimal(11,2),
+	working decimal(11,2),
 	budget_id integer not null,
 	foreign key (budget_id) references Budgets(id)
 );
@@ -48,9 +51,9 @@ CREATE TABLE IF NOT EXISTS CatGroups (
 	name text not null,
 	month integer not null,
 	year integer not null,
-	budgeted decimal(9,2) default 0,
-	activity decimal(9,2) default 0,
-	available decimal(9,2) default 0,
+	budgeted decimal(9,2) default 0.00,
+	activity decimal(9,2) default 0.00,
+	available decimal(9,2) default 0.00,
 	budget_id integer not null,
 	foreign key (budget_id) references Budgets(id)
 );

@@ -9,7 +9,8 @@
 				</div>
 				<div class="account_grid_header_cell account_grid_cell_notification"></div>
 				<div class="account_grid_header_cell account_grid_cell_flag"></div>
-				<div class="account_grid_header_cell account_grid_cell_accountName">
+				<div
+					class="account_grid_header_cell account_grid_cell_accountName">
 					ACCOUNT
 				</div>
 				<div class="account_grid_header_cell account_grid_cell_date">
@@ -57,13 +58,11 @@
 		},
 		created() {
 			if(this.$route.params.acc_id){
-				console.log('has params')
 				axios.get('http://localhost:3000/api/accounts/' + this.$route.params.acc_id)
 					.then(res => {
 						this.transactions = res.data;
 					})
 			} else {
-				console.log('does not have params')
 				axios.get('http://localhost:3000/api/transactions')
 					.then(res => {
 						this.transactions = res.data;
@@ -73,13 +72,11 @@
 		},
 		updated() {
 			if(this.$route.params.acc_id){
-				console.log('has params')
 				axios.get('http://localhost:3000/api/accounts/' + this.$route.params.acc_id)
 					.then(res => {
 						this.transactions = res.data;
 					})
 			} else {
-				console.log('does not have params')
 				axios.get('http://localhost:3000/api/transactions')
 					.then(res => {
 						this.transactions = res.data;
@@ -227,6 +224,9 @@
 		overflow: visible;
 	}
 
+	.account_grid_cell_date {
+		width: 7.125em;
+	}
 	.account_grid_body_row .account_grid_cell_accountName,
 	.account_grid_body_row .account_grid_cell_date,
 	.account_grid_body_row .account_grid_cell_payeeName,

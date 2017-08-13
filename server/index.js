@@ -7,6 +7,8 @@ const bodyParser = require('body-parser'),
 const connectionString = require('../config')
 
 const transactionCtrl = require('./controllers/transactionCtrl');
+const budgetCtrl = require('./controllers/budgetCategoriesCtrl');
+
 app.use(bodyParser.json())
 app.use(cors())
 app.use(express.static(`${__dirname}/../public/build`))
@@ -27,6 +29,7 @@ massive(connectionString)
 
 app.get('/api/transactions', transactionCtrl.getAllTransactions);
 app.get('/api/accounts/:accountId', transactionCtrl.getTransactionsByAccount)
+app.get('/api/budget', budgetCtrl.getBudgetCategories)
 
 const PORT = 3000
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`))

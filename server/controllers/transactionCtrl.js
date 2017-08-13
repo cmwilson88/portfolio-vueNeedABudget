@@ -8,7 +8,6 @@ module.exports = {
 	},
 	getTransactionsByAccount: function(req, res, next) {
 		const db = req.app.get('db');
-		console.log(req.params.accountId);
 		db.getTransactionsByAccount([req.params.accountId])
 			.then(response => {
 				res.status(200).send(response)
