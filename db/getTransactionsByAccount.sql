@@ -4,4 +4,4 @@ join budgets b on t.budget_id = b.id
 join accounts a on t.account_id = a.id
 join payees p on t.payee_id = p.id
 join spendcats s on t.spend_cat_id = s.id
-where t.account_id = $1;
+where b.id = $1 and t.account_id = $2

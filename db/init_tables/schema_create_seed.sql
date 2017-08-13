@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Accounts (
 	id serial primary key,
 	name text not null,
 	type text not null,
-	start_amount decimal(11,2) not null,
+	amount decimal(11,2) not null,
 	uncleared decimal(11,2),
 	cleared decimal(11,2),
 	working decimal(11,2),

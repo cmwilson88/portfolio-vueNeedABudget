@@ -10,7 +10,7 @@ values
 ('Main Budget', 1);
 
 insert into Accounts
-(name, type, start_amount, budget_id)
+(name, type, amount, budget_id)
 values
 ('USAA Checking', 'Checking', 15439.53, 1),
 ('USAA Savings', 'Savings', 2500, 1),

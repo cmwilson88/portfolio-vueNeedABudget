@@ -5,34 +5,33 @@
 			<div class="nav_account_spacer"></div>
 			<div class="nav_account_value user_data">$0.00</div>
 		</div>
-			<router-link to="/app/budget/1/acc/1" tag="a" class="nav_account_row">
-				<div class="nav_account_name">Checking</div>
-				<div class="nav_account_spacer"></div>
-				<div class="nav_account_value user_data">$0.00</div>
-			</router-link>
-			<router-link
-				to="/app/budget/1/acc/2"
-				tag="a"
-				class="nav_account_row"
-				>
-				<div class="nav_account_name">Savings</div>
-				<div class="nav_account_spacer"></div>
-				<div class="nav_account_value user_data">$0.00</div>
-			</router-link>
-			<router-link
-				to="/app/budget/1/acc/3"
-				tag="a"
-				class="nav_account_row"
-				>
-				<div class="nav_account_name">Credit Card</div>
-				<div class="nav_account_spacer"></div>
-				<div class="nav_account_value user_data">$0.00</div>
-			</router-link>
+			<app-account
+				v-for="account in budgetAccounts"
+				:account="account"
+				key="account.id"></app-account>
 	</div>
 </template>
 
 <script>
-	
+	import axios from 'axios'
+	import Account from '../Accounts/Account.vue'
+	export default {
+		data() {
+			return {
+				budgetAccounts: []
+			}
+		},
+		components: {
+			appAccount: Account
+		},
+		created() {
+			console.log(this.$route.params.b_id)
+			axios.get('http://localhost:3000/api/' + this.$route.params.b_id + '/accounts')
+				.then(response => {
+					this.budgetAccounts = response.data
+				})
+		}
+	}
 </script>
 
 <style>

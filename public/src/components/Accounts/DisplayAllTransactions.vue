@@ -58,12 +58,12 @@
 		},
 		created() {
 			if(this.$route.params.acc_id){
-				axios.get('http://localhost:3000/api/accounts/' + this.$route.params.acc_id)
+				axios.get('http://localhost:3000/api/'+this.$route.params.b_id+'/accounts/' + this.$route.params.acc_id)
 					.then(res => {
 						this.transactions = res.data;
 					})
 			} else {
-				axios.get('http://localhost:3000/api/transactions')
+				axios.get('http://localhost:3000/api/'+this.$route.params.b_id+'/transactions')
 					.then(res => {
 						this.transactions = res.data;
 					})
@@ -72,12 +72,12 @@
 		},
 		updated() {
 			if(this.$route.params.acc_id){
-				axios.get('http://localhost:3000/api/accounts/' + this.$route.params.acc_id)
+				axios.get('http://localhost:3000/api/'+this.$route.params.b_id+'/accounts/' + this.$route.params.acc_id)
 					.then(res => {
 						this.transactions = res.data;
 					})
 			} else {
-				axios.get('http://localhost:3000/api/transactions')
+				axios.get('http://localhost:3000/api/'+this.$route.params.b_id+'/transactions')
 					.then(res => {
 						this.transactions = res.data;
 					})

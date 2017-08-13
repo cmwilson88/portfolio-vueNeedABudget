@@ -6,7 +6,7 @@ const bodyParser = require('body-parser'),
 
 const connectionString = require('../config')
 
-const transactionCtrl = require('./controllers/transactionCtrl');
+const accountCtrl = require('./controllers/accountCtrl');
 const budgetCtrl = require('./controllers/budgetCategoriesCtrl');
 
 app.use(bodyParser.json())
@@ -27,8 +27,9 @@ massive(connectionString)
 	}).catch(err => console.log(err))
 
 
-app.get('/api/transactions', transactionCtrl.getAllTransactions);
-app.get('/api/accounts/:accountId', transactionCtrl.getTransactionsByAccount)
+app.get('/api/:b_id/transactions', accountCtrl.getAllTransactions);
+app.get('/api/:b_id/accounts', accountCtrl.getAllAccounts);
+app.get('/api/:b_id/accounts/:accountId', accountCtrl.getTransactionsByAccount)
 app.get('/api/budget', budgetCtrl.getBudgetCategories)
 
 const PORT = 3000
