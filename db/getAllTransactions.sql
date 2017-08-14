@@ -5,3 +5,4 @@ join accounts a on t.account_id = a.id
 join payees p on t.payee_id = p.id
 join spendcats s on t.spend_cat_id = s.id
 where b.id = $1
+order by date desc

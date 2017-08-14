@@ -2,7 +2,7 @@
 		<router-link :to="routePath" tag="a" class="nav_account_row">
 			<div class="nav_account_name">{{account.name}}</div>
 			<div class="nav_account_spacer"></div>
-			<div class="nav_account_value user_data">{{account.amount}}</div>
+			<div class="nav_account_value user_data">${{account.amount | amount-with-comma}}</div>
 		</router-link>
 </template>
 

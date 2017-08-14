@@ -3,7 +3,7 @@
 		<div class="nav_account_block">
 			<div class="nav_account_name">BUDGET</div>
 			<div class="nav_account_spacer"></div>
-			<div class="nav_account_value user_data">$0.00</div>
+			<div class="nav_account_value user_data">${{accountsTotal | amount-with-comma}}</div>
 		</div>
 			<app-account
 				v-for="account in budgetAccounts"
@@ -21,11 +21,17 @@
 				budgetAccounts: []
 			}
 		},
+		computed: {
+			accountsTotal() {
+				return this.budgetAccounts 
+					? this.budgetAccounts.reduce((a,b) => a + Number(b.amount), 0) 
+					: null
+			}
+		},
 		components: {
 			appAccount: Account
 		},
 		created() {
-			console.log(this.$route.params.b_id)
 			axios.get('http://localhost:3000/api/' + this.$route.params.b_id + '/accounts')
 				.then(response => {
 					this.budgetAccounts = response.data
@@ -62,8 +68,9 @@
 	}
 
 	.nav_account_row .nav_account_name {
-		font-size: 1em;
-		padding-left: 3em;
+		display: table-cell;
+		font-size: .875em;
+		padding-left: 2em;
 	}
 
 	.nav_account_name {

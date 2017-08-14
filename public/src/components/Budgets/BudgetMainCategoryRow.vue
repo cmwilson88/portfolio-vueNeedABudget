@@ -4,14 +4,25 @@
 				<span>{{budgetgroup.name}}</span>
 				<button @click="addNewSpend = !addNewSpend">+</button>
 		</li> 
-		<li class="category_group_budgeted">${{budgetgroup.budgeted.toFixed(2)}}</li>
-		<li class="category_group_activity">${{budgetgroup.activity.toFixed(2)}}</li>
-		<li class="category_group_available">${{budgetgroup.available.toFixed(2)}}</li>
+		<li class="category_group_budgeted">${{budgetedTotal.toFixed(2) | amount-with-comma}}</li>
+		<li class="category_group_activity">${{activityTotal.toFixed(2) | amount-with-comma}}</li>
+		<li class="category_group_available">${{availableTotal.toFixed(2) | amount-with-comma}}</li>
 	</ul>
 </template>
 
 <script>
 	export default {
-		props: ['budgetgroup']
+		props: ['budgetgroup'],
+		computed: {
+			budgetedTotal() {
+				return this.budgetgroup.subcategories.reduce((a,b) => a + b.budgeted, 0)
+			},
+			activityTotal() {
+				return this.budgetgroup.subcategories.reduce((a,b) => a + b.activity, 0)
+			},
+			availableTotal() {
+				return this.budgetgroup.subcategories.reduce((a,b) => a + b.available, 0)
+			}
+		}
 	}
 </script>

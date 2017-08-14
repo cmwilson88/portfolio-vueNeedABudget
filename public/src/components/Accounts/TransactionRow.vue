@@ -8,27 +8,18 @@
 		<div class="account_grid_cell account_grid_cell_payeeName">{{transaction.payee}}</div>
 		<div class="account_grid_cell account_grid_cell_subCategoryName">{{transaction.category}}</div>
 		<div class="account_grid_cell account_grid_cell_memo">{{transaction.memo}}</div>
-		<div class="account_grid_cell account_grid_cell_outflow">{{outflow}}</div>
-		<div class="account_grid_cell account_grid_cell_inflow">{{inflow}}</div>
-		<div class="account_grid_cell account_grid_cell_cleared"></div>
+		<div class="account_grid_cell account_grid_cell_outflow">${{transaction.outflow | amount-with-comma}}</div>
+		<div class="account_grid_cell account_grid_cell_inflow">${{transaction.inflow | amount-with-comma}}</div>
+		<div class="account_grid_cell account_grid_cell_cleared"><input type="checkbox" v-on:change="cleared = !cleared"></div>
 	</div>
 </template>
 
 <script>
 	export default {
 		props: ['transaction'],
-		computed: {
-			outflow() {
-				return Number(this.transaction.outflow).toLocaleString(
-					undefined,
-					{minimumFractionDigits: 2}
-					)
-			},
-			inflow() {
-				return Number(this.transaction.inflow).toLocaleString(
-					undefined,
-					{minimumFractionDigits: 2}
-					)
+		data() {
+			return {
+				cleared: false
 			}
 		}
 	}
