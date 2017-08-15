@@ -15,6 +15,12 @@ Vue.filter('amount-with-comma', function(value) {
 	)
 })
 
+Vue.filter('capitalize-words', function(value) {
+	return value.split(' ').map(words => {
+		return words[0].toUpperCase() + words.substr(1)
+	}).join(' ')
+})
+
 const router = new VueRouter({
 	routes: routes
 })

@@ -17,20 +17,96 @@
 				>
 				<i class="folder open icon"></i>All Accounts</router-link>
 		</ul>
-		<app-account-list></app-account-list>
-		<button class="button_sidebar nav_add_account">
+		
+		<app-account-list :budgetAccounts="budgetAccounts"></app-account-list>
+		
+		<button class="button_sidebar nav_add_account" @click="showModal = true">
 			<i class="icon add circle"></i>
 			Add Account
 		</button>
+
+		<app-input-modal v-if="showModal" @close="cancelAddAccount" @submit="addAccount">
+			<h3 slot="header">Add New Account</h3>
+			<div class="add_account_inputs">
+				<label>Account Name:</label>
+				<input type="text" v-model="accountName" placeholder="Account Name">
+				
+				<br>
+				
+				<label>Account Type:</label>
+				<select name="account_type" v-model="accountType">
+					<option>Select an Account Type</option>
+					<optgroup label="Budget">
+						<option value="checking">Checking</option>
+						<option value="savings">Savings</option>
+						<option value="credit_card">Credit Card</option>
+						<option value="cash">Cash</option>
+						<option value="line_credit">Line of Credit</option>
+						<option value="paypal">PayPal</option>
+						<option value="merchant_account">Merchant Account</option>
+					</optgroup>
+					<optgroup label="Tracking">
+						<option value="invest_acc">Investment Account</option>
+						<option value="mortgage">Mortgage</option>
+						<option value="other_asset">Other Asset</option>
+						<option value="other_liability">Other Liability</option>
+					</optgroup>
+				</select>
+				
+				<br>
+
+				<label>Amount:</label>
+				<input type="text" v-model="accountAmount" placeholder="Starting Amount">
+			</div>
+		</app-input-modal>
 	</div>
 </template>
 
 <script>
+	import axios from 'axios'
 	import AccountListSB from './AccountListSB.vue'
+	import InputModal from '../InputModals/InputModal.vue'
 	export default {
+		data() {
+			return {
+				budgetAccounts: [],
+				showModal: false,
+				accountName: '',
+				accountType: '',
+				accountAmount: null
+			}
+		},
 		components: {
-			appAccountList: AccountListSB
-		}
+			appAccountList: AccountListSB,
+			appInputModal: InputModal
+		},
+		methods: {
+			getAccounts() {
+				axios.get('http://localhost:3000/api/' + this.$route.params.b_id + '/accounts')
+					.then(response => {
+						this.budgetAccounts = response.data
+					}).catch(err => console.log(err))
+			},
+			addAccount() {
+				axios.post(
+					'http://localhost:3000/api/' + this.$route.params.b_id + '/accounts/new',
+					{
+						name: this.accountName,
+						type: this.accountType,
+						amount: this.accountAmount
+					}).then(() => this.getAccounts())
+				this.cancelAddAccount()
+			},
+			cancelAddAccount() {
+				this.accountName = '';
+				this.accountAmount = 0;
+				this.accountType = '';
+				this.showModal = false;
+			}
+		},
+		created() {
+			this.getAccounts()
+		},
 	}
 </script>
 
@@ -95,5 +171,10 @@
 		line-height: 1em;
 		float: right;
 		color: #fff;
+	}
+
+	.add_account_inputs {
+		display: flex;
+		flex-direction: column;
 	}
 </style>

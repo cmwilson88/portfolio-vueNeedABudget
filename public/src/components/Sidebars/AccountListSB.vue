@@ -8,7 +8,8 @@
 			<app-account
 				v-for="account in budgetAccounts"
 				:account="account"
-				key="account.id"></app-account>
+				key="account.id">
+			</app-account>
 	</div>
 </template>
 
@@ -16,11 +17,7 @@
 	import axios from 'axios'
 	import Account from '../Accounts/Account.vue'
 	export default {
-		data() {
-			return {
-				budgetAccounts: []
-			}
-		},
+		props: ['budgetAccounts'],
 		computed: {
 			accountsTotal() {
 				return this.budgetAccounts 
@@ -30,12 +27,6 @@
 		},
 		components: {
 			appAccount: Account
-		},
-		created() {
-			axios.get('http://localhost:3000/api/' + this.$route.params.b_id + '/accounts')
-				.then(response => {
-					this.budgetAccounts = response.data
-				})
 		}
 	}
 </script>

@@ -1,5 +1,6 @@
 <template>
 	<header class="accounts_header">
+
 		<div class="accounts_header_top">
 			<div class="accounts_header_total">
 				<div class="accounts_header_total_inner">
@@ -26,19 +27,132 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="accounts_toolbar">
 			<div class="accounts_toolbar_left">
-				<button class="add_transaction button">
+				<button 
+					@click="showModal=true"
+					class="add_transaction button">
 					<i class="icon add circle"></i>
 					Add a transaction
 				</button>
 			</div>
 		</div>
+
+		<app-input-modal 
+			v-if="showModal"
+			@close="showModal=false"
+			@submit="addNewTransaction">
+			<h3 slot="header">Add New Transaction</h3>
+			<div class="app_add_transaction">
+				<label for="account">Account:</label>
+				<select name="account" v-model="newTransaction.account">
+					<option selected disabled>Select an Account</option>
+					<option 
+						v-for="account in accounts"
+						:value="account.id"
+						key="account.id">{{account.name}}</option>
+				</select>
+				<br>
+				<label for="date">Date:</label>
+				<input type="date" v-model="newTransaction.date">
+				<br>
+				<label for="payee">Payee:</label>
+				<select name="payees" v-model="newTransaction.payee">
+					<option selected disabled>Select a Payee</option>
+					<option 
+						v-for="payee in payees"
+						:value="payee.id"
+						key="payee.id">{{payee.name}}</option>
+				</select>
+				<br>
+				<label for="category">Category:</label>
+				<select name="categories" v-model="newTransaction.category">
+					<option selected disabled>Select a Category</option>
+					<option 
+						v-for="category in categories"
+						:value="category.id"
+						key="category.id">{{category.name}}</option>
+				</select>
+				<br>
+				<label for="memo">Memo:</label>
+				<input type="text" v-model="newTransaction.memo">
+				<br>
+				<label for="outflow">Outflow:</label>
+				<input type="number" v-model="newTransaction.outflow">
+				<br>
+				<label for="inflow">Inflow:</label>
+				<input type="number" v-model="newTransaction.inflow">
+				<br>
+			</div>
+
+		</app-input-modal>
 	</header>
 </template>
 
 <script>
-	
+	import axios from 'axios'
+	import InputModal from '../InputModals/InputModal.vue'
+	export default {
+		data() {
+			return {
+				accounts: [
+					{id: 1, name: 'USAA Checking'},
+					{id: 2, name: 'USAA Savings'},
+					{id: 3, name: 'USAA Visa Credit Card'}
+				],
+				categories: [
+					{id: 1, name: 'Rent/Mortgage'},
+					{id: 2, name: 'Electric'},
+					{id: 3, name: 'Water'}
+				],
+				payees: [
+					{id: 1, name: 'DevMountain'},
+					{id: 2, name: 'Electric'},
+					{id: 3, name: 'Smiths'}
+				],
+				showModal: false,
+				newTransaction: {
+					account: '',
+					date: '',
+					payee: '',
+					category: '',
+					memo: '',
+					outflow: null, 
+					inflow: null
+				}
+			}
+		},
+		components: {
+			appInputModal: InputModal
+		},
+		methods: {
+			addNewTransaction() {
+				axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/transactions/new',
+					{
+						account: this.newTransaction.account,
+						date: this.newTransaction.date,
+						payee: this.newTransaction.payee,
+						category: this.newTransaction.category,
+						memo: this.newTransaction.memo,
+						outflow: Number(this.newTransaction.outflow)*-1,
+						inflow: Number(this.newTransaction.inflow)
+					}
+				).then(() => console.log('post sent'))
+				this.cancelNewTransaction()
+			},
+			cancelNewTransaction() {
+				this.showModal = false;
+				this.newTransaction.account = '';
+				this.newTransaction.date = '';
+				this.newTransaction.payee = '';
+				this.newTransaction.category = '';
+				this.newTransaction.memo = '';
+				this.newTransaction.outflow = null; 
+				this.newTransaction.inflow = null;
+			}
+		}
+	}
 </script>
 
 <style>
@@ -167,5 +281,10 @@
 	.accounts_toolbar .button:hover {
 		background-color: transparent;
 		color: #005076;
+	}
+
+	.app_add_transaction {
+		display: flex;
+		flex-direction: column;
 	}
 </style>

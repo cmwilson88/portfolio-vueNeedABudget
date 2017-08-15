@@ -8,8 +8,8 @@
 		<div class="account_grid_cell account_grid_cell_payeeName">{{transaction.payee}}</div>
 		<div class="account_grid_cell account_grid_cell_subCategoryName">{{transaction.category}}</div>
 		<div class="account_grid_cell account_grid_cell_memo">{{transaction.memo}}</div>
-		<div class="account_grid_cell account_grid_cell_outflow">${{transaction.outflow | amount-with-comma}}</div>
-		<div class="account_grid_cell account_grid_cell_inflow">${{transaction.inflow | amount-with-comma}}</div>
+		<div class="account_grid_cell account_grid_cell_outflow">${{this.transaction.outflow * -1 | amount-with-comma}}</div>
+		<div v-if="transaction.inflow" class="account_grid_cell account_grid_cell_inflow">${{transaction.inflow | amount-with-comma}}</div>
 		<div class="account_grid_cell account_grid_cell_cleared"><input type="checkbox" v-on:change="cleared = !cleared"></div>
 	</div>
 </template>

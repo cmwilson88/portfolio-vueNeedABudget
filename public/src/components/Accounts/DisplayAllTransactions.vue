@@ -56,33 +56,27 @@
 				transactions: []
 			}
 		},
-		created() {
-			if(this.$route.params.acc_id){
-				axios.get('http://localhost:3000/api/'+this.$route.params.b_id+'/accounts/' + this.$route.params.acc_id)
-					.then(res => {
-						this.transactions = res.data;
-					})
-			} else {
-				axios.get('http://localhost:3000/api/'+this.$route.params.b_id+'/transactions')
-					.then(res => {
-						this.transactions = res.data;
-					})
-				
+		methods: {
+			getTransactions() {
+				if(this.$route.params.acc_id){
+					axios.get('http://localhost:3000/api/'+this.$route.params.b_id+'/accounts/' + this.$route.params.acc_id)
+						.then(res => {
+							this.transactions = res.data;
+						})
+				} else {
+					axios.get('http://localhost:3000/api/'+this.$route.params.b_id+'/transactions')
+						.then(res => {
+							this.transactions = res.data;
+						})
+					
+				}
 			}
 		},
+		created() {
+			this.getTransactions();
+		},
 		updated() {
-			if(this.$route.params.acc_id){
-				axios.get('http://localhost:3000/api/'+this.$route.params.b_id+'/accounts/' + this.$route.params.acc_id)
-					.then(res => {
-						this.transactions = res.data;
-					})
-			} else {
-				axios.get('http://localhost:3000/api/'+this.$route.params.b_id+'/transactions')
-					.then(res => {
-						this.transactions = res.data;
-					})
-				
-			}
+			this.getTransactions();
 		},
 		components: {
 			appTransactionRow: TransactionRow

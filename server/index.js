@@ -32,5 +32,8 @@ app.get('/api/:b_id/accounts', accountCtrl.getAllAccounts);
 app.get('/api/:b_id/accounts/:accountId', accountCtrl.getTransactionsByAccount)
 app.get('/api/budget', budgetCtrl.getBudgetCategories)
 
+app.post('/api/:b_id/accounts/new', accountCtrl.createAccount)
+app.post('/api/:b_id/transactions/new', accountCtrl.createTransaction)
+
 const PORT = 3000
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
