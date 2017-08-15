@@ -29,7 +29,6 @@ massive(connectionString)
 
 app.get('/api/:b_id/transactions', accountCtrl.getAllTransactions);
 app.get('/api/:b_id/accounts', accountCtrl.getAllAccounts);
-app.get('/api/:b_id/accounts/:accountId', accountCtrl.getTransactionsByAccount)
 app.get('/api/budget', budgetCtrl.getBudgetCategories)
 
 app.post('/api/:b_id/accounts/new', accountCtrl.createAccount)

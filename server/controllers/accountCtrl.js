@@ -10,15 +10,9 @@ module.exports = {
 		const db = req.app.get('db');
 
 		db.getAllTransactions([req.params.b_id]).then(response => {
+			console.log('get all transactions')
 			res.status(200).send(response)
 		}).catch(err => console.log(err))
-	},
-	getTransactionsByAccount: function(req, res, next) {
-		const db = req.app.get('db');
-		db.getTransactionsByAccount([req.params.b_id, req.params.accountId])
-			.then(response => {
-				res.status(200).send(response)
-			}).catch(err => console.log(err))
 	},
 	createAccount: function(req, res, next) {
 		const db = req.app.get('db')

@@ -94,6 +94,7 @@
 	import axios from 'axios'
 	import InputModal from '../InputModals/InputModal.vue'
 	export default {
+		props: ['getTransactions'],
 		data() {
 			return {
 				accounts: [
@@ -140,6 +141,7 @@
 					}
 				).then(() => console.log('post sent'))
 				this.cancelNewTransaction()
+				this.getTransactions()
 			},
 			cancelNewTransaction() {
 				this.showModal = false;

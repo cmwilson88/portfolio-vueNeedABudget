@@ -107,6 +107,9 @@
 		created() {
 			this.getAccounts()
 		},
+		updated() {
+			console.log('budget nav updated')
+		}
 	}
 </script>
 

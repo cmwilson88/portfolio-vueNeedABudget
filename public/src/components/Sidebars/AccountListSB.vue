@@ -80,7 +80,7 @@
 	}
 
 	.nav_account_value {
-		display: flex;
+		display: table-cell;
 		align-items: center;
 		flex: 0 1 auto;
 		text-align: right;

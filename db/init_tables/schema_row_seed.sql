@@ -69,15 +69,21 @@ values
 insert into transactions
 (trans_date, account_id, payee_id, spend_cat_id, outflow, inflow, budget_id)
 values
-('08/11/2017', 1, 2, 7, 10900, 0, 1),
+('08/11/2017', 1, 2, 7, -10900, 0, 1),
 ('08/12/2017', 2, 5, 15, 0, 2123, 1),
-('08/12/2017', 2, 5, 23, 0, 2123, 1),
-('08/13/2017', 3, 3, 17, 1239485242, 0, 1),
-('08/12/2017', 2, 1, 20, 2043, 0, 2),
+('08/12/2017', 2, 5, 23, -1000, 0, 1),
+('08/13/2017', 3, 3, 17, -1239, 0, 1),
+('08/12/2017', 2, 1, 20, -2043, 0, 2),
 ('08/12/2017', 2, 2, 10, 0, 2123, 2);
 
 update spendcats
-	set available = budgeted + activity
+	set available = budgeted + activity;
+
+update
+    accounts
+set
+    amount = (select sum(outflow) + sum(inflow) from transactions where account_id = accounts.id)
+where budget_id = 1;
 
 
 
