@@ -59,7 +59,6 @@
 	}
 
 	.nav_account_row .nav_account_name {
-		display: table-cell;
 		font-size: .875em;
 		padding-left: 2em;
 	}
@@ -72,7 +71,25 @@
 		overflow: hidden;
 		white-space: nowrap;
 		display: flex;
-		align-items: center;
+	}
+	
+	.nav_account_name .nav_account_name_val {
+		display: table-cell;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.nav_account_name:hover .nav_account_name_val {
+		max-width: 83%;
+	}
+
+	.nav_account_name i {
+		display: none;
+		font-size: 1.15em;
+		padding-left: .5em;
+	}
+	.nav_account_name:hover i {
+		display: inline-block;
 	}
 
 	.nav_account_spacer {

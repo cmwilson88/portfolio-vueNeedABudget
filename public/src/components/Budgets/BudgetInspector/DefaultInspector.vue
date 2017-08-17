@@ -1,13 +1,13 @@
 <template>
 	<div class="budget_inspector_default">
 		<h3>TOTAL BUDGETED</h3>
-		<h1 class="user_data"><span>$0.00</span></h1>
+		<h1 class="user_data"><span>${{totalBudgeted.toFixed(2) | amount-with-comma}}</span></h1>
 		<hr>
 		<h3>total activity</h3>
-		<h1 class="user_data"><span>$0.00</span></h1>
+		<h1 class="user_data"><span>${{totalActivity.toFixed(2) | amount-with-comma}}</span></h1>
 		<hr>
 		<h3>total available</h3>
-		<h1 class="user_data"><span>$0.00</span></h1>
+		<h1 class="user_data"><span>${{totalAvailable.toFixed(2) | amount-with-comma}}</span></h1>
 		<hr>
 		<h3>total inflows</h3>
 		<h1 class="user_data"><span>$0.00</span></h1>
@@ -18,7 +18,15 @@
 
 <script>
 	import QuickBudget from './QuickBudget.vue'
+	import {mapGetters} from 'vuex'
 	export default {
+		computed: {
+			...mapGetters([
+				'totalBudgeted',
+				'totalActivity',
+				'totalAvailable'
+				])
+		},
 		components: {
 			appQuickBudget: QuickBudget
 		}

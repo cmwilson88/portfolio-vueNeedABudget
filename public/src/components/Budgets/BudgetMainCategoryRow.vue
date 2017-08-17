@@ -1,28 +1,126 @@
 <template>
-	<ul class="budget_table_row category_group">
-		<li class="category_group_name">
-				<span>{{budgetgroup.name}}</span>
-				<button @click="addNewSpend = !addNewSpend">+</button>
+	<ul class="budget_table_row category_group" @contextmenu.prevent="editModal = true">
+		<li 
+			class="category_group_name" 
+			@mouseenter="showAddButton = true" 
+			@mouseleave="showAddButton = false">
+				{{budgetgroup.name | capitalize-words}}
+				<div 
+					v-show="showAddButton" 
+					style="cursor: pointer"
+					@click="addModal = true"><i class="icon add circle"></i>
+					</div>
 		</li> 
-		<li class="category_group_budgeted">${{budgetedTotal.toFixed(2) | amount-with-comma}}</li>
-		<li class="category_group_activity">${{activityTotal.toFixed(2) | amount-with-comma}}</li>
-		<li class="category_group_available">${{availableTotal.toFixed(2) | amount-with-comma}}</li>
+
+		<app-input-modal v-if="addModal" @close="cancelNewSpend" @submit="addSpendCategory">
+			<h3 slot="header">New Spending Category</h3>
+			<div class="modal_inputs">
+				<label>Spending Category Name: </label>
+				<input type="text" v-model="spendCatName" placeholder="New Spending Category">
+			</div>
+		</app-input-modal>
+
+		<app-input-modal v-if="editModal" @close="editModal = false">
+			<h3 slot="header">Edit Category Group</h3>
+			<div class="modal_inputs">
+				<label>Category Group Name:</label>
+				<input type="text" v-model="catGroupName">
+			</div>
+			<div slot="footer"class="modal_edit_buttons">
+				<button>Save</button>
+				<button @click="editModal=false">Cancel</button>
+				<button @click="deleteCategoryGroup">Delete</button>
+			</div>
+		</app-input-modal>
+
+		<app-input-modal v-if="errCode">
+			<h3 slot="header">Error!</h3>
+			<h1 class="modal_inputs" style="text-align: center">There are transactions linked to these spending categories.  Please edit those transactions before deleting</h1>
+			<button slot="footer" @click="errCode = false">Close</button>
+		</app-input-modal>
+
+		<li class="category_group_budgeted">${{budgetgroup.budgeted | amount-with-comma}}</li>
+		<li class="category_group_activity">${{budgetgroup.activity | amount-with-comma}}</li>
+		<li class="category_group_available">${{budgetgroup.available | amount-with-comma}}</li>
 	</ul>
 </template>
 
 <script>
+	import axios from 'axios'
+	import InputModal from '../InputModals/InputModal.vue'
+	import {mapActions} from 'vuex'
 	export default {
 		props: ['budgetgroup'],
-		computed: {
-			budgetedTotal() {
-				return this.budgetgroup.subcategories.reduce((a,b) => a + b.budgeted, 0)
-			},
-			activityTotal() {
-				return this.budgetgroup.subcategories.reduce((a,b) => a + b.activity, 0)
-			},
-			availableTotal() {
-				return this.budgetgroup.subcategories.reduce((a,b) => a + b.available, 0)
+		data() {
+			return {
+				addModal: false,
+				editModal: false,
+				showAddButton: false,
+				spendCatName: '',
+				catGroupName: '',
+				catgroup_id: this.budgetgroup.id,
+				errCode: ''
 			}
+		},
+		computed: {
+			// budgetedTotal() {
+			// 	if(this.budgetgroup.subcategories){
+			// 		return this.budgetgroup.subcategories.reduce((a,b) => a + b.budgeted, 0)
+			// 	} else {
+			// 		return 0
+			// 	}
+			// },
+			// activityTotal() {
+			// 	if(this.budgetgroup.subcategories) {
+			// 		return this.budgetgroup.subcategories.reduce((a,b) => a + b.activity, 0)	
+			// 	} else {
+			// 		return 0
+			// 	}
+			// },
+			// availableTotal() {
+			// 	if(this.budgetgroup.subcategories) {
+			// 		return this.budgetgroup.subcategories.reduce((a,b) => a + b.available, 0)
+			// 	} else {
+			// 		return 0
+			// 	}
+			// }
+		},
+		methods: {
+			...mapActions(['getBudgetCategories']),
+			mouseOver() {
+				this.showAddButton = !this.showAddButton
+			},
+			addSpendCategory() {
+				axios.post(
+						'http://localhost:3000/api/' + this.$route.params.b_id + '/spendcats/new',
+						{
+							name: this.spendCatName,
+							catgroup_id: this.catgroup_id
+						}
+					)
+					.then(() => {
+						this.getBudgetCategories();
+						this.cancelNewSpend();
+					}).catch(err => console.log(err))
+				this.cancelNewSpend();
+			},
+			deleteCategoryGroup() {
+				axios.delete('http://localhost:3000/api/catgroups/' + this.catgroup_id)
+					.then(() => {
+						this.getBudgetCategories()
+						this.editModal = false
+					}).catch(err => {
+						this.errCode = true
+						this.editModal = false
+					})
+			},
+			cancelNewSpend() {
+				this.addModal = false;
+				this.spendCatName = '';
+			}
+		},
+		components: {
+			appInputModal: InputModal
 		}
 	}
 </script>

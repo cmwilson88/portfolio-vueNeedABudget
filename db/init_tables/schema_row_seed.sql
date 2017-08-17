@@ -4,19 +4,19 @@ values
 ('Christopher', 'Wilson', 'cmw.wilson88@gmail.com', 'hunter22');
 
 insert into Budgets
-(name, user_id)
+(name, to_be_budgeted, user_id)
 values
-('Test Budget', 1),
-('Main Budget', 1);
+('Test Budget', 0, 1),
+('Main Budget', 0, 1);
 
 insert into Accounts
-(name, type, amount, budget_id)
+(name, type, budget_id)
 values
-('USAA Checking', 'Checking', 15439.53, 1),
-('USAA Savings', 'Savings', 2500, 1),
-('USAA Visa Credit Card', 'Credit Card', -10900, 1),
-('US Bank Checking', 'Checking', 1.50, 2),
-('Chase Freedom', 'Credit Card', -5000, 2);
+('USAA Checking', 'Checking', 1),
+('USAA Savings', 'Savings', 1),
+('USAA Visa Credit Card', 'Credit Card', 1),
+('US Bank Checking', 'Checking', 2),
+('Chase Freedom', 'Credit Card', 2);
 
 insert into Payees 
 (name, budget_id)
@@ -40,7 +40,7 @@ values
 insert into spendcats
 (name, month, year, budgeted, activity, catgroup_id, budget_id)
 values
-('Rent/Mortgage', 8, 2017, 899.00, -450.00, 1, 1),
+('Rent/Mortgage', 8, 2017, 899.00, 0, 1, 1),
 ('Electric', 8, 2017, 150, -150, 1, 1),
 ('Water', 8, 2017, 75, 0, 1, 1),
 ('Internet', 8, 2017, 79.99, -77.99, 1, 1),
@@ -69,16 +69,24 @@ values
 insert into transactions
 (trans_date, account_id, payee_id, spend_cat_id, outflow, inflow, budget_id)
 values
-('08/11/2017', 1, 2, 7, -10900, 0, 1),
-('08/12/2017', 2, 5, 15, 0, 2123, 1),
-('08/12/2017', 2, 5, 23, -1000, 0, 1),
-('08/13/2017', 3, 3, 17, -1239, 0, 1),
-('08/12/2017', 2, 1, 20, -2043, 0, 2),
-('08/12/2017', 2, 2, 10, 0, 2123, 2);
+('2017-08-08',1, 2, 10, -500, 0, 1),
+('2017-08-08',1, 2, 10, 0, 1000, 1),
+('2017-08-08',2, 1, 17, -2000, 0, 1),
+('2017-08-08',2, 1, 17, 0, 1000, 1),
+('2017-08-08',3, 3, 23, -120, 0, 1),
+('2017-08-08',3, 3, 23, 0, 200, 1);
+
 
 update spendcats
 	set available = budgeted + activity;
 
+update catgroups
+set
+    budgeted = (select sum(budgeted) from spendcats where catgroup_id = catgroups.id),
+        activity = (select sum(activity) from spendcats where catgroup_id = catgroups.id),
+        available = (select sum(available) from spendcats where catgroup_id = catgroups.id);
+
+        
 update
     accounts
 set

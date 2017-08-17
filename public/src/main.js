@@ -4,8 +4,18 @@ import App from './App.vue'
 
 import {routes} from './routes/routes.js'
 
+import store from './vuex/store'
+import {sync} from 'vuex-router-sync'
+
+// Vue Router
 Vue.use(VueRouter)
 
+const router = new VueRouter({
+	routes: routes
+})
+
+
+export const eventBus = new Vue();
 
 //global filter to change amounts retrieved from database into readable larger money formats
 Vue.filter('amount-with-comma', function(value) {
@@ -21,12 +31,11 @@ Vue.filter('capitalize-words', function(value) {
 	}).join(' ')
 })
 
-const router = new VueRouter({
-	routes: routes
-})
+sync(store, router)
 
 new Vue({
   el: '#app',
   router: router,
+  store,
   render: h => h(App)
 })

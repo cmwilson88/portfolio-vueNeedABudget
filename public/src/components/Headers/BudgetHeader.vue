@@ -26,7 +26,7 @@
 					<div class="budget_totals_details_values">
 						<div class="budget_totals_cell_value"><span>+$0.00</span></div>
 						<div class="budget_totals_cell_value"><span>-$0.00</span></div>
-						<div class="budget_totals_cell_value"><span>-$0.00</span></div>
+						<div class="budget_totals_cell_value"><span>-${{totalBudgeted | amount-with-comma}}</span></div>
 						<div class="budget_totals_cell_value"><span>-$0.00</span></div>
 					</div>
 					<div class="budget_totals_details_names">
@@ -44,7 +44,11 @@
 
 <script>
 	import AddCategoryGroup from '../Categories/AddCategoryGroup.vue'
+	import {mapGetters} from 'vuex'
 	export default {
+		computed: {
+			...mapGetters(['totalBudgeted'])
+		},
 		components: {
 			appAddCategoryGroup: AddCategoryGroup
 		}

@@ -29,10 +29,15 @@ massive(connectionString)
 
 app.get('/api/:b_id/transactions', accountCtrl.getAllTransactions);
 app.get('/api/:b_id/accounts', accountCtrl.getAllAccounts);
-app.get('/api/budget', budgetCtrl.getBudgetCategories)
+app.get('/api/budget/:b_id', budgetCtrl.getBudgetCategories)
 
 app.post('/api/:b_id/accounts/new', accountCtrl.createAccount)
 app.post('/api/:b_id/transactions/new', accountCtrl.createTransaction)
+app.post('/api/:b_id/catgroups/new', budgetCtrl.createCategoryGroup)
+app.post('/api/:b_id/spendcats/new', budgetCtrl.createSpendingCategory)
 
+app.delete('/api/transactions/:t_id', accountCtrl.deleteTransaction)
+app.delete('/api/catgroups/:group_id', budgetCtrl.deleteCategoryGroup)
+app.delete('/api/spendcats/:spend_id', budgetCtrl.deleteSpendingCategory)
 const PORT = 3000
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`))

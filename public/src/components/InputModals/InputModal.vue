@@ -90,6 +90,12 @@
 	  margin: 20px 0;
 	}
 
+	.modal_inputs {
+		display: flex;
+		flex-direction: column;
+		color: #fff;
+	}
+
 	/*
 	 * The following styles are auto-applied to elements with
 	 * transition="modal" when their visibility is toggled

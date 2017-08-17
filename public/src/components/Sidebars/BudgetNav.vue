@@ -18,7 +18,7 @@
 				<i class="folder open icon"></i>All Accounts</router-link>
 		</ul>
 		
-		<app-account-list :budgetAccounts="budgetAccounts"></app-account-list>
+		<app-account-list :budgetAccounts="accounts"></app-account-list>
 		
 		<button class="button_sidebar nav_add_account" @click="showModal = true">
 			<i class="icon add circle"></i>
@@ -27,7 +27,7 @@
 
 		<app-input-modal v-if="showModal" @close="cancelAddAccount" @submit="addAccount">
 			<h3 slot="header">Add New Account</h3>
-			<div class="add_account_inputs">
+			<div class="modal_inputs">
 				<label>Account Name:</label>
 				<input type="text" v-model="accountName" placeholder="Account Name">
 				
@@ -64,16 +64,21 @@
 
 <script>
 	import axios from 'axios'
+	import {mapGetters, mapActions} from 'vuex'
 	import AccountListSB from './AccountListSB.vue'
 	import InputModal from '../InputModals/InputModal.vue'
 	export default {
 		data() {
 			return {
-				budgetAccounts: [],
 				showModal: false,
 				accountName: '',
 				accountType: '',
 				accountAmount: null
+			}
+		},
+		computed: {
+			accounts() {
+				return this.$store.state.accounts
 			}
 		},
 		components: {
@@ -81,12 +86,10 @@
 			appInputModal: InputModal
 		},
 		methods: {
-			getAccounts() {
-				axios.get('http://localhost:3000/api/' + this.$route.params.b_id + '/accounts')
-					.then(response => {
-						this.budgetAccounts = response.data
-					}).catch(err => console.log(err))
-			},
+			...mapActions([
+				'getAccounts',
+				'getTransactions'
+			]),
 			addAccount() {
 				axios.post(
 					'http://localhost:3000/api/' + this.$route.params.b_id + '/accounts/new',
@@ -94,7 +97,10 @@
 						name: this.accountName,
 						type: this.accountType,
 						amount: this.accountAmount
-					}).then(() => this.getAccounts())
+					}).then(() => {
+						this.getAccounts()
+						this.getTransactions()
+					})
 				this.cancelAddAccount()
 			},
 			cancelAddAccount() {
@@ -106,9 +112,6 @@
 		},
 		created() {
 			this.getAccounts()
-		},
-		updated() {
-			console.log('budget nav updated')
 		}
 	}
 </script>
@@ -175,9 +178,9 @@
 		float: right;
 		color: #fff;
 	}
-
-	.add_account_inputs {
-		display: flex;
-		flex-direction: column;
+	
+	.nav_add_account {
+		cursor: pointer;
 	}
+	
 </style>

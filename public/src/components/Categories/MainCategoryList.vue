@@ -16,21 +16,22 @@
 </template>
 
 <script>
-	import axios from 'axios'
 	import BudgetGroup from '../Budgets/BudgetGroup.vue'
+	import {mapGetters, mapActions} from 'vuex'
 	export default {
-		data() {
-			return {
-				budgetCategories: []
+		computed: {
+			budgetCategories() {
+				return this.$store.state.budgetCategories
 			}
+		},
+		methods: {
+			...mapActions(['getBudgetCategories'])
 		},
 		components: {
 			appBudgetGroup: BudgetGroup
 		},
 		created() {
-			axios.get('http://localhost:3000/api/budget').then(response => {
-				this.budgetCategories = response.data
-			})
+			this.getBudgetCategories()
 		}
 	}
 </script>
@@ -97,7 +98,7 @@
 		justify-content: flex-start;
 		padding-left: 1% !important;
 		text-align: left;
-		width: 40%;
+		width: 47%;
 	}
 
 	.budget_table {
@@ -126,19 +127,20 @@
 	}
 	
 	.category_group_name {
+		display: flex;
+		align-items: center;
 		font-size: 1.125em;
 		padding-top: .125em;
-		padding-left: 1%;
+		padding-left: 1% !important;
 		color: #003440;
-		width: 40%;
+		width: 47%;
 	}
-	
 
 	.spend_cat_name {
 		display: flex;
 		align-items: center;
 		text-align: left;
-		width: 40%;
+		width: 47%;
 		padding-left: 1% !important;
 	}
 

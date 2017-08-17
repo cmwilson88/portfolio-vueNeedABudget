@@ -4,7 +4,10 @@
 		<div class="accounts_header_top">
 			<div class="accounts_header_total">
 				<div class="accounts_header_total_inner">
-					<div class="accounts_header_total_inner_label">
+					<div v-if="accountDisplayName" class="accounts_header_total_inner_label">
+						{{accountDisplayName.name | capitalize-words}}
+					</div>
+					<div v-else class="accounts_header_total_inner_label">
 						All Accounts
 					</div>
 					<div class="arrow"></div>
@@ -13,17 +16,17 @@
 			<div class="accounts_header_balances">
 				<div class="accounts_header_balances_cleared">
 					<div class="accounts_header_balances_label">Cleared Balance</div>
-					<span class="user_data">$0.00</span>
+					<span class="user_data">${{clearedBalance | amount-with-comma}}</span>
 				</div>
 				<i>+</i>
 				<div class="accounts_header_balances_uncleared">
 					<div class="accounts_header_balances_label">Uncleared Balance</div>
-					<span class="user_data">$0.00</span>
+					<span class="user_data">${{unclearedBalance | amount-with-comma}}</span>
 				</div>
 				<i>=</i>
 				<div class="accounts_header_balances_working">
 					<div class="accounts_header_balances_label">Working Balance</div>
-					<span class="user_data">$0.00</span>
+					<span class="user_data">${{workingBalance | amount-with-comma}}</span>
 				</div>
 			</div>
 		</div>
@@ -32,9 +35,10 @@
 			<div class="accounts_toolbar_left">
 				<button 
 					@click="showModal=true"
-					class="add_transaction button">
-					<i class="icon add circle"></i>
-					Add a transaction
+					class="add_transaction button"
+					style="cursor: pointer">
+						<i class="icon add circle"></i>
+						Add a transaction
 				</button>
 			</div>
 		</div>
@@ -44,7 +48,7 @@
 			@close="showModal=false"
 			@submit="addNewTransaction">
 			<h3 slot="header">Add New Transaction</h3>
-			<div class="app_add_transaction">
+			<div class="modal_inputs">
 				<label for="account">Account:</label>
 				<select name="account" v-model="newTransaction.account">
 					<option selected disabled>Select an Account</option>
@@ -93,8 +97,8 @@
 <script>
 	import axios from 'axios'
 	import InputModal from '../InputModals/InputModal.vue'
+	import {mapGetters, mapActions} from 'vuex'
 	export default {
-		props: ['getTransactions'],
 		data() {
 			return {
 				accounts: [
@@ -113,6 +117,7 @@
 					{id: 3, name: 'Smiths'}
 				],
 				showModal: false,
+				accountPath: this.$route.params.acc_id,
 				newTransaction: {
 					account: '',
 					date: '',
@@ -124,10 +129,31 @@
 				}
 			}
 		},
-		components: {
-			appInputModal: InputModal
+		computed: {
+			...mapGetters(['accountDisplayName', 'filteredTransactions']),
+			clearedBalance: function() {
+				let cleared = this.filteredTransactions.filter(transaction => transaction.cleared)
+				let sumOutflow = cleared.reduce((a,b) => a + b.outflow*1, 0)
+				let sumInflow = cleared.reduce((a,b) => a + b.inflow*1, 0)
+				return sumInflow + sumOutflow
+			},
+			unclearedBalance: function() {
+				let uncleared = this.filteredTransactions.filter(transaction => !transaction.cleared)
+				let sumOutflow = uncleared.reduce((a,b) => a + b.outflow*1, 0)
+				let sumInflow = uncleared.reduce((a,b) => a + b.inflow*1, 0)
+				return sumInflow + sumOutflow
+			},
+			workingBalance: function() {
+				return this.clearedBalance + this.unclearedBalance
+			}
+		},
+		watch: {
+			'$route': function() {
+				this.accountPath = this.$route.params.acc_id
+			}
 		},
 		methods: {
+			...mapActions(['getTransactions', 'getAccounts']),
 			addNewTransaction() {
 				axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/transactions/new',
 					{
@@ -139,9 +165,12 @@
 						outflow: Number(this.newTransaction.outflow)*-1,
 						inflow: Number(this.newTransaction.inflow)
 					}
-				).then(() => console.log('post sent'))
+				).then(response => {
+					console.log('post request successful')
+					this.getTransactions()
+					this.getAccounts()
+				})
 				this.cancelNewTransaction()
-				this.getTransactions()
 			},
 			cancelNewTransaction() {
 				this.showModal = false;
@@ -153,7 +182,10 @@
 				this.newTransaction.outflow = null; 
 				this.newTransaction.inflow = null;
 			}
-		}
+		},
+		components: {
+			appInputModal: InputModal
+		},
 	}
 </script>
 
@@ -285,8 +317,4 @@
 		color: #005076;
 	}
 
-	.app_add_transaction {
-		display: flex;
-		flex-direction: column;
-	}
 </style>
