@@ -2,7 +2,24 @@
 	<div>
 		<ul class="budget_table_row spend_cat" @contextmenu.prevent="editModal = true">
 			<li class="spend_cat_name">{{spendcategory.name}}</li> 
-			<li class="spend_cat_budgeted">${{spendcategory.budgeted.toFixed(2) | amount-with-comma }}</li>
+			<li 
+				@mouseenter="hoverBudgetInput = true"
+				@mouseleave="hoverBudgetInput = false"
+				class="spend_cat_budgeted">
+					<span v-if="!hoverBudgetInput && !editBudgetInput">
+						${{spendcategory.budgeted.toFixed(2) | amount-with-comma }}
+					</span>
+					<input 
+						@focus="editBudgetInput=true" 
+						@blur="resetInputData"
+						@keyup.esc="editBudgetInput=false"
+						@keyup.enter="updatedBudgetedAmount"
+						v-model="budgetedValue" 
+						type="text" 
+						style="text-align: right"
+						v-else> 
+			</li>
+
 			<li class="spend_cat_activity">${{spendcategory.activity.toFixed(2) | amount-with-comma }}</li>
 			<li class="spend_cat_available">${{spendcategory.available.toFixed(2) | amount-with-comma }}</li>
 		</ul>
@@ -30,18 +47,38 @@
 		data() {
 			return {
 				editModal: false,
+				hoverBudgetInput: false,
+				editBudgetInput: false,
+				budgetedValue: null,
 				id: this.spendcategory.id,
 				name: this.spendcategory.name
 			}
 		},
 		methods: {
-			...mapActions(['getBudgetCategories']),
+			...mapActions(['getBudgetCategories', 'getToBeBudgeted']),
 			deleteSpendCat() {
 				axios.delete('http://localhost:3000/api/spendcats/' + this.id)
 				.then(() => {
 					this.getBudgetCategories();
 					this.editModal = false
 				})
+			},
+			updatedBudgetedAmount() {
+				if(this.budgetedValue !== this.spendcategory.amount) {
+					axios.patch('http://localhost:3000/api/'+this.$route.params.b_id+'/spendcats/' + this.id, {
+						amount: this.budgetedValue
+					})
+						.then(() => {
+							this.getBudgetCategories();
+							this.getToBeBudgeted();
+							this.resetInputData();
+						})
+				}
+			},
+			resetInputData() {
+				this.editBudgetInput = false;
+				this.budgetedValue = null;
+				this.hoverBudgetInput=false;
 			}
 		},
 		components: {
@@ -49,3 +86,10 @@
 		}
 	}
 </script>
+
+<style>
+	.spend_cat_budgeted input {
+		border: 2px solid #23809b;
+		border-radius: 7px;
+	}
+</style>

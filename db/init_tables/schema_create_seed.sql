@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Users (
 CREATE TABLE IF NOT EXISTS Budgets (
 	id serial primary key,
 	name text not null,
-	to_be_budgeted integer not null,
+	to_be_budgeted decimal(14,2) not null,
 	user_id integer not null,
 	foreign key (user_id) references Users(id)
 );
@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS SpendCats (
 	name text not null,
 	month integer,
 	year integer,
+	type text default 'general',
 	budgeted decimal(14,2) default 0,
 	activity decimal(14,2) default 0,
 	available decimal(14,2) default 0,

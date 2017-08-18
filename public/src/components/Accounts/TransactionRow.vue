@@ -11,7 +11,9 @@
 			<div class="account_grid_cell account_grid_cell_memo">{{transaction.memo}}</div>
 			<div class="account_grid_cell account_grid_cell_outflow">${{this.transaction.outflow * -1 | amount-with-comma}}</div>
 			<div v-if="transaction.inflow" class="account_grid_cell account_grid_cell_inflow">${{transaction.inflow | amount-with-comma}}</div>
-			<div class="account_grid_cell account_grid_cell_cleared"><input type="checkbox" v-on:change="cleared = !cleared"></div>
+			<div class="account_grid_cell account_grid_cell_cleared">
+				<input type="checkbox" v-on:change="triggerClearUnclear">
+			</div>
 		<!-- </div> -->
 
 		<app-input-modal v-if="editModal" @close="editModal = false">
@@ -98,6 +100,21 @@
 						this.getAccounts();
 						this.editModal = false;
 					})
+			},
+			triggerClearUnclear() {
+				if(!this.cleared) {
+					axios.patch('http://localhost:3000/api/transactions/' + this.transaction.id, {
+						cleared: true
+					}).then(() => {
+						this.cleared = true
+					})
+				} else {
+					axios.patch('http://localhost:3000/api/transactions' + this.transaction.id, {
+						cleared: false
+					}).then(() => {
+						this.cleared = false
+					})
+				}
 			}
 		},
 		components: {

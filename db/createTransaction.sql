@@ -12,7 +12,16 @@ where budget_id = $8;
 update
 	spendcats
 set
-	activity = (select outflow + inflow from transactions where spend_cat_id = spendcats.id)
-where id = $4
+	activity = activity + (select sum(outflow) + sum(inflow) from transactions where spend_cat_id = spendcats.id)
+where id = $4;
 
+update
+	spendcats
+set
+	available = budgeted + activity;
 
+update catgroups
+set
+    budgeted = (select sum(budgeted) from spendcats where catgroup_id = catgroups.id),
+        activity = (select sum(activity) from spendcats where catgroup_id = catgroups.id),
+        available = (select sum(available) from spendcats where catgroup_id = catgroups.id);

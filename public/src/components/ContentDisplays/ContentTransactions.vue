@@ -14,7 +14,9 @@
 	export default {
 		methods: {
 			...mapActions([
-					'getTransactions'
+					'getTransactions',
+					'getPayees',
+					'getBudgetCategories'
 				])
 		},
 		computed: {
@@ -33,6 +35,8 @@
 		},
 		created() {
 			this.getTransactions();
+			this.getPayees();
+			this.getBudgetCategories();
 		}
 	}
 </script>

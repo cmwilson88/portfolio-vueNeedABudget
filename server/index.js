@@ -8,6 +8,7 @@ const connectionString = require('../config')
 
 const accountCtrl = require('./controllers/accountCtrl');
 const budgetCtrl = require('./controllers/budgetCategoriesCtrl');
+const payeeCtrl = require('./controllers/payeeCtrl');
 
 app.use(bodyParser.json())
 app.use(cors())
@@ -29,12 +30,18 @@ massive(connectionString)
 
 app.get('/api/:b_id/transactions', accountCtrl.getAllTransactions);
 app.get('/api/:b_id/accounts', accountCtrl.getAllAccounts);
-app.get('/api/budget/:b_id', budgetCtrl.getBudgetCategories)
+app.get('/api/budget/:b_id', budgetCtrl.getBudgetCategories);
+app.get('/api/:b_id/payees', payeeCtrl.getPayees);
+app.get('/api/:b_id', budgetCtrl.getToBeBudgeted);
 
 app.post('/api/:b_id/accounts/new', accountCtrl.createAccount)
 app.post('/api/:b_id/transactions/new', accountCtrl.createTransaction)
 app.post('/api/:b_id/catgroups/new', budgetCtrl.createCategoryGroup)
 app.post('/api/:b_id/spendcats/new', budgetCtrl.createSpendingCategory)
+app.post('/api/:b_id/payees/new', payeeCtrl.createPayee)
+
+app.patch('/api/:b_id/spendcats/:spend_id', budgetCtrl.updateBudgetedAmount)
+app.patch('/api/transactions/:t_id', accountCtrl.updateTransactionCleared)
 
 app.delete('/api/transactions/:t_id', accountCtrl.deleteTransaction)
 app.delete('/api/catgroups/:group_id', budgetCtrl.deleteCategoryGroup)

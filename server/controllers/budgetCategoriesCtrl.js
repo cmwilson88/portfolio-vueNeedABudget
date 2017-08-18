@@ -5,6 +5,12 @@ module.exports = {
 			res.status(200).send(response)
 		}).catch(err => console.log(err))
 	},
+	getToBeBudgeted(req, res, next) {
+		const db = req.app.get('db')
+		db.getToBeBudgeted([req.params.b_id]).then(response => {
+			res.status(200).send(response[0].to_be_budgeted)
+		}).catch(err => console.log(err))
+	},
 	createCategoryGroup(req, res, next) {
 		const db = req.app.get('db')
 
@@ -20,6 +26,14 @@ module.exports = {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))
 	},
+	updateBudgetedAmount(req, res, next) {
+		const db = req.app.get('db')
+
+		db.updateBudgetedAmount([req.body.amount, req.params.spend_id, req.params.b_id])
+			.then(response => {
+				res.status(200).send(response)
+			}).catch(err => console.log(err))
+	},
 	deleteCategoryGroup(req, res, next) {
 		const db = req.app.get('db')
 
@@ -27,6 +41,7 @@ module.exports = {
 			res.status(200).send(response)
 		}).catch(err => {
 			res.status(500).send()
+			console.log(err)
 		})
 	},
 	deleteSpendingCategory(req, res, next) {

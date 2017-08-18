@@ -10,16 +10,18 @@
 	import BudgetInspector from '../Budgets/BudgetInspector/BudgetInspector.vue'
 	import BudgetHeader from '../Headers/BudgetHeader.vue'
 	import MainCategoryList from '../Categories/MainCategoryList.vue'
+	import {mapActions} from 'vuex'
 	export default {
-		data() {
-			return {
-
-			}
+		methods: {
+			...mapActions(['getToBeBudgeted'])
 		},
 		components: {
 			appBudgetHeader: BudgetHeader,
 			appBudgetCategoryList: MainCategoryList,
 			appBudgetInspector: BudgetInspector
+		},
+		created() {
+			this.getToBeBudgeted();
 		}
 	}
 </script>

@@ -8,9 +8,9 @@
 		</ul>
 		<div class="budget_table">
 			<app-budget-group
-				v-for="(group, index) in budgetCategories"
+				v-for="group in budgetCategories"
 				:group="group"
-				key="index"></app-budget-group>
+				key="group.budgetgroup.id"></app-budget-group>
 		</div>
 	</div>
 </template>
@@ -20,9 +20,7 @@
 	import {mapGetters, mapActions} from 'vuex'
 	export default {
 		computed: {
-			budgetCategories() {
-				return this.$store.state.budgetCategories
-			}
+			...mapGetters(['budgetCategories'])
 		},
 		methods: {
 			...mapActions(['getBudgetCategories'])

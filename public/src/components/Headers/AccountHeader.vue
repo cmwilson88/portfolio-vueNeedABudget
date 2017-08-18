@@ -69,14 +69,23 @@
 						:value="payee.id"
 						key="payee.id">{{payee.name}}</option>
 				</select>
+				<div class="payee_button_container">
+					<button class="add_payee_button" @click="addPayeeStatus = true">
+						<i class="icon add circle"></i>
+						Add Payee
+					</button>
+				</div>
 				<br>
 				<label for="category">Category:</label>
 				<select name="categories" v-model="newTransaction.category">
 					<option selected disabled>Select a Category</option>
-					<option 
-						v-for="category in categories"
-						:value="category.id"
-						key="category.id">{{category.name}}</option>
+					<optgroup 
+						v-for="item in categories"
+						:label="item.budgetgroup.name">
+							<option
+								v-for="category in item.budgetgroup.subcategories"
+								:value="category">{{category.name}}</option>
+					</optgroup>
 				</select>
 				<br>
 				<label for="memo">Memo:</label>
@@ -89,7 +98,14 @@
 				<input type="number" v-model="newTransaction.inflow">
 				<br>
 			</div>
+		</app-input-modal>
 
+		<app-input-modal v-if="addPayeeStatus" @close="addPayeeStatus = false" @submit="addNewPayee">
+			<h3 slot="header">Add Payee</h3>
+			<div class="modal_inputs">
+				<label>Add New Payee:</label>
+				<input type="text" v-model="newPayee.name">
+			</div>
 		</app-input-modal>
 	</header>
 </template>
@@ -101,23 +117,12 @@
 	export default {
 		data() {
 			return {
-				accounts: [
-					{id: 1, name: 'USAA Checking'},
-					{id: 2, name: 'USAA Savings'},
-					{id: 3, name: 'USAA Visa Credit Card'}
-				],
-				categories: [
-					{id: 1, name: 'Rent/Mortgage'},
-					{id: 2, name: 'Electric'},
-					{id: 3, name: 'Water'}
-				],
-				payees: [
-					{id: 1, name: 'DevMountain'},
-					{id: 2, name: 'Electric'},
-					{id: 3, name: 'Smiths'}
-				],
 				showModal: false,
+				addPayeeStatus: false,
 				accountPath: this.$route.params.acc_id,
+				newPayee: {
+					name: ''
+				},
 				newTransaction: {
 					account: '',
 					date: '',
@@ -145,6 +150,15 @@
 			},
 			workingBalance: function() {
 				return this.clearedBalance + this.unclearedBalance
+			},
+			accounts: function() {
+				return this.$store.state.accounts
+			},
+			payees: function() {
+				return this.$store.state.payees
+			},
+			categories: function() {
+				return this.$store.state.categories
 			}
 		},
 		watch: {
@@ -153,7 +167,7 @@
 			}
 		},
 		methods: {
-			...mapActions(['getTransactions', 'getAccounts']),
+			...mapActions(['getTransactions', 'getAccounts', 'getPayees']),
 			addNewTransaction() {
 				axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/transactions/new',
 					{
@@ -181,11 +195,22 @@
 				this.newTransaction.memo = '';
 				this.newTransaction.outflow = null; 
 				this.newTransaction.inflow = null;
+			},
+			addNewPayee() {
+				axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/payees/new', 
+					{
+						name: this.newPayee.name 
+					}
+				).then(response => {
+					console.log('new payee added')
+					this.getPayees();
+					this.addPayeeStatus = false
+				})
 			}
 		},
 		components: {
 			appInputModal: InputModal
-		},
+		}
 	}
 </script>
 
@@ -315,6 +340,25 @@
 	.accounts_toolbar .button:hover {
 		background-color: transparent;
 		color: #005076;
+	}
+
+	.payee_button_container {
+		display: flex;
+		justify-content: center;
+		margin-top: 15px;
+	}
+
+	.add_payee_button {
+		background-color: rgba(255,255,255,0.2);
+		border: none;
+		width: 75%;
+		border-radius: 1000px;
+		box-shadow: none;
+		padding: .3em .6em .4em .4em;
+		font-size: .8em;
+		line-height: 1em;
+		float: right;
+		color: #fff;
 	}
 
 </style>

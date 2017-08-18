@@ -48,7 +48,7 @@
 <script>
 	import axios from 'axios'
 	import InputModal from '../InputModals/InputModal.vue'
-	import {mapActions} from 'vuex'
+	import {mapActions, mapGetters} from 'vuex'
 	export default {
 		props: ['budgetgroup'],
 		data() {
@@ -61,29 +61,6 @@
 				catgroup_id: this.budgetgroup.id,
 				errCode: ''
 			}
-		},
-		computed: {
-			// budgetedTotal() {
-			// 	if(this.budgetgroup.subcategories){
-			// 		return this.budgetgroup.subcategories.reduce((a,b) => a + b.budgeted, 0)
-			// 	} else {
-			// 		return 0
-			// 	}
-			// },
-			// activityTotal() {
-			// 	if(this.budgetgroup.subcategories) {
-			// 		return this.budgetgroup.subcategories.reduce((a,b) => a + b.activity, 0)	
-			// 	} else {
-			// 		return 0
-			// 	}
-			// },
-			// availableTotal() {
-			// 	if(this.budgetgroup.subcategories) {
-			// 		return this.budgetgroup.subcategories.reduce((a,b) => a + b.available, 0)
-			// 	} else {
-			// 		return 0
-			// 	}
-			// }
 		},
 		methods: {
 			...mapActions(['getBudgetCategories']),
@@ -105,7 +82,7 @@
 				this.cancelNewSpend();
 			},
 			deleteCategoryGroup() {
-				axios.delete('http://localhost:3000/api/catgroups/' + this.catgroup_id)
+				axios.delete('http://localhost:3000/api/catgroups/' + this.budgetgroup.id)
 					.then(() => {
 						this.getBudgetCategories()
 						this.editModal = false

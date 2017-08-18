@@ -18,7 +18,7 @@
 			<div class="budget_allocate_display budget_header_item">
 				<div class="to_be_budgeted">
 					<div class="tbb_totals_amount">
-						<h1 class="tbb_value">$3000.00</h1>
+						<h1 class="tbb_value">${{toBeBudgeted | amount-with-comma}}</h1>
 						<p class="tbb_text">To Be Budgeted</p>
 					</div>
 				</div>
@@ -47,7 +47,10 @@
 	import {mapGetters} from 'vuex'
 	export default {
 		computed: {
-			...mapGetters(['totalBudgeted'])
+			...mapGetters(['totalBudgeted']),
+			toBeBudgeted() {
+				return this.$store.state.toBeBudgeted
+			}
 		},
 		components: {
 			appAddCategoryGroup: AddCategoryGroup
