@@ -6,9 +6,16 @@
 
 <script>
 	import DefaultInspector from './DefaultInspector.vue';
+	import {mapActions} from 'vuex'
 	export default {
+		methods: {
+			...mapActions(['getTransactions'])
+		},
 		components: {
 			appDefaultInspector: DefaultInspector
+		},
+		created() {
+			this.getTransactions()
 		}
 	}
 </script>

@@ -12,7 +12,9 @@
 			<div class="account_grid_cell account_grid_cell_outflow">${{this.transaction.outflow * -1 | amount-with-comma}}</div>
 			<div v-if="transaction.inflow" class="account_grid_cell account_grid_cell_inflow">${{transaction.inflow | amount-with-comma}}</div>
 			<div class="account_grid_cell account_grid_cell_cleared">
-				<input type="checkbox" v-on:change="triggerClearUnclear">
+				<div class="centerContent">
+					<div class="clearedCircle" :class="{green: transaction.cleared}" v-on:click="triggerClearUnclear"></div>
+				</div>
 			</div>
 		<!-- </div> -->
 
@@ -20,7 +22,7 @@
 			<h3 slot="header">Edit Transaction</h3>
 			<div class="modal_inputs">
 				<label for="account">Account:</label>
-				<select name="account" v-model="transaction.account">
+				<select name="account" v-model="editTransaction.account">
 					<option 
 						v-for="account in accounts"
 						:value="account.id"
@@ -28,28 +30,57 @@
 				</select>
 				<br>
 				<label for="date">Date:</label>
-				<input type="date" v-model="transaction.date">
+				<input type="date" v-model="editTransaction.date">
 				<br>
-				<label for="payee">Payee:</label>
-				<input name="payees" v-model="transaction.payee">
+				<select name="payees" v-model="editTransaction.payee">
+					<option selected disabled>Select a Payee</option>
+					<option 
+						v-for="payee in payees"
+						:value="payee.id"
+						key="payee.id">{{payee.name}}</option>
+				</select>
+				<div class="payee_button_container">
+					<button class="add_payee_button" @click="addPayeeStatus = true">
+						<i class="icon add circle"></i>
+						Add Payee
+					</button>
+				</div>
 				<br>
 				<label for="category">Category:</label>
-				<input name="categories" v-model="transaction.category">
+				<select name="categories" v-model="editTransaction.category">
+					<option selected disabled>Select a Category</option>
+					<optgroup 
+						v-for="item in categories"
+						:label="item.budgetgroup.name">
+							<option
+								v-for="category in item.budgetgroup.subcategories"
+								:value="category">{{category.name}}</option>
+					</optgroup>
+				</select>
 				<br>
 				<label for="memo">Memo:</label>
-				<input type="text" v-model="transaction.memo">
+				<input type="text" v-model="editTransaction.memo">
 				<br>
 				<label for="outflow">Outflow:</label>
-				<input type="number" v-model="transaction.outflow">
+				<input type="number" v-model="editTransaction.outflow">
 				<br>
 				<label for="inflow">Inflow:</label>
-				<input type="number" v-model="transaction.inflow">
+				<input type="number" v-model="editTransaction.inflow">
 				<br>
 			</div>
 			<div slot="footer"class="modal_edit_buttons">
-				<button>Save</button>
+				<button @click="updateTransaction">Save</button>
 				<button @click="editModal=false">Cancel</button>
 				<button @click="deleteTransaction">Delete</button>
+			</div>
+		</app-input-modal>
+
+
+		<app-input-modal v-if="addPayeeStatus" @close="addPayeeStatus = false" @submit="addNewPayee">
+			<h3 slot="header">Add Payee</h3>
+			<div class="modal_inputs">
+				<label>Add New Payee:</label>
+				<input type="text" v-model="newPayee.name">
 			</div>
 		</app-input-modal>
 	</div>
@@ -63,36 +94,47 @@
 		props: ['transaction'],
 		data() {
 			return {
-				accounts: [
-					{id: 1, name: 'USAA Checking'},
-					{id: 2, name: 'USAA Savings'},
-					{id: 3, name: 'USAA Visa Credit Card'}
-				],
-				categories: [
-					{id: 1, name: 'Rent/Mortgage'},
-					{id: 2, name: 'Electric'},
-					{id: 3, name: 'Water'}
-				],
-				payees: [
-					{id: 1, name: 'DevMountain'},
-					{id: 2, name: 'Electric'},
-					{id: 3, name: 'Smiths'}
-				],
-				cleared: false,
+				addPayeeStatus: false,
+				cleared: this.transaction.cleared,
 				editModal: false,
 				editTransaction: {
-					name: this.transaction.name,
+					account: this.transaction.account,
 					date: this.transaction.date,
-					payee: this.transaction.payee,
+					payee: this.transaction.payee.name,
 					category: this.transaction.category,
 					memo: this.transaction.memo,
 					inflow: this.transaction.inflow,
 					outflow: this.transaction.outflow
+				},
+				newPayee: {
+					name: ''
 				}
+			}
+		},
+		computed: {
+			accounts: function() {
+				return this.$store.state.accounts
+			},
+			payees: function() {
+				return this.$store.state.payees
+			},
+			categories: function() {
+				return this.$store.state.categories
 			}
 		},
 		methods: {
 			...mapActions(['getTransactions', 'getAccounts']),
+			addNewPayee() {
+				axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/payees/new', 
+					{
+						name: this.newPayee.name 
+					}
+				).then(response => {
+					console.log('new payee added')
+					this.getPayees();
+					this.addPayeeStatus = false
+				})
+			},
 			deleteTransaction() {
 				axios.delete('http://localhost:3000/api/transactions/' + this.transaction.id)
 					.then(() => {
@@ -101,20 +143,50 @@
 						this.editModal = false;
 					})
 			},
-			triggerClearUnclear() {
-				if(!this.cleared) {
-					axios.patch('http://localhost:3000/api/transactions/' + this.transaction.id, {
-						cleared: true
-					}).then(() => {
-						this.cleared = true
-					})
+			updateTransaction() {
+				if(this.editTransaction.category.type === 'inflow') {
+							axios.patch('http://localhost:3000/api/'+this.$route.params.b_id+'/transactions/' + this.transaction.id + '/inflow', {
+							account: this.editTransaction.account,
+							date: this.editTransaction.date,
+							payee: this.editTransaction.payee,
+							category: this.editTransaction.category.id,
+							memo: this.editTransaction.memo,
+							outflow: Number(this.editTransaction.outflow) * -1,
+							inflow: Number(this.editTransaction.inflow),
+							type: this.editTransaction.category.type
+						})
+						.then(() => {
+							console.log('transaction updated')
+							this.getTransactions();
+							this.getAccounts();
+							this.editModal = false;
+						})
 				} else {
-					axios.patch('http://localhost:3000/api/transactions' + this.transaction.id, {
-						cleared: false
-					}).then(() => {
-						this.cleared = false
-					})
+					axios.patch('http://localhost:3000/api/'+this.$route.params.b_id+'/transactions/' + this.transaction.id, {
+							account: this.editTransaction.account,
+							date: this.editTransaction.date,
+							payee: this.editTransaction.payee,
+							category: this.editTransaction.category.id,
+							memo: this.editTransaction.memo,
+							outflow: Number(this.editTransaction.outflow) * -1,
+							inflow: Number(this.editTransaction.inflow),
+							type: this.editTransaction.category.type,
+						})
+						.then(() => {
+							console.log('transaction updated')
+							this.getTransactions();
+							this.getAccounts();
+							this.editModal = false;
+						})
 				}
+			},
+			triggerClearUnclear() {
+				axios.patch('http://localhost:3000/api/transactions/' + this.transaction.id, {
+					cleared: !this.cleared
+				}).then(() => {
+					this.cleared = !this.cleared
+					this.getTransactions();
+				})
 			}
 		},
 		components: {
@@ -122,3 +194,24 @@
 		}
 	}
 </script>
+
+<style>
+	.centerContent {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.clearedCircle {
+		height: 17px;
+		width: 17px;
+		border-radius: 100%;
+		background-color: #888;
+	}
+
+	.green {
+		background-color: green;
+	}
+</style>

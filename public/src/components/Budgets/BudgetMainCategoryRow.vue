@@ -27,7 +27,7 @@
 				<input type="text" v-model="catGroupName">
 			</div>
 			<div slot="footer"class="modal_edit_buttons">
-				<button>Save</button>
+				<button @click="updateCatGroup">Save</button>
 				<button @click="editModal=false">Cancel</button>
 				<button @click="deleteCategoryGroup">Delete</button>
 			</div>
@@ -80,6 +80,15 @@
 						this.cancelNewSpend();
 					}).catch(err => console.log(err))
 				this.cancelNewSpend();
+			},
+			updateCatGroup() {
+				console.log(this.catGroupName)
+				axios.patch('http://localhost:3000/api/catgroups/' + this.budgetgroup.id, {name: this.catGroupName})
+					.then(() => {
+						this.getBudgetCategories();
+						this.editModal = false
+						this.catGroupName = ''
+					}).catch(err => console.log(err))
 			},
 			deleteCategoryGroup() {
 				axios.delete('http://localhost:3000/api/catgroups/' + this.budgetgroup.id)

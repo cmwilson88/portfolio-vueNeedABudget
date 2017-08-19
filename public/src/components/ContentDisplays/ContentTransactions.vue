@@ -16,7 +16,8 @@
 			...mapActions([
 					'getTransactions',
 					'getPayees',
-					'getBudgetCategories'
+					'getBudgetCategories',
+					'getToday'
 				])
 		},
 		computed: {
@@ -34,9 +35,11 @@
 			appDisplayTransactions: DisplayAllTransactions
 		},
 		created() {
+			console.log('get today')
 			this.getTransactions();
 			this.getPayees();
 			this.getBudgetCategories();
+			this.getToday()
 		}
 	}
 </script>

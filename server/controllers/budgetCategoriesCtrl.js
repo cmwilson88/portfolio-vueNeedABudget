@@ -1,7 +1,7 @@
 module.exports = {
 	getBudgetCategories(req, res, next) {
 		const db = req.app.get('db')
-		db.getBudgetCategories([req.params.b_id]).then(response => {
+		db.getBudgetCategories([req.params.b_id, req.params.month, req.params.year]).then(response => {
 			res.status(200).send(response)
 		}).catch(err => console.log(err))
 	},
@@ -30,6 +30,22 @@ module.exports = {
 		const db = req.app.get('db')
 
 		db.updateBudgetedAmount([req.body.amount, req.params.spend_id, req.params.b_id])
+			.then(response => {
+				res.status(200).send(response)
+			}).catch(err => console.log(err))
+	},
+	updateSpendCat(req, res, next) {
+		const db = req.app.get('db')
+
+		db.updateSpendCat([req.body.name, req.params.spend_id])
+			.then(response => {
+				res.status(200).send(response)
+			}).catch(err => console.log(err))
+	},
+	updateCatGroup(req, res, next) {
+		const db = req.app.get('db')
+
+		db.updateCatGroup([req.body.name, req.params.catgroup_id])
 			.then(response => {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))

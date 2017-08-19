@@ -2,13 +2,13 @@
 	<header class="budget_header">
 		<div class="budget_header_flex">
 			<div class="month_display budget_header_item">
-				<div class="month_button">
+				<div class="month_button" @click="goToLastMonth" style="cursor: pointer">
 					<div class="month_button_inner">
 						<i class="icon chevron left"></i>
 					</div>
 				</div>
-				<h1>Aug 2017</h1>
-				<div class="month_button">
+				<h1>{{displayMonth}} / {{displayYear}}</h1>
+				<div class="month_button" @click="goToNextMonth" style="cursor: pointer">
 					<div class="month_button_inner">
 						<i class="icon chevron right"></i>
 					</div>
@@ -47,9 +47,37 @@
 	import {mapGetters} from 'vuex'
 	export default {
 		computed: {
-			...mapGetters(['totalBudgeted']),
+			...mapGetters(['totalBudgeted', 'month', 'year']),
 			toBeBudgeted() {
 				return this.$store.state.toBeBudgeted
+			},
+			displayMonth() {
+				return this.$route.params.mm
+			},
+			displayYear() {
+				return this.$route.params.yy
+			}
+		},
+		methods: {
+			goToNextMonth() {
+				if(this.displayMonth == 12) {
+					let nextMonth = 1
+					let nextYear = Number(this.displayYear) + 1
+					this.$router.push('/app/budget/1/' + nextMonth + '/' + nextYear)
+				} else {
+					let nextMonth = Number(this.displayMonth) + 1
+					this.$router.push('/app/budget/1/' + nextMonth + '/' + Number(this.displayYear))
+				}
+			},
+			goToLastMonth() {
+				if(this.displayMonth == 1) {
+					let lastMonth = 12
+					let lastYear = Number(this.displayYear) - 1
+					this.$router.push('/app/budget/1/' + lastMonth + '/' + lastYear)
+				} else {
+					let lastMonth = Number(this.displayMonth) - 1
+					this.$router.push('/app/budget/1/' + lastMonth + '/' + Number(this.displayYear))
+				}
 			}
 		},
 		components: {

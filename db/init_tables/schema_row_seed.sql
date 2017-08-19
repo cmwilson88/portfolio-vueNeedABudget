@@ -21,7 +21,7 @@ values
 insert into Payees 
 (name, budget_id)
 values
-('DevMountain', 1),
+('Starting Balance', 1),
 ('Taco Bell', 1),
 ('Smiths', 1),
 ('Wal-Mart', 2),
@@ -64,9 +64,9 @@ values
 -- True expenses seed
 with true_expenses as (
 	insert into catgroups
-		(id, name, budget_id)
+		(id, name, month, year, budget_id)
 	values
-		(DEFAULT, 'True Expenses', 1)
+		(DEFAULT, 'True Expenses', 8, 2017, 1)
 	returning id
 )
 insert into spendcats
@@ -87,9 +87,9 @@ values
 -- Debt Payments
 with debt_payments as (
 	insert into catgroups
-		(id, name, budget_id)
+		(id, name, month, year, budget_id)
 	values
-		(DEFAULT, 'Debt Payments', 1)
+		(DEFAULT, 'Debt Payments', 8, 2017, 1)
 	returning id
 )
 insert into spendcats
@@ -102,9 +102,9 @@ values
 -- Quality of Life Goals
 with qol_goals as (
 	insert into catgroups
-		(id, name, budget_id)
+		(id, name, month, year, budget_id)
 	values
-		(DEFAULT, 'Quality of Life Goals', 1)
+		(DEFAULT, 'Quality of Life Goals', 8, 2017, 1)
 	returning id
 )
 insert into spendcats
@@ -116,9 +116,9 @@ values
 -- Just for Fun 
 with just_fun as (
 	insert into catgroups
-		(id, name, budget_id)
+		(id, name, month, year, budget_id)
 	values
-		(DEFAULT, 'Just For Fun', 1)
+		(DEFAULT, 'Just For Fun', 8, 2017, 1)
 	returning id
 )
 insert into spendcats
@@ -145,6 +145,26 @@ update
 set
     amount = (select sum(outflow) + sum(inflow) from transactions where account_id = accounts.id)
 where budget_id = 1;
+
+
+
+-- Insert sample inflow
+insert into transactions
+	(account_id, trans_date, payee_id, spend_cat_id, memo, outflow, inflow, budget_id, type)
+values
+	(1, '2017-08-08', 1, 1, null, 0, 5432.10, 1, 'inflow');
+
+update
+    accounts
+set
+    amount = (select sum(outflow) + sum(inflow) from transactions)
+where budget_id = 1 and id = 1;
+
+update 
+	budgets
+set
+	to_be_budgeted = to_be_budgeted + 0 + 5432.10
+where id = 1
 
 
 

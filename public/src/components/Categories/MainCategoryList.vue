@@ -22,6 +22,11 @@
 		computed: {
 			...mapGetters(['budgetCategories'])
 		},
+		watch: {
+			budgetCategories() {
+				return this.budgetCategories
+			}
+		},
 		methods: {
 			...mapActions(['getBudgetCategories'])
 		},

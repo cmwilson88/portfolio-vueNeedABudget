@@ -31,10 +31,65 @@ module.exports = {
 			req.body.memo,
 			req.body.outflow,
 			req.body.inflow,
-			req.params.b_id
+			req.params.b_id, 
+			req.body.type
 			]).then(response => {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))
+	},
+	createInflowTransaction: function(req, res, next) {
+		const db = req.app.get('db')
+		db.createInflowTransaction([
+			req.body.account,
+			req.body.date,
+			req.body.payee,
+			req.body.category,
+			req.body.memo,
+			req.body.outflow,
+			req.body.inflow,
+			req.params.b_id,
+			req.body.type
+			]).then(response => {
+				res.status(200).send(response)
+			}).catch(err => console.log(err))
+	},
+	updateInflowTransaction(req, res, next) {
+		const db = req.app.get('db')
+
+		db.updateInflowTransaction([
+			req.body.account,
+			req.body.date,
+			req.body.payee,
+			req.body.category,
+			req.body.memo,
+			req.body.outflow,
+			req.body.inflow,
+			req.params.b_id,
+			req.body.type,
+			req.params.t_id
+		]).then(response => {
+			res.status(200).send(response)
+		}).catch(err => console.log(err))
+	},
+	updateTransaction(req, res, next) {
+		const db = req.app.get('db')
+
+		db.updateTransaction([
+			req.body.account,
+			req.body.date,
+			req.body.payee,
+			req.body.category,
+			req.body.memo,
+			req.body.outflow,
+			req.body.inflow,
+			req.params.b_id,
+			req.body.type,
+			req.params.t_id
+		]).then(response => {
+			console.log(req.body)
+			console.log(req.params)
+			res.status(200).send(response)
+		}).catch(err => console.log(err))
 	},
 	updateTransactionCleared(req, res, next) {
 		const db = req.app.get('db')
@@ -43,6 +98,14 @@ module.exports = {
 			.then(response => {
 				res.status(200).send(response)
 			}).catch(err  => console.log(err))
+	},
+	updateAccount(req, res, next) {
+		const db = req.app.get('db')
+
+		db.updateAccount([req.body.name, req.params.acc_id])
+			.then(response => {
+				res.status(200).send(response)
+			}).catch(err => console.log(err))
 	},
 	deleteTransaction: function(req, res, next) {
 		const db = req.app.get('db')

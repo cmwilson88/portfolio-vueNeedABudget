@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS Transactions (
 	account_id integer not null,
 	payee_id integer not null,
 	spend_cat_id integer not null,
+	type text,
 	memo text default null,
 	outflow decimal(14,2) default 0,
 	inflow decimal(14,2) default 0,

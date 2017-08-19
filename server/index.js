@@ -30,21 +30,29 @@ massive(connectionString)
 
 app.get('/api/:b_id/transactions', accountCtrl.getAllTransactions);
 app.get('/api/:b_id/accounts', accountCtrl.getAllAccounts);
-app.get('/api/budget/:b_id', budgetCtrl.getBudgetCategories);
+app.get('/api/budget/:b_id/:month/:year', budgetCtrl.getBudgetCategories);
 app.get('/api/:b_id/payees', payeeCtrl.getPayees);
 app.get('/api/:b_id', budgetCtrl.getToBeBudgeted);
 
 app.post('/api/:b_id/accounts/new', accountCtrl.createAccount)
 app.post('/api/:b_id/transactions/new', accountCtrl.createTransaction)
+app.post('/api/:b_id/transactions/inflow', accountCtrl.createInflowTransaction)
 app.post('/api/:b_id/catgroups/new', budgetCtrl.createCategoryGroup)
 app.post('/api/:b_id/spendcats/new', budgetCtrl.createSpendingCategory)
 app.post('/api/:b_id/payees/new', payeeCtrl.createPayee)
 
 app.patch('/api/:b_id/spendcats/:spend_id', budgetCtrl.updateBudgetedAmount)
 app.patch('/api/transactions/:t_id', accountCtrl.updateTransactionCleared)
+app.patch('/api/:b_id/transactions/:t_id', accountCtrl.updateTransaction)
+app.patch('/api/:b_id/transactions/:t_id/inflow', accountCtrl.updateInflowTransaction)
+app.patch('/api/spendcats/:spend_id', budgetCtrl.updateSpendCat)
+app.patch('/api/catgroups/:catgroup_id', budgetCtrl.updateCatGroup)
+app.patch('/api/accounts/:acc_id', accountCtrl.updateAccount)
 
 app.delete('/api/transactions/:t_id', accountCtrl.deleteTransaction)
 app.delete('/api/catgroups/:group_id', budgetCtrl.deleteCategoryGroup)
 app.delete('/api/spendcats/:spend_id', budgetCtrl.deleteSpendingCategory)
+
+
 const PORT = 3000
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`))

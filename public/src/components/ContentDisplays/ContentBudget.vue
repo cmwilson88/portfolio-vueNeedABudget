@@ -13,7 +13,7 @@
 	import {mapActions} from 'vuex'
 	export default {
 		methods: {
-			...mapActions(['getToBeBudgeted'])
+			...mapActions(['getToBeBudgeted', 'getToday'])
 		},
 		components: {
 			appBudgetHeader: BudgetHeader,
@@ -21,7 +21,9 @@
 			appBudgetInspector: BudgetInspector
 		},
 		created() {
+			console.log('get today')
 			this.getToBeBudgeted();
+			this.getToday();
 		}
 	}
 </script>

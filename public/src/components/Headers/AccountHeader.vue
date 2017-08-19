@@ -169,21 +169,42 @@
 		methods: {
 			...mapActions(['getTransactions', 'getAccounts', 'getPayees']),
 			addNewTransaction() {
-				axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/transactions/new',
-					{
-						account: this.newTransaction.account,
-						date: this.newTransaction.date,
-						payee: this.newTransaction.payee,
-						category: this.newTransaction.category,
-						memo: this.newTransaction.memo,
-						outflow: Number(this.newTransaction.outflow)*-1,
-						inflow: Number(this.newTransaction.inflow)
-					}
-				).then(response => {
-					console.log('post request successful')
-					this.getTransactions()
-					this.getAccounts()
-				})
+				if(this.newTransaction.category.type === 'inflow') {
+					axios.post(
+						'http://localhost:3000/api/' + this.$route.params.b_id + '/transactions/inflow',
+						{
+							account: this.newTransaction.account,
+							date: this.newTransaction.date,
+							payee: this.newTransaction.payee,
+							category: this.newTransaction.category.id,
+							memo: this.newTransaction.memo,
+							outflow: Number(this.newTransaction.outflow)*-1,
+							inflow: Number(this.newTransaction.inflow),
+							type: this.newTransaction.category.type							
+						}
+					).then(response => {
+						console.log('inflow post successful')
+						this.getTransactions();
+						this.getAccounts();
+					})
+				} else {
+					axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/transactions/new',
+						{
+							account: this.newTransaction.account,
+							date: this.newTransaction.date,
+							payee: this.newTransaction.payee,
+							category: this.newTransaction.category.id,
+							memo: this.newTransaction.memo,
+							outflow: Number(this.newTransaction.outflow)*-1,
+							inflow: Number(this.newTransaction.inflow),
+							type: this.newTransaction.category.type
+						}
+					).then(() => {
+						console.log('post request successful')
+						this.getTransactions()
+						this.getAccounts()
+					})
+				}
 				this.cancelNewTransaction()
 			},
 			cancelNewTransaction() {

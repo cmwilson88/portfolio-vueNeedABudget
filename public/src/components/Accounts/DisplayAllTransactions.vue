@@ -208,6 +208,7 @@
 	.account_grid_body_row .account_grid_cell_inflow {
 		padding-right: .6em;
 	}
+
 	@media (max-width: 1100px) {
 		.account_grid_header,
 		.accoutn_grid_body_row {

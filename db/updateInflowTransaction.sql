@@ -1,7 +1,15 @@
-insert into transactions
-	(account_id, trans_date, payee_id, spend_cat_id, memo, outflow, inflow, budget_id, type)
-values
-	($1, $2, $3, $4, $5, $6, $7, $8, $9);
+update 
+	transactions
+set
+	account_id = $1,
+	trans_date = $2, 
+	payee_id = $3, 
+	spend_cat_id = $4,
+	memo = $5, 
+	outflow = $6, 
+	inflow = $7,  
+	type = $9
+where id = $10;
 
 update
     accounts
@@ -25,3 +33,9 @@ set
     budgeted = (select sum(budgeted) from spendcats where catgroup_id = catgroups.id),
         activity = (select sum(activity) from spendcats where catgroup_id = catgroups.id),
         available = (select sum(available) from spendcats where catgroup_id = catgroups.id);
+
+update 
+	budgets
+set
+	to_be_budgeted = (select sum(inflow) from transactions where transactions.type = 'inflow' and budget_id = $8) - (select sum(budgeted) from catgroups where budget_id = $8)
+where id = $8

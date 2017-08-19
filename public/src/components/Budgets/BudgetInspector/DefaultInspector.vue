@@ -10,7 +10,7 @@
 		<h1 class="user_data"><span>${{totalAvailable.toFixed(2) | amount-with-comma}}</span></h1>
 		<hr>
 		<h3>total inflows</h3>
-		<h1 class="user_data"><span>$0.00</span></h1>
+		<h1 class="user_data"><span>${{totalInflows.toFixed(2) | amount-with-comma}}</span></h1>
 		<hr>
 		<app-quick-budget></app-quick-budget>
 	</div>
@@ -24,7 +24,8 @@
 			...mapGetters([
 				'totalBudgeted',
 				'totalActivity',
-				'totalAvailable'
+				'totalAvailable',
+				'totalInflows'
 				])
 		},
 		components: {

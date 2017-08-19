@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div>
-			<router-link 
-				:to="routePath" 
+			<div
+				@click="goToAccount" 
 				tag="div" 
 				class="nav_account_row">
 				<div class="nav_account_name">
@@ -13,7 +13,7 @@
 				</div>
 				<div class="nav_account_spacer"></div>
 				<div class="nav_account_value user_data">${{account.amount | amount-with-comma}}</div>
-			</router-link>
+			</div>
 		</div>
 
 		<app-input-modal v-if="editModal" @close="editModal = false">
@@ -23,9 +23,8 @@
 				<input type="text" v-model="accountName" @focus="accountName = ''">
 			</div>
 			<div slot="footer"class="modal_edit_buttons">
-				<button>Save</button>
+				<button @click="updateAccount">Save</button>
 				<button @click="editModal=false">Cancel</button>
-				<button @click="">Close Account</button>
 			</div>
 		</app-input-modal>
 
@@ -35,23 +34,34 @@
 <script>
 	import axios from 'axios'
 	import InputModal from '../InputModals/InputModal.vue'
-	import {mapActions} from 'vuex'
+	import {mapActions, mapGetters} from 'vuex'
 	export default {
 		props: ['account'],
 		data() {
 			return {
 				editModal: false,
 				showEditButton: false,
-				accountName: this.account.name,
-				routePath: "/app/budget/" + this.$route.params.b_id + "/acc/" + this.account.id
+				accountName: this.account.name
 			}
+		},
+		computed: {
+			...mapGetters(['month', 'year'])
 		},
 		components: {
 			appInputModal: InputModal
 		},
 		methods: {
-			updateAccountName() {
-				
+			...mapActions(['getAccounts']),
+			updateAccount() {
+				axios.patch('http://localhost:3000/api/accounts/' + this.account.id, {name: this.accountName})
+					.then(() => {
+						this.getAccounts();
+						this.editModal = false;
+						this.accountName = this.account.name
+					})
+			},
+			goToAccount() {
+				this.$router.push('/app/budget/1/' + this.month + '/' + this.year + '/acc/' + this.account.id)
 			}
 		}
 	}

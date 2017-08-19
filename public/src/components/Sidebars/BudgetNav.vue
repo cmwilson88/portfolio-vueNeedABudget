@@ -4,18 +4,18 @@
 			Wilson Budget
 		</button>
 		<ul class='nav_main'>
-			<router-link
-				to="/app/budget/1"
+			<li
+				@click="goToBudget"
 				tag="li"
 				style="cursor: pointer"
 				>
-				<i class="law icon"></i> Budget</router-link>
-			<router-link
-				to="/app/budget/1/acc/accounts"
+				<i class="law icon"></i>Budget</li>
+			<li
+				@click="goToAllAccounts"
 				tag="li"
 				style="cursor: pointer"
 				>
-				<i class="folder open icon"></i>All Accounts</router-link>
+				<i class="folder open icon"></i>All Accounts</li>
 		</ul>
 		
 		<app-account-list :budgetAccounts="accounts"></app-account-list>
@@ -77,6 +77,7 @@
 			}
 		},
 		computed: {
+			...mapGetters(['month', 'year']),
 			accounts() {
 				return this.$store.state.accounts
 			}
@@ -88,8 +89,19 @@
 		methods: {
 			...mapActions([
 				'getAccounts',
-				'getTransactions'
+				'getTransactions',
+				'getToBeBudgeted',
+				'getBudgetCategories'
 			]),
+			goToAllAccounts() {
+				this.$router.push(
+					'/app/budget/' + this.$route.params.b_id + 
+					'/' + this.month + '/' + this.year + '/acc/accounts')
+			},
+			goToBudget() {
+				this.$router.push(
+					'/app/budget/' + this.$route.params.b_id + '/' + this.month + '/' + this.year)
+			},
 			addAccount() {
 				axios.post(
 					'http://localhost:3000/api/' + this.$route.params.b_id + '/accounts/new',
@@ -100,6 +112,8 @@
 					}).then(() => {
 						this.getAccounts()
 						this.getTransactions()
+						this.getToBeBudgeted()
+						this.getBudgetCategories()
 					})
 				this.cancelAddAccount()
 			},

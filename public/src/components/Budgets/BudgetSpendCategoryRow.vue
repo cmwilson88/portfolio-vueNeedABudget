@@ -27,10 +27,10 @@
 			<h3 slot="header">Edit Spending Category</h3>
 			<div class="modal_inputs">
 				<label>Spending Category Name:</label>
-				<input type="text" v-model="name">
+				<input type="text" v-model="spendCatName">
 			</div>
 			<div slot="footer"class="modal_edit_buttons">
-				<button>Save</button>
+				<button @click="updateSpendCat">Save</button>
 				<button @click="editModal=false">Cancel</button>
 				<button @click="deleteSpendCat">Delete</button>
 			</div>
@@ -51,7 +51,7 @@
 				editBudgetInput: false,
 				budgetedValue: null,
 				id: this.spendcategory.id,
-				name: this.spendcategory.name
+				spendCatName: this.spendcategory.name
 			}
 		},
 		methods: {
@@ -62,6 +62,14 @@
 					this.getBudgetCategories();
 					this.editModal = false
 				})
+			},
+			updateSpendCat() {
+				axios.patch('http://localhost:3000/api/spendcats/' + this.id, {name: this.spendCatName})
+					.then(() => {
+						this.getBudgetCategories();
+						this.spendCatName = ''
+						this.editModal = false
+					})
 			},
 			updatedBudgetedAmount() {
 				if(this.budgetedValue !== this.spendcategory.amount) {
