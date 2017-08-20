@@ -20,8 +20,12 @@
 						v-else> 
 			</li>
 
-			<li class="spend_cat_activity">${{spendcategory.activity.toFixed(2) | amount-with-comma }}</li>
-			<li class="spend_cat_available">${{spendcategory.available.toFixed(2) | amount-with-comma }}</li>
+			<li class="spend_cat_activity">
+				${{spendcategory.activity.toFixed(2) | amount-with-comma }}
+			</li>
+			<li class="spend_cat_available">
+				${{spendcategory.available.toFixed(2) | amount-with-comma }}
+			</li>
 		</ul>
 		<app-input-modal v-if="editModal" @close="editModal = false">
 			<h3 slot="header">Edit Spending Category</h3>

@@ -39,9 +39,15 @@
 			<button slot="footer" @click="errCode = false">Close</button>
 		</app-input-modal>
 
-		<li class="category_group_budgeted">${{budgetgroup.budgeted | amount-with-comma}}</li>
-		<li class="category_group_activity">${{budgetgroup.activity | amount-with-comma}}</li>
-		<li class="category_group_available">${{budgetgroup.available | amount-with-comma}}</li>
+		<li class="category_group_budgeted">
+			${{budgetgroup.budgeted | amount-with-comma}}
+		</li>
+		<li class="category_group_activity">
+			${{budgetgroup.activity | amount-with-comma}}
+		</li>
+		<li class="category_group_available">
+			${{budgetgroup.available | amount-with-comma}}
+		</li>
 	</ul>
 </template>
 

@@ -23,8 +23,8 @@
 			...mapGetters(['budgetCategories'])
 		},
 		watch: {
-			budgetCategories() {
-				return this.budgetCategories
+			month() {
+				return this.$route.params.mm
 			}
 		},
 		methods: {
@@ -35,6 +35,9 @@
 		},
 		created() {
 			this.getBudgetCategories()
+		},
+		destroyed() {
+			console.log('main list destroyed')
 		}
 	}
 </script>

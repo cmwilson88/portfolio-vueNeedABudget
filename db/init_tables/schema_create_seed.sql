@@ -3,7 +3,13 @@ DROP TABLE IF EXISTS budgets CASCADE;
 DROP TABLE IF EXISTS accounts CASCADE;
 DROP TABLE IF EXISTS payees CASCADE;
 DROP TABLE IF EXISTS catgroups CASCADE;
+drop table if exists catgroup_act cascade;
+drop table if exists catgroup_month cascade;
+drop table if exists spendcat_month cascade;
+drop table if exists catgroup_avail cascade;
 DROP TABLE IF EXISTS spendcats CASCADE;
+drop table if exists spendcat_act cascade;
+drop table if exists spendcat_avail cascade;
 DROP TABLE IF EXISTS transactions CASCADE;
 
 
@@ -50,35 +56,79 @@ CREATE TABLE IF NOT EXISTS Payees (
 CREATE TABLE IF NOT EXISTS CatGroups (
 	id serial primary key,
 	name text not null,
-	month integer,
-	year integer,
-	budgeted decimal(14,2) default 0.00,
-	activity decimal(14,2) default 0.00,
-	available decimal(14,2) default 0.00,
+	-- month integer,
+	-- year integer,
+	-- budgeted decimal(14,2) default 0.00,
+	-- activity decimal(14,2) default 0.00,
+	-- available decimal(14,2) default 0.00,
 	budget_id integer not null,
 	foreign key (budget_id) references Budgets(id)
+);
+
+-- Category Group budget/activity by month
+CREATE TABLE IF NOT EXISTS catgroup_act (
+	id serial primary key,
+	month integer not null,
+	year integer not null,
+	budgeted decimal(14,2) default 0.00,
+	activity decimal(14,2) default 0.00,
+	catgroup_id integer,
+	foreign key (catgroup_id) references catgroups(id)
+);
+
+-- Category Group available total
+CREATE TABLE IF NOT EXISTS catgroup_avail (
+	id serial primary key,
+	available decimal(14,2) default 0.00,
+	catgroup_id int,
+	catgroup_act_id int,
+	foreign key (catgroup_id) references CatGroups(id),
+	foreign key (catgroup_act_id) references catgroup_act(id)
 );
 
 -- Spending Groups
 CREATE TABLE IF NOT EXISTS SpendCats (
 	id serial primary key,
 	name text not null,
-	month integer,
-	year integer,
+	-- month integer,
+	-- year integer,
 	type text default 'general',
-	budgeted decimal(14,2) default 0,
-	activity decimal(14,2) default 0,
-	available decimal(14,2) default 0,
+	-- budgeted decimal(14,2) default 0,
+	-- activity decimal(14,2) default 0,
+	-- available decimal(14,2) default 0,
 	catgroup_id integer not null,
 	budget_id integer not null,
-	foreign key (catgroup_id) references CatGroups(id) on delete cascade,
-	foreign key (budget_id) references Budgets(id)
+	foreign key (budget_id) references Budgets(id),
+	foreign key (catgroup_id) references CatGroups(id) on delete cascade
+);
+
+CREATE TABLE IF NOT EXISTS spendcat_act (
+	id serial primary key,
+	month int,
+	year int,
+	budgeted decimal(14,2) default 0,
+	activity decimal(14,2) default 0,
+	spendcat_id integer,
+	catgroup_act_id integer,
+	foreign key (catgroup_act_id) references catgroup_act(id),
+	foreign key (spendcat_id) references SpendCats(id)
+);
+
+CREATE TABLE IF NOT EXISTS spendcat_avail (
+	id serial primary key,
+	available decimal(14,2) default 0,
+	spendcat_id integer,
+	spendcat_act_id integer,
+	foreign key (spendcat_id) references SpendCats(id),
+	foreign key (spendcat_act_id) references spendcat_act(id)
 );
 
 -- Transactions
 CREATE TABLE IF NOT EXISTS Transactions (
 	id serial primary key,
 	trans_date text default 'date',
+	month int,
+	year int,
 	account_id integer not null,
 	payee_id integer not null,
 	spend_cat_id integer not null,

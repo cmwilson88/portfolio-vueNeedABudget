@@ -44,7 +44,7 @@
 
 <script>
 	import AddCategoryGroup from '../Categories/AddCategoryGroup.vue'
-	import {mapGetters} from 'vuex'
+	import {mapGetters, mapActions} from 'vuex'
 	export default {
 		computed: {
 			...mapGetters(['totalBudgeted', 'month', 'year']),
@@ -59,6 +59,7 @@
 			}
 		},
 		methods: {
+			...mapActions(['getBudgetCategories']),
 			goToNextMonth() {
 				if(this.displayMonth == 12) {
 					let nextMonth = 1
@@ -74,6 +75,7 @@
 					let lastMonth = 12
 					let lastYear = Number(this.displayYear) - 1
 					this.$router.push('/app/budget/1/' + lastMonth + '/' + lastYear)
+					this.getBudgetCategories();
 				} else {
 					let lastMonth = Number(this.displayMonth) - 1
 					this.$router.push('/app/budget/1/' + lastMonth + '/' + Number(this.displayYear))
