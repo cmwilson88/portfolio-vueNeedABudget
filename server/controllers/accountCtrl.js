@@ -32,7 +32,10 @@ module.exports = {
 			req.body.outflow,
 			req.body.inflow,
 			req.params.b_id, 
-			req.body.type
+			req.body.type,
+			req.body.month,
+			req.body.year,
+			req.body.catgroup_act_id
 			]).then(response => {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))

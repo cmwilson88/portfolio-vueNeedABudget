@@ -68,8 +68,8 @@ CREATE TABLE IF NOT EXISTS CatGroups (
 -- Category Group budget/activity by month
 CREATE TABLE IF NOT EXISTS catgroup_act (
 	id serial primary key,
-	month integer not null,
-	year integer not null,
+	month integer,
+	year integer,
 	budgeted decimal(14,2) default 0.00,
 	activity decimal(14,2) default 0.00,
 	catgroup_id integer,
@@ -80,6 +80,8 @@ CREATE TABLE IF NOT EXISTS catgroup_act (
 CREATE TABLE IF NOT EXISTS catgroup_avail (
 	id serial primary key,
 	available decimal(14,2) default 0.00,
+	month int, 
+	year int,
 	catgroup_id int,
 	catgroup_act_id int,
 	foreign key (catgroup_id) references CatGroups(id),
@@ -117,10 +119,14 @@ CREATE TABLE IF NOT EXISTS spendcat_act (
 CREATE TABLE IF NOT EXISTS spendcat_avail (
 	id serial primary key,
 	available decimal(14,2) default 0,
+	month int,
+	year int,
 	spendcat_id integer,
 	spendcat_act_id integer,
+	catgroup_avail_id integer,
 	foreign key (spendcat_id) references SpendCats(id),
-	foreign key (spendcat_act_id) references spendcat_act(id)
+	foreign key (spendcat_act_id) references spendcat_act(id),
+	foreign key (catgroup_avail_id) references catgroup_avail(id)
 );
 
 -- Transactions
@@ -132,6 +138,7 @@ CREATE TABLE IF NOT EXISTS Transactions (
 	account_id integer not null,
 	payee_id integer not null,
 	spend_cat_id integer not null,
+	catgroup_act_id integer not null,
 	type text,
 	memo text default null,
 	outflow decimal(14,2) default 0,
@@ -141,5 +148,6 @@ CREATE TABLE IF NOT EXISTS Transactions (
 	foreign key (account_id) references Accounts(id),
 	foreign key (payee_id) references Payees(id),
 	foreign key (spend_cat_id) references SpendCats(id),
+	foreign key (catgroup_act_id) references catgroup_act(id),
 	foreign key (budget_id) references Budgets(id)
 );

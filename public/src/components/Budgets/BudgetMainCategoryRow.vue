@@ -75,10 +75,14 @@
 			},
 			addSpendCategory() {
 				axios.post(
-						'http://localhost:3000/api/' + this.$route.params.b_id + '/spendcats/new',
+						'http://localhost:3000/api/' 
+						+ this.$route.params.b_id 
+						+ '/' + this.$route.params.mm + '/' 
+						+ this.$route.params.yy + '/spendcats/new',
 						{
 							name: this.spendCatName,
-							catgroup_id: this.catgroup_id
+							catgroup_id: this.catgroup_id,
+							catgroup_act_id: this.budgetgroup.catgroup_act_id
 						}
 					)
 					.then(() => {

@@ -10,6 +10,18 @@ insert into transactions
 values
 ((select id from new_account), current_timestamp, 1, 1, null, 0, $3, $4, 'inflow');
 
-update budgets
-set	to_be_budgeted = (select sum(inflow) from transactions where transactions.type = 'inflow' and budget_id = $4) - (select sum(budgeted) from catgroups where budget_id = $4)
+update 
+	budgets
+set	
+	to_be_budgeted = (
+		select sum(inflow) 
+		from transactions 
+		where transactions.type = 'inflow' 
+		and budget_id = $4
+		) - (
+		select sum(cg.budgeted) from catgroups c
+		join catgroup_act cg on cg.catgroup_id = c.id 
+		where budget_id = $4
+		)
 where id = $4
+

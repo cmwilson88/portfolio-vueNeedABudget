@@ -14,14 +14,14 @@ module.exports = {
 	createCategoryGroup(req, res, next) {
 		const db = req.app.get('db')
 
-		db.createCatGroup([req.body.name, req.params.b_id]).then(response => {
+		db.createCatGroup([req.body.name, req.params.b_id, req.params.mm, req.params.yy]).then(response => {
 			res.status(200).send(response)
 		}).catch(err => console.log(err))
 	},
 	createSpendingCategory(req, res, next) {
 		const db = req.app.get('db')
 
-		db.createSpendCat([req.body.name, req.body.catgroup_id, req.params.b_id])
+		db.createSpendCat([req.body.name, req.body.catgroup_id, req.params.b_id, req.params.mm, req.params.yy, req.body.catgroup_act_id])
 			.then(response => {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))

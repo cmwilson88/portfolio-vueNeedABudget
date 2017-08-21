@@ -11,6 +11,15 @@ where budget_id = $8;
 
 update 
 	budgets
-set
-	to_be_budgeted = (select sum(inflow) from transactions where transactions.type = 'inflow' and budget_id = $8) - (select sum(budgeted) from catgroups where budget_id = $8)
+set	
+	to_be_budgeted = (
+		select sum(inflow) 
+		from transactions 
+		where transactions.type = 'inflow' 
+		and budget_id = $8
+		) - (
+		select sum(cg.budgeted) from catgroups c
+		join catgroup_act cg on cg.catgroup_id = c.id 
+		where budget_id = $8
+		)
 where id = $8

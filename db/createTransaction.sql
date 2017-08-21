@@ -1,7 +1,7 @@
 insert into transactions
-	(account_id, trans_date, payee_id, spend_cat_id, memo, outflow, inflow, budget_id, type)
+	(account_id, trans_date, payee_id, spend_cat_id, memo, outflow, inflow, budget_id, type, month, year, catgroup_act_id)
 values
-	($1, $2, $3, $4, $5, $6, $7, $8, $9);
+	($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);
 
 update
     accounts
@@ -9,19 +9,38 @@ set
     amount = (select sum(outflow) + sum(inflow) from transactions where account_id = accounts.id)
 where budget_id = $8;
 
-update
-	spendcats
+update 
+    spendcat_act sg
 set
-	activity = activity + (select sum(outflow) + sum(inflow) from transactions where spend_cat_id = spendcats.id)
-where id = $4;
+    activity = (
+		select sum(outflow) + sum(inflow) from transactions t
+		where spend_cat_id = $4
+		and month = $10 and year = $11
+        )
+    where spendcat_id = $4 and month = $10 and year = $11;
 
-update
-	spendcats
-set
-	available = budgeted + activity;
 
-update catgroups
-set
-    budgeted = (select sum(budgeted) from spendcats where catgroup_id = catgroups.id),
-        activity = (select sum(activity) from spendcats where catgroup_id = catgroups.id),
-        available = (select sum(available) from spendcats where catgroup_id = catgroups.id);
+update spendcat_avail sa
+set available = (select available from spendcat_avail where month = $10-1 and spendcat_id = $4) + (select budgeted + activity from spendcat_act where month = $10 and spendcat_id = $4)
+where spendcat_id = $4 and month = $10;
+
+update spendcat_avail
+	set available = (select available from spendcat_avail where spendcat_id = $4 and month = $10 and year = $11) + (select sum(budgeted) + sum(activity) from spendcat_act where spendcat_id = $4 and month = $10+1 and year = $11)
+	where spendcat_id = $4 and month = $10+1 and year = $11;
+
+update catgroup_act  
+	set activity = (
+			select sum(activity) from spendcat_act
+			where month = $10 and year = $11
+			and catgroup_act_id = $12
+		)
+	where catgroup_id = $12 and month = $10 and year = $11;
+
+update catgroup_avail
+set available = (select available from catgroup_avail where month = $10-1 and year = $11 and catgroup_id = $12) + (select budgeted + activity from catgroup_act where month = $10 and year = $11 and catgroup_id = $12)
+where catgroup_id = $12 and month = $10 and year = $11;
+
+update catgroup_avail
+set available = (select available from catgroup_avail where month = $10 and year = $11 and catgroup_id = $12) + (select budgeted + activity from catgroup_act where month = $10+1 and year = $11 and catgroup_id = $12)
+where catgroup_id = $12 and month = $10+1 and year = $11;
+

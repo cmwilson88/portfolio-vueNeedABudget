@@ -180,7 +180,8 @@
 							memo: this.newTransaction.memo,
 							outflow: Number(this.newTransaction.outflow)*-1,
 							inflow: Number(this.newTransaction.inflow),
-							type: this.newTransaction.category.type							
+							type: this.newTransaction.category.type,
+
 						}
 					).then(response => {
 						console.log('inflow post successful')
@@ -188,7 +189,10 @@
 						this.getAccounts();
 					})
 				} else {
-					axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/transactions/new',
+					let month = this.newTransaction.date.split('-')[1];
+					let year = this.newTransaction.date.split('-')[0];	
+					axios.post('http://localhost:3000/api/' 
+						+ this.$route.params.b_id + '/transactions/new',
 						{
 							account: this.newTransaction.account,
 							date: this.newTransaction.date,
@@ -197,7 +201,10 @@
 							memo: this.newTransaction.memo,
 							outflow: Number(this.newTransaction.outflow)*-1,
 							inflow: Number(this.newTransaction.inflow),
-							type: this.newTransaction.category.type
+							type: this.newTransaction.category.type,
+							month: month,
+							year: year,
+							catgroup_act_id: this.newTransaction.category.catgroup_act_id	
 						}
 					).then(() => {
 						console.log('post request successful')

@@ -24,7 +24,7 @@ const getters = {
 		}
 	},
 	budgetCategories(state) {
-		return state.categories
+		return state.categories.slice(1)
 	},
 	accountDisplayName(state) {
 		if(state.accounts) {

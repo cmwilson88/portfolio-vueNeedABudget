@@ -35,10 +35,10 @@ app.get('/api/:b_id/payees', payeeCtrl.getPayees);
 app.get('/api/:b_id', budgetCtrl.getToBeBudgeted);
 
 app.post('/api/:b_id/accounts/new', accountCtrl.createAccount)
+app.post('/api/:b_id/:mm/:yy/catgroups/new', budgetCtrl.createCategoryGroup)
+app.post('/api/:b_id/:mm/:yy/spendcats/new', budgetCtrl.createSpendingCategory)
 app.post('/api/:b_id/transactions/new', accountCtrl.createTransaction)
 app.post('/api/:b_id/transactions/inflow', accountCtrl.createInflowTransaction)
-app.post('/api/:b_id/catgroups/new', budgetCtrl.createCategoryGroup)
-app.post('/api/:b_id/spendcats/new', budgetCtrl.createSpendingCategory)
 app.post('/api/:b_id/payees/new', payeeCtrl.createPayee)
 
 app.patch('/api/:b_id/spendcats/:spend_id', budgetCtrl.updateBudgetedAmount)
