@@ -1,3 +1,3 @@
-set update catgroups
+update catgroups
 	set name = $1
 where id = $2

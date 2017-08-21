@@ -24,7 +24,9 @@
 				${{spendcategory.activity.toFixed(2) | amount-with-comma }}
 			</li>
 			<li class="spend_cat_available">
-				${{spendcategory.available.toFixed(2) | amount-with-comma }}
+				<span class="available_pos available_amount">
+					${{spendcategory.available.toFixed(2) | amount-with-comma }}
+				</span>
 			</li>
 		</ul>
 		<app-input-modal v-if="editModal" @close="editModal = false">
@@ -55,7 +57,18 @@
 				editBudgetInput: false,
 				budgetedValue: null,
 				id: this.spendcategory.id,
-				spendCatName: this.spendcategory.name
+				spendCatName: this.spendcategory.name,
+				isPositive: false,
+				isNegative: false
+			}
+		},
+		computed: {
+			checkNegative() {
+				if(this.spendcategory.available < 0) {
+					this.isNegative = true;
+				} else {
+					this.isNegative = false;
+				}
 			}
 		},
 		methods: {
@@ -77,8 +90,10 @@
 			},
 			updatedBudgetedAmount() {
 				if(this.budgetedValue !== this.spendcategory.amount) {
-					axios.patch('http://localhost:3000/api/'+this.$route.params.b_id+'/spendcats/' + this.id, {
-						amount: this.budgetedValue
+					axios.patch('http://localhost:3000/api/'+this.$route.params.b_id+'/spendcats/' + this.id + '/' + this.$route.params.mm + '/' + this.$route.params.yy, {
+						amount: this.budgetedValue,
+						catgroup_id: this.spendcategory.catgroup_id,
+						catgroup_act_id: this.spendcategory.catgroup_act_id
 					})
 						.then(() => {
 							this.getBudgetCategories();
@@ -100,6 +115,19 @@
 </script>
 
 <style>
+	.available_pos {
+		color: #fff;
+		font-weight: 700;
+		padding: 2px 8px;
+		border-radius: 1000px;
+		background-color: #16a336;
+	},
+	.available_amount {
+		color: #fff;
+		font-weight: 700;
+		padding: 2px 8px;
+		border-radius: 1000px;
+	},
 	.spend_cat_budgeted input {
 		border: 2px solid #23809b;
 		border-radius: 7px;

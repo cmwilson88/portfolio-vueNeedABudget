@@ -46,7 +46,11 @@ const getters = {
 		return state.categories.reduce((a,b) => a + b.budgetgroup.available, 0)
 	},
 	totalInflows(state) {
-		let filteredArr = state.transactions.filter(transaction => transaction.type === 'inflow')
+		let filteredArr = state.transactions.filter(
+			transaction => transaction.trans_type === 'inflow' 
+					&& transaction.trans_month == state.route.params.mm 
+					&& transaction.trans_year == state.route.params.yy
+			)
 		console.log(filteredArr)
 		let reducedArr = filteredArr.reduce((a,b) => a + Number(b.inflow), 0)
 		return Number(reducedArr)

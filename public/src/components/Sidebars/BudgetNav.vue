@@ -112,8 +112,8 @@
 					}).then(() => {
 						this.getAccounts()
 						this.getTransactions()
-						this.getToBeBudgeted()
 						this.getBudgetCategories()
+						this.getToBeBudgeted()
 					})
 				this.cancelAddAccount()
 			},

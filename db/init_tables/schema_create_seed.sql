@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS spendcat_act (
 	spendcat_id integer,
 	catgroup_act_id integer,
 	foreign key (catgroup_act_id) references catgroup_act(id),
-	foreign key (spendcat_id) references SpendCats(id)
+	foreign key (spendcat_id) references SpendCats(id) on delete cascade
 );
 
 CREATE TABLE IF NOT EXISTS spendcat_avail (
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS spendcat_avail (
 	spendcat_act_id integer,
 	catgroup_avail_id integer,
 	foreign key (spendcat_id) references SpendCats(id),
-	foreign key (spendcat_act_id) references spendcat_act(id),
+	foreign key (spendcat_act_id) references spendcat_act(id) on delete cascade,
 	foreign key (catgroup_avail_id) references catgroup_avail(id)
 );
 

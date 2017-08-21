@@ -9,14 +9,15 @@ from (
         select array_to_json(array_agg(row_to_json(d)))
         from (
             select 
-                s.id id, s.name, type, 
+                s.id id, s.name, type, s.catgroup_id catgroup_id,
                 (select sg.id spendcat_act_id from spendcat_act sg where sg.spendcat_id = s.id and sg.month = $2 and sg.year = $3),
                 (select sg.month from spendcat_act sg where sg.spendcat_id = s.id and sg.month = $2 and sg.year = $3),
                 (select sg.year from spendcat_act sg where sg.spendcat_id = s.id and sg.month = $2 and sg.year = $3), 
                 (select sg.budgeted from spendcat_act sg where sg.spendcat_id = s.id and sg.month = $2 and sg.year = $3), 
                 (select sg.activity from spendcat_act sg where sg.spendcat_id = s.id and sg.month = $2 and sg.year = $3),
                 (select sa.available from spendcat_avail sa where sa.spendcat_id = s.id and sa.month = $2 and sa.year = $3),
-                (select cg.id catgroup_act_id from catgroup_act cg where cg.id = s.catgroup_id and cg.month = $2 and cg.year = $3) 
+                (select cg.id catgroup_act_id from catgroup_act cg where cg.id = s.catgroup_id and cg.month = $2 and cg.year = $3),
+                (select ca.id catgroup_avail_id from catgroup_avail ca where ca.catgroup_id = s.catgroup_id and ca.month = $2 and ca.year = $3) 
             from spendcats s
             where s.catgroup_id = c.id 
             order by s.id

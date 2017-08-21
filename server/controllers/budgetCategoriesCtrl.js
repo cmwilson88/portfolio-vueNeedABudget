@@ -21,7 +21,15 @@ module.exports = {
 	createSpendingCategory(req, res, next) {
 		const db = req.app.get('db')
 
-		db.createSpendCat([req.body.name, req.body.catgroup_id, req.params.b_id, req.params.mm, req.params.yy, req.body.catgroup_act_id])
+		db.createSpendCat([
+				req.body.name, 
+				req.body.catgroup_id, 
+				req.params.b_id, 
+				req.params.mm, 
+				req.params.yy, 
+				req.body.catgroup_act_id, 
+				req.body.catgroup_avail_id
+			])
 			.then(response => {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))
@@ -29,7 +37,14 @@ module.exports = {
 	updateBudgetedAmount(req, res, next) {
 		const db = req.app.get('db')
 
-		db.updateBudgetedAmount([req.body.amount, req.params.spend_id, req.params.b_id])
+		db.updateBudgetedAmount([
+			req.body.amount, 
+			req.params.spend_id, 
+			req.params.b_id, 
+			req.params.mm, 
+			req.params.yy, 
+			req.body.catgroup_id,
+			req.body.catgroup_act_id])
 			.then(response => {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))

@@ -6,9 +6,9 @@ with new_account as (
     returning id, amount
 )
 insert into transactions
-(account_id, trans_date, payee_id, spend_cat_id, memo, outflow, inflow, budget_id, type)
+(account_id, trans_date, payee_id, spend_cat_id, memo, outflow, inflow, budget_id, type, catgroup_act_id)
 values
-((select id from new_account), current_timestamp, 1, 1, null, 0, $3, $4, 'inflow');
+((select id from new_account), current_timestamp, 1, 1, null, 0, $3, $4, 'inflow', 1);
 
 update 
 	budgets

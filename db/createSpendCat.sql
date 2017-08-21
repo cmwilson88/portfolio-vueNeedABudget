@@ -13,6 +13,6 @@ new_spendcat_act as (
 	returning id
 )
 insert into spendcat_avail
-	(spendcat_id, spendcat_act_id)
+	(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 values
-	((select id from new_spendcat), (select id from new_spendcat_act))
+	($4, $5, (select id from new_spendcat), (select id from new_spendcat_act), $7)

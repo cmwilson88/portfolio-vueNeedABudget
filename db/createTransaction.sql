@@ -21,11 +21,11 @@ set
 
 
 update spendcat_avail sa
-set available = (select available from spendcat_avail where month = $10-1 and spendcat_id = $4) + (select budgeted + activity from spendcat_act where month = $10 and spendcat_id = $4)
+set available = (select coalesce((select available from spendcat_avail where month = $10-1 and spendcat_id = $4), 0) + (select budgeted + activity from spendcat_act where month = $10 and spendcat_id = $4))
 where spendcat_id = $4 and month = $10;
 
 update spendcat_avail
-	set available = (select available from spendcat_avail where spendcat_id = $4 and month = $10 and year = $11) + (select sum(budgeted) + sum(activity) from spendcat_act where spendcat_id = $4 and month = $10+1 and year = $11)
+	set available = (select coalesce((select available from spendcat_avail where spendcat_id = $4 and month = $10 and year = $11),0) + (select sum(budgeted) + sum(activity) from spendcat_act where spendcat_id = $4 and month = $10+1 and year = $11))
 	where spendcat_id = $4 and month = $10+1 and year = $11;
 
 update catgroup_act  

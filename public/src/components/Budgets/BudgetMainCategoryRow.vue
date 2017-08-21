@@ -45,7 +45,7 @@
 		<li class="category_group_activity">
 			${{budgetgroup.activity | amount-with-comma}}
 		</li>
-		<li class="category_group_available">
+		<li class="category_group_available" style="padding-right: 8px">
 			${{budgetgroup.available | amount-with-comma}}
 		</li>
 	</ul>
@@ -65,6 +65,7 @@
 				spendCatName: '',
 				catGroupName: '',
 				catgroup_id: this.budgetgroup.id,
+				catgroup_act_id: this.budgetgroup.catgroup_act_id,
 				errCode: ''
 			}
 		},
@@ -82,7 +83,8 @@
 						{
 							name: this.spendCatName,
 							catgroup_id: this.catgroup_id,
-							catgroup_act_id: this.budgetgroup.catgroup_act_id
+							catgroup_act_id: this.budgetgroup.catgroup_avail_id,
+							catgroup_avail_id: this.budgetgroup.catgroup_avail_id
 						}
 					)
 					.then(() => {

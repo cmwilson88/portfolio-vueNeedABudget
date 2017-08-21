@@ -34,16 +34,17 @@ with inflow_categories as (
 ),
 inflow_act as (
 	insert into catgroup_act
-		(id, catgroup_id)
+		(id, month, year, catgroup_id)
 	values
-		(default, (select id from inflow_categories))
+		(default, 8, 2017, (select id from inflow_categories))
 	returning id
 ),
 inflow_avail as (
 	insert into catgroup_avail
-		(catgroup_id, catgroup_act_id)
+		(month, year,catgroup_id, catgroup_act_id)
 	values
-		((select id from inflow_categories), (select id from inflow_act))
+		(8, 2017, (select id from inflow_categories), (select id from inflow_act))
+	returning id
 ),
 new_inflow as (
 	insert into spendcats
@@ -54,15 +55,15 @@ new_inflow as (
 ),
 new_inflow_act as (
 	insert into spendcat_act
-		(id, spendcat_id, catgroup_act_id)
+		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default, (select id from new_inflow), (select id from inflow_act))
+		(default, 8, 2017, (select id from new_inflow), (select id from inflow_act))
 	returning id
 )
 insert into spendcat_avail
-	(spendcat_id, spendcat_act_id)
+	(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 values
-	((select id from new_inflow), (select id from new_inflow_act));
+	(8, 2017, (select id from new_inflow), (select id from new_inflow_act), (select id from inflow_avail));
 
 
 -- Immediate Obligations Seed
@@ -771,17 +772,17 @@ select month, year, spendcat_id, spendcat_act_id, catgroup_avail_id from spendca
 -- where id = 1;
 
 
-update
-	spendcat_avail sa
-set 
-	available = available + (
-		select sum(budgeted) + sum(activity) from spendcat_act 
-		where spendcat_id = sa.spendcat_id
-	);
+-- update
+-- 	spendcat_avail sa
+-- set 
+-- 	available = available + (
+-- 		select sum(budgeted) + sum(activity) from spendcat_act 
+-- 		where spendcat_id = sa.spendcat_id
+-- 	);
 
-update catgroup_act cm
-	set budgeted = (select sum(budgeted) from spendcat_act sm where sm.catgroup_act_id = cm.id),
-		activity = (select sum(activity) from spendcat_act sm where sm.catgroup_act_id = cm.id);
+-- update catgroup_act cm
+-- 	set budgeted = (select sum(budgeted) from spendcat_act sm where sm.catgroup_act_id = cm.id),
+-- 		activity = (select sum(activity) from spendcat_act sm where sm.catgroup_act_id = cm.id);
 
 -- update 
 -- 	catgroup_avail ca

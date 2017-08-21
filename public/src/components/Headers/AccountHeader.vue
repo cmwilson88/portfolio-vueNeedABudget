@@ -170,6 +170,8 @@
 			...mapActions(['getTransactions', 'getAccounts', 'getPayees']),
 			addNewTransaction() {
 				if(this.newTransaction.category.type === 'inflow') {
+					let month = this.newTransaction.date.split('-')[1];
+					let year = this.newTransaction.date.split('-')[0];	
 					axios.post(
 						'http://localhost:3000/api/' + this.$route.params.b_id + '/transactions/inflow',
 						{
@@ -181,7 +183,9 @@
 							outflow: Number(this.newTransaction.outflow)*-1,
 							inflow: Number(this.newTransaction.inflow),
 							type: this.newTransaction.category.type,
-
+							month: month,
+							year: year,
+							catgroup_act_id: this.newTransaction.category.catgroup_act_id
 						}
 					).then(response => {
 						console.log('inflow post successful')

@@ -41,11 +41,11 @@ app.post('/api/:b_id/transactions/new', accountCtrl.createTransaction)
 app.post('/api/:b_id/transactions/inflow', accountCtrl.createInflowTransaction)
 app.post('/api/:b_id/payees/new', payeeCtrl.createPayee)
 
-app.patch('/api/:b_id/spendcats/:spend_id', budgetCtrl.updateBudgetedAmount)
+app.patch('/api/:b_id/spendcats/:spend_id/:mm/:yy', budgetCtrl.updateBudgetedAmount)
 app.patch('/api/transactions/:t_id', accountCtrl.updateTransactionCleared)
 app.patch('/api/:b_id/transactions/:t_id', accountCtrl.updateTransaction)
 app.patch('/api/:b_id/transactions/:t_id/inflow', accountCtrl.updateInflowTransaction)
-app.patch('/api/spendcats/:spend_id', budgetCtrl.updateSpendCat)
+app.patch('/api/spendcats/:spend_id/', budgetCtrl.updateSpendCat)
 app.patch('/api/catgroups/:catgroup_id', budgetCtrl.updateCatGroup)
 app.patch('/api/accounts/:acc_id', accountCtrl.updateAccount)
 
