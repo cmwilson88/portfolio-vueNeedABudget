@@ -16,8 +16,8 @@
 			</div>
 
 			<div class="budget_allocate_display budget_header_item">
-				<div class="to_be_budgeted">
-					<div class="tbb_totals_amount">
+				<div class="to_be_budgeted" >
+					<div class="tbb_totals_amount" :class="{'danger': checkNegative}">
 						<h1 class="tbb_value">${{toBeBudgeted | amount-with-comma}}</h1>
 						<p class="tbb_text">To Be Budgeted</p>
 					</div>
@@ -59,6 +59,13 @@
 			},
 			displayYear() {
 				return this.$route.params.yy
+			},
+			checkNegative() {
+				if(this.$store.state.toBeBudgeted < 0) {
+					return true;
+				} else {
+					return false;
+				}
 			}
 		},
 		methods: {
@@ -249,5 +256,9 @@
 		font-style: italic;
 		padding-left: .3em;
 		white-space: nowrap;
+	}
+
+	.danger {
+		background-color: #D33C2D;
 	}
 </style>

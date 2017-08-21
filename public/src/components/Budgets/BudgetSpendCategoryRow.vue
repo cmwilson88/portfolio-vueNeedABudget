@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<ul class="budget_table_row spend_cat" @contextmenu.prevent="editModal = true">
-			<li class="spend_cat_name">{{spendcategory.name}}</li> 
+			<li class="spend_cat_name">{{spendcategory.name | capitalize-words}}</li> 
 			<li 
 				@mouseenter="hoverBudgetInput = true"
 				@mouseleave="hoverBudgetInput = false"
@@ -24,7 +24,7 @@
 				${{spendcategory.activity.toFixed(2) | amount-with-comma }}
 			</li>
 			<li class="spend_cat_available">
-				<span class="available_pos available_amount">
+				<span class="available_amount" :class="{'available_zero': checkZero, 'available_pos': checkPositive, 'available_neg': checkNegative}">
 					${{spendcategory.available.toFixed(2) | amount-with-comma }}
 				</span>
 			</li>
@@ -57,17 +57,29 @@
 				editBudgetInput: false,
 				budgetedValue: null,
 				id: this.spendcategory.id,
-				spendCatName: this.spendcategory.name,
-				isPositive: false,
-				isNegative: false
+				spendCatName: this.spendcategory.name
 			}
 		},
 		computed: {
 			checkNegative() {
 				if(this.spendcategory.available < 0) {
-					this.isNegative = true;
+					return true
 				} else {
-					this.isNegative = false;
+					return false
+				}
+			},
+			checkPositive() {
+				if(this.spendcategory.available > 0) {
+					return true
+				} else {
+					return false
+				}
+			},
+			checkZero() {
+				if(!this.spendcategory.available) {
+					return true
+				} else {
+					return false
 				}
 			}
 		},
@@ -115,21 +127,27 @@
 </script>
 
 <style>
+	.greentext {
+		color: green;
+	}
 	.available_pos {
-		color: #fff;
-		font-weight: 700;
-		padding: 2px 8px;
-		border-radius: 1000px;
 		background-color: #16a336;
-	},
+	}
+	.available_neg {
+		background-color: #D33C2D;
+	}
+	.available_zero {
+		background-color: #a8a8a8
+	}
 	.available_amount {
 		color: #fff;
 		font-weight: 700;
 		padding: 2px 8px;
 		border-radius: 1000px;
-	},
+	}
 	.spend_cat_budgeted input {
 		border: 2px solid #23809b;
 		border-radius: 7px;
 	}
+
 </style>

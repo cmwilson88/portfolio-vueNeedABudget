@@ -72,7 +72,10 @@ module.exports = {
 			req.body.inflow,
 			req.params.b_id,
 			req.body.type,
-			req.params.t_id
+			req.params.t_id,
+			req.body.month,
+			req.body.year,
+			req.body.catgroup_act_id
 		]).then(response => {
 			res.status(200).send(response)
 		}).catch(err => console.log(err))
@@ -90,10 +93,11 @@ module.exports = {
 			req.body.inflow,
 			req.params.b_id,
 			req.body.type,
-			req.params.t_id
+			req.params.t_id,
+			req.body.month,
+			req.body.year,
+			req.body.catgroup_act_id
 		]).then(response => {
-			console.log(req.body)
-			console.log(req.params)
 			res.status(200).send(response)
 		}).catch(err => console.log(err))
 	},

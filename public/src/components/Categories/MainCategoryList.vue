@@ -177,4 +177,5 @@
 		width: 20%;
 		padding-left: .5em;
 	}
+
 </style>

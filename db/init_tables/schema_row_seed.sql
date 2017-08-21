@@ -21,7 +21,28 @@ values
 insert into Payees 
 (name, budget_id)
 values
-('Starting Balance', 1);
+('Starting Balance', 1),
+('Hampton Oaks', 1),
+('AT&T', 1),
+('Cox Communications', 1),
+('GRU', 1),
+('Publix', 1),
+('Taco Bell', 1),
+('USAA Auto Insurance', 1),
+('Sams Club', 1),
+('Dominos', 1),
+('Midnight Cookies', 1),
+('Regal Cinemas', 1),
+('Best Buy', 1),
+('Apple', 1),
+('City Nail Salon', 1),
+('Amazon', 1),
+('DevMountain', 1),
+('UF Health Teaching Hospital', 1),
+('Putnam County School Board', 1),
+('Shell', 1),
+('Disney World', 1);
+
 
 
 -- Inflow Seed

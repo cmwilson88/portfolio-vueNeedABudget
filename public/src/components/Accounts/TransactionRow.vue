@@ -104,7 +104,11 @@
 					category: this.transaction.category,
 					memo: this.transaction.memo,
 					inflow: this.transaction.inflow,
-					outflow: this.transaction.outflow
+					outflow: this.transaction.outflow,
+					type: this.transaction.type,
+					month: this.transaction.month,
+					year: this.transaction.year,
+					catgroup_act_id: this.transaction.catgroup_act_id
 				},
 				newPayee: {
 					name: ''
@@ -144,6 +148,8 @@
 					})
 			},
 			updateTransaction() {
+				let month = this.editTransaction.date.split('-')[1];
+				let year = this.editTransaction.date.split('-')[0];
 				if(this.editTransaction.category.type === 'inflow') {
 							axios.patch('http://localhost:3000/api/'+this.$route.params.b_id+'/transactions/' + this.transaction.id + '/inflow', {
 							account: this.editTransaction.account,
@@ -153,7 +159,10 @@
 							memo: this.editTransaction.memo,
 							outflow: Number(this.editTransaction.outflow) * -1,
 							inflow: Number(this.editTransaction.inflow),
-							type: this.editTransaction.category.type
+							type: this.editTransaction.category.type,
+							month: month,
+							year: year,
+							catgroup_act_id: this.transaction.catgroup_act_id
 						})
 						.then(() => {
 							console.log('transaction updated')
@@ -171,6 +180,9 @@
 							outflow: Number(this.editTransaction.outflow) * -1,
 							inflow: Number(this.editTransaction.inflow),
 							type: this.editTransaction.category.type,
+							month: month,
+							year: year,
+							catgroup_act_id: this.transaction.catgroup_act_id
 						})
 						.then(() => {
 							console.log('transaction updated')
