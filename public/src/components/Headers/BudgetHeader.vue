@@ -25,15 +25,15 @@
 				<div class="budget_totals_details">
 					<div class="budget_totals_details_values">
 						<div class="budget_totals_cell_value"><span>+${{totalInflows | amount-with-comma}}</span></div>
-						<div class="budget_totals_cell_value"><span>-$0.00</span></div>
+						<!-- <div class="budget_totals_cell_value"><span>-$0.00</span></div> -->
 						<div class="budget_totals_cell_value"><span>-${{totalBudgeted | amount-with-comma}}</span></div>
-						<div class="budget_totals_cell_value"><span>-$0.00</span></div>
+						<!-- <div class="budget_totals_cell_value"><span>-$0.00</span></div> -->
 					</div>
 					<div class="budget_totals_details_names">
 						<div class="budget_totals_cell_name">Funds for {{displayMonth}}/{{displayYear}}</div>
-						<div class="budget_totals_cell_name">Overspent in {{previousMonth}}/{{displayYear}}</div>
+						<!-- <div class="budget_totals_cell_name">Overspent in {{previousMonth}}/{{displayYear}}</div> -->
 						<div class="budget_totals_cell_name">Budgeted in {{displayMonth}}/{{displayYear}}</div>
-						<div class="budget_totals_cell_name">Budgeted in Future</div>
+						<!-- <div class="budget_totals_cell_name">Budgeted in Future</div> -->
 					</div>
 				</div>
 			</div>

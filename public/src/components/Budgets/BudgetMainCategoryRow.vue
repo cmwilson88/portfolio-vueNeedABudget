@@ -35,7 +35,7 @@
 
 		<app-input-modal v-if="errCode">
 			<h3 slot="header">Error!</h3>
-			<h1 class="modal_inputs" style="text-align: center">There are transactions linked to these spending categories.  Please edit those transactions before deleting</h1>
+			<h1 class="modal_inputs" style="text-align: center">ERROR! Unable to delete category group at this time.</h1>
 			<button slot="footer" @click="errCode = false">Close</button>
 		</app-input-modal>
 

@@ -11,13 +11,15 @@
 			<div class="vue_splash" key="logo" v-if="showLogo">
 				<img src="../../assets/vuejs.png" alt="VueJS Logo" class="main_logo" @click="showLogo = false">
 			</div>
-			<div class="tech_used" key="tech" v-else>
-				<img src="../../assets/vuejs.png" alt="vuejs" class="tech" @click="showLogo = true">
-				<img src="../../assets/vuex.png" alt="vuex" class="tech" @click="showLogo = true">
-				<img src="../../assets/vue-router.png" alt="vue-router" class="tech" @click="showLogo = true">
-				<img src="../../assets/nodejs.png" alt="nodejs" class="tech" @click="showLogo = true">
-				<img src="../../assets/postgresql.png" alt="postgres" class="tech" @click="showLogo = true">
-				<img src="../../assets/html5-css3-js.png" alt="basics" class="tech" @click="showLogo = true">
+			<div class="tech_used_wrapper" key="tech" v-else>
+				<div class="tech_used">
+					<img src="../../assets/vuejs.png" alt="vuejs" class="tech" @click="showLogo = true">
+					<img src="../../assets/vuex.png" alt="vuex" class="tech" @click="showLogo = true">
+					<img src="../../assets/vue-router.png" alt="vue-router" class="tech" @click="showLogo = true">
+					<img src="../../assets/nodejs.png" alt="nodejs" class="tech" @click="showLogo = true">
+					<img src="../../assets/postgresql.png" alt="postgres" class="tech" @click="showLogo = true">
+					<img src="../../assets/html5-css3-js.png" alt="basics" class="tech" @click="showLogo = true">
+				</div>
 			</div>
 		</transition-group>
 		<div class="fullscreen_bg">
@@ -100,6 +102,7 @@
 		display: flex;
 		justify-content: space-between;
 		width: 300px;
+		z-index: 999;
 	}
 
 	.header_buttons .btn {
@@ -138,6 +141,12 @@
 		font-weight: 900;
 	}
 
+	.tech_used_wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
 	.tech_used {
 	  display: grid;
 	  grid-template-columns: repeat(3, 1fr);
@@ -145,12 +154,11 @@
 	  grid-auto-rows: minmax(100px, auto);
 	  align-items: center;
 	  justify-items: center;
-	  margin: 50px auto;
 	}
 
 	.tech {
-		width: 300px;
-		height: 300px;
+		width: 75%;
+		height: 75%;
 	}
 
 	@media(max-width: 767px) {

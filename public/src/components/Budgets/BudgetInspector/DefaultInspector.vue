@@ -12,7 +12,7 @@
 		<h3>total inflows</h3>
 		<h1 class="user_data"><span>${{totalInflows.toFixed(2) | amount-with-comma}}</span></h1>
 		<hr>
-		<app-quick-budget></app-quick-budget>
+		<!-- <app-quick-budget></app-quick-budget> -->
 	</div>
 </template>
 

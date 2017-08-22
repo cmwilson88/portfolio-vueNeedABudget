@@ -9,14 +9,14 @@ values
 ('Test Budget', 0.00, 1),
 ('Main Budget', 0.00, 1);
 
-insert into Accounts
-(name, type, budget_id)
-values
-('USAA Checking', 'Checking', 1),
-('USAA Savings', 'Savings', 1),
-('USAA Visa Credit Card', 'Credit Card', 1),
-('US Bank Checking', 'Checking', 2),
-('Chase Freedom', 'Credit Card', 2);
+-- insert into Accounts
+-- (name, type, budget_id)
+-- values
+-- ('USAA Checking', 'Checking', 1),
+-- ('USAA Savings', 'Savings', 1),
+-- ('USAA Visa Credit Card', 'Credit Card', 1),
+-- ('US Bank Checking', 'Checking', 2),
+-- ('Chase Freedom', 'Credit Card', 2);
 
 insert into Payees 
 (name, budget_id)
@@ -762,55 +762,17 @@ select month, year, spendcat_id, spendcat_act_id, catgroup_avail_id from spendca
 
 
 
--- update
---     accounts
--- set
---     amount = (select sum(outflow) + sum(inflow) from transactions where account_id = accounts.id)
--- where budget_id = 1;
-
-
-
--- -- Insert sample inflow
--- insert into transactions
--- 	(account_id, trans_date, payee_id, spend_cat_id, memo, outflow, inflow, budget_id, type, month, year)
--- values
--- 	(1, '2017-08-08', 1, 1, null, 0, 5432.10, 1, 'inflow', 8, 2017),
--- 	(2, '2017-08-17', 1, 2, null, -500, 0, 1, 'general', 8, 2017),
--- 	(1, '2017-08-20', 1, 2, null, -50, 0, 1, 'general', 8, 2017),
--- 	(3, '2017-09-20', 1, 2, null, -250, 0, 1, 'general', 9, 2017),
--- 	(3, '2017-10-20', 1, 2, null, -75, 0, 1, 'general', 9, 2017);
-
--- update
---     accounts
--- set
---     amount = (select sum(outflow) + sum(inflow) from transactions)
--- where budget_id = 1 and id = 1;
-
 -- update 
 -- 	budgets
--- set
--- 	to_be_budgeted = to_be_budgeted + 0 + 5432.10
--- where id = 1;
-
-
--- update
--- 	spendcat_avail sa
--- set 
--- 	available = available + (
--- 		select sum(budgeted) + sum(activity) from spendcat_act 
--- 		where spendcat_id = sa.spendcat_id
--- 	);
-
--- update catgroup_act cm
--- 	set budgeted = (select sum(budgeted) from spendcat_act sm where sm.catgroup_act_id = cm.id),
--- 		activity = (select sum(activity) from spendcat_act sm where sm.catgroup_act_id = cm.id);
-
--- update 
--- 	catgroup_avail ca
--- set 
--- 	available = (
--- 		select sum(budgeted) + sum(activity) from catgroup_act
--- 		where catgroup_id = ca.catgroup_id
--- 	);
-
-
+-- set	
+-- 	to_be_budgeted = (
+-- 		select sum(inflow) 
+-- 		from transactions 
+-- 		where transactions.type = 'inflow' 
+-- 		and budget_id = 1
+-- 		) - (
+-- 		select sum(sg.budgeted) from spendcats s
+-- 		join spendcat_act sg on sg.spendcat_id = s.id 
+-- 		where budget_id = 1
+-- 		)
+-- where id = 1

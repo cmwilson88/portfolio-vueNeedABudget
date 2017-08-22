@@ -18,8 +18,8 @@ set
 		where transactions.type = 'inflow' 
 		and budget_id = $8
 		) - (
-		select sum(cg.budgeted) from catgroups c
-		join catgroup_act cg on cg.catgroup_id = c.id 
+		select sum(sg.budgeted) from spendcats s
+		join spendcat_act sg on sg.spendcat_id = s.id 
 		where budget_id = $8
 		)
 where id = $8
