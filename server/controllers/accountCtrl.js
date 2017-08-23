@@ -119,7 +119,7 @@ module.exports = {
 	},
 	deleteTransaction: function(req, res, next) {
 		const db = req.app.get('db')
-		db.deleteTransaction([req.params.t_id])
+		db.deleteTransaction([req.params.b_id, req.params.t_id])
 			.then(response => {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))

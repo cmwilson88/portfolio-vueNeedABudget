@@ -81,7 +81,7 @@
 	}
 
 	.fullscreen-bg_video {
-		position: absolute;
+		position: fixed;
 		top: 50%;
 		left: 50%;
 		width: auto;
@@ -145,6 +145,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		height: 80vh;
 	}
 
 	.tech_used {
@@ -154,11 +155,12 @@
 	  grid-auto-rows: minmax(100px, auto);
 	  align-items: center;
 	  justify-items: center;
+	  padding-bottom: 50px;
 	}
 
 	.tech {
-		width: 75%;
-		height: 75%;
+		height: 200px;
+		width: 200px;
 	}
 
 	@media(max-width: 767px) {

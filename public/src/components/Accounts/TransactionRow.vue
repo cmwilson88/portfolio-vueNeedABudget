@@ -140,7 +140,7 @@
 				})
 			},
 			deleteTransaction() {
-				axios.delete('http://localhost:3000/api/transactions/' + this.transaction.id)
+				axios.delete('http://localhost:3000/api/'+ this.$route.params.b_id +'/transactions/' + this.transaction.id)
 					.then(() => {
 						this.getTransactions();
 						this.getAccounts();

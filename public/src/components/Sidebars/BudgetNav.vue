@@ -111,9 +111,9 @@
 						amount: this.accountAmount
 					}).then(() => {
 						this.getAccounts()
-						this.getTransactions()
 						this.getBudgetCategories()
 						this.getToBeBudgeted()
+						this.getTransactions()
 					})
 				this.cancelAddAccount()
 			},

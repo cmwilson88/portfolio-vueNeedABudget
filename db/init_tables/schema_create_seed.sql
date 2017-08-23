@@ -132,9 +132,9 @@ CREATE TABLE IF NOT EXISTS spendcat_avail (
 -- Transactions
 CREATE TABLE IF NOT EXISTS Transactions (
 	id serial primary key,
-	trans_date text default 'date',
-	month int,
-	year int,
+	trans_date date not null,
+	month double precision,
+	year double precision,
 	account_id integer not null,
 	payee_id integer not null,
 	spend_cat_id integer not null,
