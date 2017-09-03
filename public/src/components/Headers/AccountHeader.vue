@@ -185,7 +185,8 @@
 							type: this.newTransaction.category.type,
 							month: month,
 							year: year,
-							catgroup_act_id: this.newTransaction.category.catgroup_act_id
+							catgroup_act_id: this.newTransaction.category.catgroup_act_id,
+							catgroup_id: this.newTransaction.category.catgroup_id
 						}
 					).then(response => {
 						console.log('inflow post successful')
@@ -208,7 +209,8 @@
 							type: this.newTransaction.category.type,
 							month: month,
 							year: year,
-							catgroup_act_id: this.newTransaction.category.catgroup_act_id	
+							catgroup_act_id: this.newTransaction.category.catgroup_act_id,
+							catgroup_id: this.newTransaction.category.catgroup_id
 						}
 					).then(() => {
 						console.log('post request successful')

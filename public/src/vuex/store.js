@@ -87,27 +87,37 @@ const mutations = {
 
 const actions = {
 	getTransactions({commit}) {  
-		return axios.get(`http://165.227.99.251:3000/api/${state.route.params.b_id}/transactions`)
+		return axios.get(
+			// `http://165.227.99.251:3000/
+			`http://localhost:3000/api/${state.route.params.b_id}/transactions`)
 						.then(res => commit('GET_TRANSACTIONS', res.data))
 						.catch(err => console.log(err))
 	},
 	getAccounts({commit}) {
-		return axios.get(`http://165.227.99.251:3000/api/${state.route.params.b_id}/accounts`)
+		return axios.get(
+			// `http://165.227.99.251:3000/api/
+			`http://localhost:3000/api/${state.route.params.b_id}/accounts`)
 			.then(res => commit('GET_ACCOUNTS', res.data))
 			.catch(err => console.log(err))
 	},
 	getBudgetCategories({commit}) {
-		return axios.get(`http://165.227.99.251:3000/api/budget/${state.route.params.b_id}/${state.route.params.mm}/${state.route.params.yy}`)
+		return axios.get(
+			// `http://165.227.99.251:3000/api/
+			`http://localhost:3000/api/budget/${state.route.params.b_id}/${state.route.params.mm}/${state.route.params.yy}`)
 					.then(res => commit('GET_BUDGET_CATEGORIES', res.data))
 					.catch(err => console.log(err))
 	},
 	getToBeBudgeted({commit}) {
-		return axios.get(`http://165.227.99.251:3000/api/${state.route.params.b_id}`)
+		return axios.get(
+			// `http://165.227.99.251:3000/api/
+			`http://localhost:3000/api/${state.route.params.b_id}`)
 					.then(res => commit('GET_TO_BE_BUDGETED', res.data))
 					.catch(err => console.log(err))
 	},
 	getPayees({commit}) {
-		return axios.get(`http://165.227.99.251:3000/api/${state.route.params.b_id}/payees`)
+		return axios.get(
+			// `http://165.227.99.251:3000/api/
+			`http://localhost:3000/api/${state.route.params.b_id}/payees`)
 					.then(res => commit('GET_PAYEES', res.data))
 					.catch(err => console.log(err))
 	},

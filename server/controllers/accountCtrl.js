@@ -35,7 +35,8 @@ module.exports = {
 			req.body.type,
 			req.body.month,
 			req.body.year,
-			req.body.catgroup_act_id
+			req.body.catgroup_act_id,
+			req.body.catgroup_id
 			]).then(response => {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))
@@ -54,7 +55,8 @@ module.exports = {
 			req.body.type,
 			req.body.month,
 			req.body.year,
-			req.body.catgroup_act_id
+			req.body.catgroup_act_id,
+			req.body.catgroup_id
 			]).then(response => {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))
@@ -75,7 +77,8 @@ module.exports = {
 			req.params.t_id,
 			req.body.month,
 			req.body.year,
-			req.body.catgroup_act_id
+			req.body.catgroup_act_id,
+			req.body.catgroup_id
 		]).then(response => {
 			res.status(200).send(response)
 		}).catch(err => console.log(err))
@@ -96,7 +99,8 @@ module.exports = {
 			req.params.t_id,
 			req.body.month,
 			req.body.year,
-			req.body.catgroup_act_id
+			req.body.catgroup_act_id,
+			req.body.catgroup_id
 		]).then(response => {
 			res.status(200).send(response)
 		}).catch(err => console.log(err))
@@ -119,8 +123,23 @@ module.exports = {
 	},
 	deleteTransaction: function(req, res, next) {
 		const db = req.app.get('db')
-		db.deleteTransaction([req.params.b_id, req.params.t_id])
-			.then(response => {
+
+		console.log('budget_id: ' + req.params.b_id);
+		console.log('transaction id: ' + req.params.t_id)
+		console.log('spendcat_id: ' + req.params.spendcat_id);
+		console.log('month: ' + req.params.month);
+		console.log('year: ' + req.params.year);
+		console.log('catgroup_act_id: ' + req.params.catgroup_act_id);
+		console.log('catgroup_id: ' + req.params.catgroup_id);
+		db.deleteTransaction([
+			req.params.b_id, 
+			req.params.t_id, 
+			req.params.spendcat_id, 
+			req.params.month,
+			req.params.year,
+			req.params.catgroup_act_id,
+			req.params.catgroup_id
+			]).then(response => {
 				res.status(200).send(response)
 			}).catch(err => console.log(err))
 	}

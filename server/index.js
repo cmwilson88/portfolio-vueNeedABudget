@@ -49,7 +49,7 @@ app.patch('/api/spendcats/:spend_id/', budgetCtrl.updateSpendCat)
 app.patch('/api/catgroups/:catgroup_id', budgetCtrl.updateCatGroup)
 app.patch('/api/accounts/:acc_id', accountCtrl.updateAccount)
 
-app.delete('/api/:b_id/transactions/:t_id', accountCtrl.deleteTransaction)
+app.delete('/api/:b_id/transactions/:t_id/:spendcat_id/:month/:year/:catgroup_act_id/:catgroup_id', accountCtrl.deleteTransaction)
 app.delete('/api/catgroups/:group_id', budgetCtrl.deleteCategoryGroup)
 app.delete('/api/spendcats/:spend_id', budgetCtrl.deleteSpendingCategory)
 

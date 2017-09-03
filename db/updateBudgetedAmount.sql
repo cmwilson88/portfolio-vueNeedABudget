@@ -30,16 +30,34 @@ where id = $3;
 
 update catgroup_act  
 	set budgeted = (
-			select sum(budgeted) from spendcat_act
-			where month = $4 and year = $5
-			and catgroup_act_id = $7
+			select sum(sg.budgeted) from spendcat_act sg
+			join spendcats s on sg.spendcat_id = s.id
+			join catgroups c on c.id = s.catgroup_id
+			join catgroup_act cg on c.id = cg.catgroup_id
+			where sg.month = $4 and sg.year = $5
+			and cg.id = $7
 		)
-	where catgroup_id = $7 and month = $4 and year = $5;
+	where catgroup_id = $6 and month = $4 and year = $5;
+
 
 update catgroup_avail
-set available = (select available from catgroup_avail where month = $4-1 and year = $5 and catgroup_id = $6) + (select budgeted + activity from catgroup_act where month = $4 and year = $5 and catgroup_id = $6)
-where catgroup_id = $6 and month = $4 and year = $5;
+	set available = (
+			select sum(available) from spendcat_avail sa
+			join spendcats s on sa.spendcat_id = s.id
+			join catgroups c on c.id = s.catgroup_id
+			where month = $4 and year = $5
+			and catgroup_id = $6
+		)
+	where catgroup_id = $6 and month = $4 and year = $5;
 
 update catgroup_avail
-set available = (select available from catgroup_avail where month = $4 and year = $5 and catgroup_id = $6) + (select budgeted + activity from catgroup_act where month = $4+1 and year = $5 and catgroup_id = $6)
-where catgroup_id = $6 and month = $4+1 and year = $5;
+	set available = (
+			select sum(available) from spendcat_avail sa
+			join spendcats s on sa.spendcat_id = s.id
+			join catgroups c on c.id = s.catgroup_id
+			where month = $4 and year = $5
+			and catgroup_id = $6
+		)
+	where catgroup_id = $6 and month = $4+1 and year = $5;
+
+

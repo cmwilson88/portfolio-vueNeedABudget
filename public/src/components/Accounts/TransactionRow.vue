@@ -104,7 +104,7 @@
 					category: this.transaction.category,
 					memo: this.transaction.memo,
 					inflow: this.transaction.inflow,
-					outflow: this.transaction.outflow,
+					outflow: this.transaction.outflow * -1,
 					type: this.transaction.type,
 					month: this.transaction.month,
 					year: this.transaction.year,
@@ -127,7 +127,7 @@
 			}
 		},
 		methods: {
-			...mapActions(['getTransactions', 'getAccounts']),
+			...mapActions(['getTransactions', 'getAccounts', 'getBudgetCategories']),
 			addNewPayee() {
 				axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/payees/new', 
 					{
@@ -140,8 +140,15 @@
 				})
 			},
 			deleteTransaction() {
-				axios.delete('http://localhost:3000/api/'+ this.$route.params.b_id +'/transactions/' + this.transaction.id)
-					.then(() => {
+				axios.delete('http://localhost:3000/api/'+ this.$route.params.b_id +'/transactions/' + this.transaction.id + '/' + this.transaction.spend_cat_id + '/' + this.transaction.trans_month + '/' + this.transaction.trans_year + '/' + this.transaction.catgroup_act_id + '/' + this.transaction.catgroup_id
+					// {
+					// 	spendcat_id: this.transaction.spend_cat_id,
+					// 	month: this.transaction.trans_month,
+					// 	year: this.transaction.trans_year,
+					// 	catgroup_act_id: this.transaction.catgroup_act_id,
+					// 	catgroup_id: this.transaction.catgroup_id
+					// }
+				).then(() => {
 						this.getTransactions();
 						this.getAccounts();
 						this.editModal = false;
@@ -162,7 +169,8 @@
 							type: this.editTransaction.category.type,
 							month: month,
 							year: year,
-							catgroup_act_id: this.transaction.catgroup_act_id
+							catgroup_act_id: this.transaction.catgroup_act_id,
+							catgroup_id: this.transaction.catgroup_id
 						})
 						.then(() => {
 							console.log('transaction updated')
@@ -182,7 +190,8 @@
 							type: this.editTransaction.category.type,
 							month: month,
 							year: year,
-							catgroup_act_id: this.transaction.catgroup_act_id
+							catgroup_act_id: this.transaction.catgroup_act_id,
+							catgroup_id: this.transaction.catgroup_id
 						})
 						.then(() => {
 							console.log('transaction updated')
