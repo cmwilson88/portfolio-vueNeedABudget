@@ -1,10 +1,12 @@
-const bodyParser = require('body-parser'),
-	  express 	 = require('express'),
-	  massive	 = require('massive'),
-	  cors		 = require('cors'),
-	  app		 = express();
-
-const connectionString = require('../config')
+const Auth0Strategy = require('passport-auth0'),
+	  bodyParser 	= require('body-parser'),
+	  passport 		= require('passport'),
+	  session 		= require('express-session'),
+	  express 	 	= require('express'),
+	  massive		= require('massive'),
+	  config		= require('../config')
+	  cors		 	= require('cors'),
+	  app			= express();
 
 const accountCtrl = require('./controllers/accountCtrl');
 const budgetCtrl = require('./controllers/budgetCategoriesCtrl');
@@ -13,9 +15,17 @@ const payeeCtrl = require('./controllers/payeeCtrl');
 app.use(bodyParser.json())
 app.use(cors())
 app.use(express.static(`${__dirname}/../public/dist`))
+app.use(session({
+	secret: 'a3fc94jf9-df9a3jf-ac382-fasdf2o4-fZd3ifjA12fx9$f',
+	resave: false,
+	saveUninitialized: true
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
-massive(connectionString)
+massive(config.massiveURL)
 	.then (db => {
 		app.set('db', db);
 
@@ -27,6 +37,48 @@ massive(connectionString)
 		}).catch(err => console.log(err))
 	}).catch(err => console.log(err))
 
+
+///////////////////////////
+//  Passport            //
+/////////////////////////
+passport.use(new Auth0Strategy({
+	domain: config.domain,
+	clientID: config.clientId,
+	clientSecret: config.clientSecret,
+	callbackURL: config.callbackURL
+}, function(accessToken, refreshToken, extraParams, profile, done) {
+	let db = app.get('db'),
+	authId = profile.id,
+	name = profile.displayName,
+	email = profile.emails[0].value,
+	username = profile.nickname
+	db.users.get_user([authId]).then(res => {
+		if(!res.length) {
+			db.users.create_user([authId, name, email, username])
+			.then((userCreated) => {
+				return done(null, userCreated[0])
+			}).catch(err => console.log(err))
+		} else {
+			return done(null, res[0])
+		}
+	}).catch(err => console.log(err))
+}))
+
+app.get('/auth/', passport.authenticate('auth0'))
+app.get('/auth/callback/', passport.authenticate('auth0', {successRedirect: 'http://localhost:8080/#/app/budget'}))
+
+
+passport.serializeUser(function(profileToSession, done) {
+	done(null, profileToSession);
+});
+
+passport.deserializeUser(function(profileFromSession, done) {
+	done(null, profileFromSession)
+})
+
+app.get('/api/main', function(req, res) {
+	res.send(req.user)
+})
 
 app.get('/api/:b_id/transactions', accountCtrl.getAllTransactions);
 app.get('/api/:b_id/accounts', accountCtrl.getAllAccounts);

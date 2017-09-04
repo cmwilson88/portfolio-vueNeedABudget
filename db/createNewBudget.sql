@@ -1,56 +1,17 @@
-insert into Users
-(authId, name, email, username)
-values 
-(1, 'Christopher Wilson', 'cmw.wilson99@gmail.com', 'testUsername');
-
-insert into Budgets
-(name, to_be_budgeted, user_id)
-values
-('Test Budget', 0.00, 1),
-('Main Budget', 0.00, 1);
-
--- insert into Accounts
--- (name, type, budget_id)
--- values
--- ('USAA Checking', 'Checking', 1),
--- ('USAA Savings', 'Savings', 1),
--- ('USAA Visa Credit Card', 'Credit Card', 1),
--- ('US Bank Checking', 'Checking', 2),
--- ('Chase Freedom', 'Credit Card', 2);
-
-insert into Payees 
-(name, budget_id)
-values
-('Starting Balance', 1),
-('Hampton Oaks', 1),
-('AT&T', 1),
-('Cox Communications', 1),
-('GRU', 1),
-('Publix', 1),
-('Taco Bell', 1),
-('USAA Auto Insurance', 1),
-('Sams Club', 1),
-('Dominos', 1),
-('Midnight Cookies', 1),
-('Regal Cinemas', 1),
-('Best Buy', 1),
-('Apple', 1),
-('City Nail Salon', 1),
-('Amazon', 1),
-('DevMountain', 1),
-('UF Health Teaching Hospital', 1),
-('Putnam County School Board', 1),
-('Shell', 1),
-('Disney World', 1);
-
-
+with new_budget as (
+	insert into budgets
+		(id, user_id, name)
+	values
+		(default, $1, $2)
+	returning id
+)	
 
 -- Inflow Seed
 with inflow_categories as (
 	insert into catgroups
 		(id, name, budget_id)
 	values
-		(DEFAULT, 'Inflow', 1)
+		(DEFAULT, 'Inflow', (select id from new_budget))
 	returning id
 ),
 inflow_act as (
@@ -733,8 +694,6 @@ newjf1avail as (
 )
 select * from just_fun;
 
-      
-
 -- Insert previous month to calculate current month available
 insert into catgroup_act
 (month, year, catgroup_id)
@@ -760,19 +719,3 @@ select  8, 2017, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_a
 except
 select month, year, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail;
 
-
-
--- update 
--- 	budgets
--- set	
--- 	to_be_budgeted = (
--- 		select sum(inflow) 
--- 		from transactions 
--- 		where transactions.type = 'inflow' 
--- 		and budget_id = 1
--- 		) - (
--- 		select sum(sg.budgeted) from spendcats s
--- 		join spendcat_act sg on sg.spendcat_id = s.id 
--- 		where budget_id = 1
--- 		)
--- where id = 1

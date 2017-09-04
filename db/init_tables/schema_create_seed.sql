@@ -16,17 +16,17 @@ DROP TABLE IF EXISTS transactions CASCADE;
 -- Users
 CREATE TABLE IF NOT EXISTS Users (
 	id serial primary key,
-	first_name text not null,
-	last_name text not null,
+	authId text not null,
+	name text not null,
 	email text unique not null,
-	password text not null
+	username text unique not null
 );
 
 -- Budgets
 CREATE TABLE IF NOT EXISTS Budgets (
 	id serial primary key,
 	name text not null,
-	to_be_budgeted decimal(14,2) not null,
+	to_be_budgeted decimal(14,2) not null default 0,
 	user_id integer not null,
 	foreign key (user_id) references Users(id)
 );

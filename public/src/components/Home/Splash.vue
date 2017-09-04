@@ -4,7 +4,7 @@
 				<h1 class="site_title">VUE NEED A BUDGET</h1>
 				<div class="header_buttons">
 					<router-link to="/signup" tag="div" class="btn"><div class="header_inner_btn">Sign Up</div></router-link>
-					<div class="btn" @click="goToBudget"><div class="header_inner_btn">Log In</div></div>
+					<a class="btn" href="http://localhost:3000/auth/callback"><span class="header_inner_btn">Log In</span></a>
 				</div>
 		</div>
 		<transition-group name="fade" mode="out-in">
@@ -45,6 +45,9 @@
 			...mapActions(['getToday']),
 			goToBudget() {
 				this.$router.push('/app/budget/1/' + this.month + '/' + this.year)
+			},
+			goToAuth() {
+
 			}
 		},
 		created() {
