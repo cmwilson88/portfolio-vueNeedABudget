@@ -43,7 +43,7 @@ module.exports = {
     noInfo: true, 
     proxy: {
       '/api': {
-        target: '165.227.99.251:3000',
+        target: 'vnab.seewilsoncode.com',
         changeOrigin: true,
       }
     }
