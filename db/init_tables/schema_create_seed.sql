@@ -1,16 +1,16 @@
-DROP TABLE IF EXISTS users CASCADE;
-DROP TABLE IF EXISTS budgets CASCADE;
-DROP TABLE IF EXISTS accounts CASCADE;
-DROP TABLE IF EXISTS payees CASCADE;
-DROP TABLE IF EXISTS catgroups CASCADE;
-drop table if exists catgroup_act cascade;
-drop table if exists catgroup_month cascade;
-drop table if exists spendcat_month cascade;
-drop table if exists catgroup_avail cascade;
-DROP TABLE IF EXISTS spendcats CASCADE;
-drop table if exists spendcat_act cascade;
-drop table if exists spendcat_avail cascade;
-DROP TABLE IF EXISTS transactions CASCADE;
+-- DROP TABLE IF EXISTS users CASCADE;
+-- DROP TABLE IF EXISTS budgets CASCADE;
+-- DROP TABLE IF EXISTS accounts CASCADE;
+-- DROP TABLE IF EXISTS payees CASCADE;
+-- DROP TABLE IF EXISTS catgroups CASCADE;
+-- drop table if exists catgroup_act cascade;
+-- drop table if exists catgroup_month cascade;
+-- drop table if exists spendcat_month cascade;
+-- drop table if exists catgroup_avail cascade;
+-- DROP TABLE IF EXISTS spendcats CASCADE;
+-- drop table if exists spendcat_act cascade;
+-- drop table if exists spendcat_avail cascade;
+-- DROP TABLE IF EXISTS transactions CASCADE;
 
 
 -- Users
