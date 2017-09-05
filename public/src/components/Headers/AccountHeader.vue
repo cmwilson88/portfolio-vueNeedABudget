@@ -173,7 +173,7 @@
 					let month = this.newTransaction.date.split('-')[1];
 					let year = this.newTransaction.date.split('-')[0];	
 					axios.post(
-						'http://localhost:3000/api/' + this.$route.params.b_id + '/transactions/inflow',
+						'/api/' + this.$route.params.b_id + '/transactions/inflow',
 						{
 							account: this.newTransaction.account,
 							date: this.newTransaction.date,
@@ -196,7 +196,7 @@
 				} else {
 					let month = this.newTransaction.date.split('-')[1];
 					let year = this.newTransaction.date.split('-')[0];	
-					axios.post('http://localhost:3000/api/' 
+					axios.post('/api/' 
 						+ this.$route.params.b_id + '/transactions/new',
 						{
 							account: this.newTransaction.account,
@@ -231,7 +231,7 @@
 				this.newTransaction.inflow = null;
 			},
 			addNewPayee() {
-				axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/payees/new', 
+				axios.post('/api/' + this.$route.params.b_id + '/payees/new', 
 					{
 						name: this.newPayee.name 
 					}

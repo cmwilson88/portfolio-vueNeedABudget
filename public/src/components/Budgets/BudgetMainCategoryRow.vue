@@ -76,7 +76,7 @@
 			},
 			addSpendCategory() {
 				axios.post(
-						'http://localhost:3000/api/' 
+						'/api/' 
 						+ this.$route.params.b_id 
 						+ '/' + this.$route.params.mm + '/' 
 						+ this.$route.params.yy + '/spendcats/new',
@@ -95,7 +95,7 @@
 			},
 			updateCatGroup() {
 				console.log(this.catGroupName)
-				axios.patch('http://localhost:3000/api/catgroups/' + this.budgetgroup.id, {name: this.catGroupName})
+				axios.patch('/api/catgroups/' + this.budgetgroup.id, {name: this.catGroupName})
 					.then(() => {
 						this.getBudgetCategories();
 						this.editModal = false
@@ -103,7 +103,7 @@
 					}).catch(err => console.log(err))
 			},
 			deleteCategoryGroup() {
-				axios.delete('http://localhost:3000/api/catgroups/' + this.budgetgroup.id)
+				axios.delete('/api/catgroups/' + this.budgetgroup.id)
 					.then(() => {
 						this.getBudgetCategories()
 						this.editModal = false

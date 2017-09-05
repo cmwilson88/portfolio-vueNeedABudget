@@ -28,7 +28,7 @@
 			...mapActions(['getBudgetCategories']),
 			addCategoryGroup() {
 				axios.post(
-					'http://localhost:3000/api/' + this.$route.params.b_id + '/' + this.$route.params.mm + '/' + this.$route.params.yy + '/catgroups/new',
+					'/api/' + this.$route.params.b_id + '/' + this.$route.params.mm + '/' + this.$route.params.yy + '/catgroups/new',
 					{
 						name: this.newGroupName
 					})

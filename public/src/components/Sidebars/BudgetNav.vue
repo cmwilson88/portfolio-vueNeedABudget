@@ -104,7 +104,7 @@
 			},
 			addAccount() {
 				axios.post(
-					'http://localhost:3000/api/' + this.$route.params.b_id + '/accounts/new',
+					'/api/' + this.$route.params.b_id + '/accounts/new',
 					{
 						name: this.accountName,
 						type: this.accountType,

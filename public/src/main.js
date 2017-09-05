@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 import {routes} from './routes/routes.js'
 
@@ -30,6 +32,10 @@ Vue.filter('capitalize-words', function(value) {
 		return words[0].toUpperCase() + words.substr(1)
 	}).join(' ')
 })
+
+
+Vue.use(VueAxios, axios)
+// axios.defaults.withCredentials = true;
 
 sync(store, router)
 

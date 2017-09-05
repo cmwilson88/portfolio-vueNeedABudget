@@ -129,7 +129,7 @@
 		methods: {
 			...mapActions(['getTransactions', 'getAccounts', 'getBudgetCategories']),
 			addNewPayee() {
-				axios.post('http://localhost:3000/api/' + this.$route.params.b_id + '/payees/new', 
+				axios.post('/api/' + this.$route.params.b_id + '/payees/new', 
 					{
 						name: this.newPayee.name 
 					}
@@ -140,14 +140,7 @@
 				})
 			},
 			deleteTransaction() {
-				axios.delete('http://localhost:3000/api/'+ this.$route.params.b_id +'/transactions/' + this.transaction.id + '/' + this.transaction.spend_cat_id + '/' + this.transaction.trans_month + '/' + this.transaction.trans_year + '/' + this.transaction.catgroup_act_id + '/' + this.transaction.catgroup_id
-					// {
-					// 	spendcat_id: this.transaction.spend_cat_id,
-					// 	month: this.transaction.trans_month,
-					// 	year: this.transaction.trans_year,
-					// 	catgroup_act_id: this.transaction.catgroup_act_id,
-					// 	catgroup_id: this.transaction.catgroup_id
-					// }
+				axios.delete('/api/'+ this.$route.params.b_id +'/transactions/' + this.transaction.id + '/' + this.transaction.spend_cat_id + '/' + this.transaction.trans_month + '/' + this.transaction.trans_year + '/' + this.transaction.catgroup_act_id + '/' + this.transaction.catgroup_id
 				).then(() => {
 						this.getTransactions();
 						this.getAccounts();
@@ -158,7 +151,7 @@
 				let month = this.editTransaction.date.split('-')[1];
 				let year = this.editTransaction.date.split('-')[0];
 				if(this.editTransaction.category.type === 'inflow') {
-							axios.patch('http://localhost:3000/api/'+this.$route.params.b_id+'/transactions/' + this.transaction.id + '/inflow', {
+							axios.patch('/api/'+this.$route.params.b_id+'/transactions/' + this.transaction.id + '/inflow', {
 							account: this.editTransaction.account,
 							date: this.editTransaction.date,
 							payee: this.editTransaction.payee,
@@ -179,7 +172,7 @@
 							this.editModal = false;
 						})
 				} else {
-					axios.patch('http://localhost:3000/api/'+this.$route.params.b_id+'/transactions/' + this.transaction.id, {
+					axios.patch('/api/'+this.$route.params.b_id+'/transactions/' + this.transaction.id, {
 							account: this.editTransaction.account,
 							date: this.editTransaction.date,
 							payee: this.editTransaction.payee,
@@ -202,7 +195,7 @@
 				}
 			},
 			triggerClearUnclear() {
-				axios.patch('http://localhost:3000/api/transactions/' + this.transaction.id, {
+				axios.patch('/api/transactions/' + this.transaction.id, {
 					cleared: !this.cleared
 				}).then(() => {
 					this.cleared = !this.cleared

@@ -10,6 +10,7 @@ const state = {
 	accounts: [],
 	transactions: [],
 	categories: [],
+	userBudgets: [],
 	toBeBudgeted: null,
 	payees: [],
 	today: ''
@@ -51,7 +52,6 @@ const getters = {
 					&& transaction.trans_month == state.route.params.mm 
 					&& transaction.trans_year == state.route.params.yy
 			)
-		console.log(filteredArr)
 		let reducedArr = filteredArr.reduce((a,b) => a + Number(b.inflow), 0)
 		return Number(reducedArr)
 	},
@@ -65,6 +65,9 @@ const getters = {
 }
 
 const mutations = {
+	GET_USER_BUDGETS(state, payload)  {
+		state.userBudgets = payload
+	},
 	GET_BUDGET_CATEGORIES(state, payload) {
 		state.categories = payload
 	},
@@ -86,38 +89,45 @@ const mutations = {
 }
 
 const actions = {
+	getUserBudgets({commit}) {
+		return axios.get(
+			// `http://165.227.99.251:3000/
+			`/api/budgets`)
+					.then(res => commit('GET_USER_BUDGETS', res.data))
+					.catch(err => console.log(err))
+	},
 	getTransactions({commit}) {  
 		return axios.get(
 			// `http://165.227.99.251:3000/
-			`http://localhost:3000/api/${state.route.params.b_id}/transactions`)
+			`/api/${state.route.params.b_id}/transactions`)
 						.then(res => commit('GET_TRANSACTIONS', res.data))
 						.catch(err => console.log(err))
 	},
 	getAccounts({commit}) {
 		return axios.get(
 			// `http://165.227.99.251:3000/api/
-			`http://localhost:3000/api/${state.route.params.b_id}/accounts`)
+			`/api/${state.route.params.b_id}/accounts`)
 			.then(res => commit('GET_ACCOUNTS', res.data))
 			.catch(err => console.log(err))
 	},
 	getBudgetCategories({commit}) {
 		return axios.get(
 			// `http://165.227.99.251:3000/api/
-			`http://localhost:3000/api/budget/${state.route.params.b_id}/${state.route.params.mm}/${state.route.params.yy}`)
+			`/api/budget/${state.route.params.b_id}/${state.route.params.mm}/${state.route.params.yy}`)
 					.then(res => commit('GET_BUDGET_CATEGORIES', res.data))
 					.catch(err => console.log(err))
 	},
 	getToBeBudgeted({commit}) {
 		return axios.get(
 			// `http://165.227.99.251:3000/api/
-			`http://localhost:3000/api/${state.route.params.b_id}`)
+			`/api/${state.route.params.b_id}`)
 					.then(res => commit('GET_TO_BE_BUDGETED', res.data))
 					.catch(err => console.log(err))
 	},
 	getPayees({commit}) {
 		return axios.get(
 			// `http://165.227.99.251:3000/api/
-			`http://localhost:3000/api/${state.route.params.b_id}/payees`)
+			`/api/${state.route.params.b_id}/payees`)
 					.then(res => commit('GET_PAYEES', res.data))
 					.catch(err => console.log(err))
 	},

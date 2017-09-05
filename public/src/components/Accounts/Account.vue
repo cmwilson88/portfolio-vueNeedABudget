@@ -53,7 +53,7 @@
 		methods: {
 			...mapActions(['getAccounts']),
 			updateAccount() {
-				axios.patch('http://localhost:3000/api/accounts/' + this.account.id, {name: this.accountName})
+				axios.patch('/api/accounts/' + this.account.id, {name: this.accountName})
 					.then(() => {
 						this.getAccounts();
 						this.editModal = false;

@@ -3,7 +3,7 @@ module.exports = {
 		const db = req.app.get('db');
 
 		db.getAllAccounts([req.params.b_id]).then(response => {
-			res.status(200).send(response)
+			return res.status(200).send(response)
 		}).catch(err => console.log(err))
 	},
 	getAllTransactions: function(req, res, next) {
@@ -11,7 +11,7 @@ module.exports = {
 
 		db.getAllTransactions([req.params.b_id]).then(response => {
 			console.log('get all transactions')
-			res.status(200).send(response)
+			return res.status(200).send(response)
 		}).catch(err => console.log(err))
 	},
 	createAccount: function(req, res, next) {

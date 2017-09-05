@@ -86,14 +86,14 @@
 		methods: {
 			...mapActions(['getBudgetCategories', 'getToBeBudgeted']),
 			deleteSpendCat() {
-				axios.delete('http://localhost:3000/api/spendcats/' + this.id)
+				axios.delete('/api/spendcats/' + this.id)
 				.then(() => {
 					this.getBudgetCategories();
 					this.editModal = false
 				})
 			},
 			updateSpendCat() {
-				axios.patch('http://localhost:3000/api/spendcats/' + this.id, {name: this.spendCatName})
+				axios.patch('/api/spendcats/' + this.id, {name: this.spendCatName})
 					.then(() => {
 						this.getBudgetCategories();
 						this.spendCatName = ''
@@ -102,7 +102,7 @@
 			},
 			updatedBudgetedAmount() {
 				if(this.budgetedValue !== this.spendcategory.amount) {
-					axios.patch('http://localhost:3000/api/'+this.$route.params.b_id+'/spendcats/' + this.id + '/' + this.$route.params.mm + '/' + this.$route.params.yy, {
+					axios.patch('/api/'+this.$route.params.b_id+'/spendcats/' + this.id + '/' + this.$route.params.mm + '/' + this.$route.params.yy, {
 						amount: this.budgetedValue,
 						catgroup_id: this.spendcategory.catgroup_id,
 						catgroup_act_id: this.spendcategory.catgroup_act_id

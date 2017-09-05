@@ -38,10 +38,6 @@ module.exports = {
 	updateBudgetedAmount(req, res, next) {
 		const db = req.app.get('db')
 
-		console.log(req.params.mm)
-		console.log(req.params.yy)
-		console.log(req.body.catgroup_act_id)
-		console.log(req.body.catgroup_id)
 		db.updateBudgetedAmount([
 			req.body.amount, 
 			req.params.spend_id, 
