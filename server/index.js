@@ -32,7 +32,7 @@ app.use(cors());
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(`${__dirname}/../public/dist`))
+app.use(express.static(`${__dirname}/../public/`))
 
 
 massive(config.massiveURL)

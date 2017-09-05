@@ -3,8 +3,7 @@
 		<div class="splash_banner">
 				<h1 class="site_title">VUE NEED A BUDGET</h1>
 				<div class="header_buttons">
-					<router-link to="/signup" tag="div" class="btn"><div class="header_inner_btn">Sign Up</div></router-link>
-					<a class="btn" href="http://localhost:3000/auth/callback"><span class="header_inner_btn">Log In</span></a>
+					<a class="btn" href="http://165.227.99.251:3000/auth/callback"><span class="header_inner_btn">Log In</span></a>
 				</div>
 		</div>
 		<transition-group name="fade" mode="out-in">
