@@ -2,9 +2,7 @@
 	<div>
 		<div class="splash_banner">
 				<h1 class="site_title">VUE NEED A BUDGET</h1>
-				<div class="header_buttons">
-					<a class="btn" href="http://165.227.99.251:3000/auth/callback"><span class="header_inner_btn">Log In</span></a>
-				</div>
+				<a class="login_btn btn" href="http://165.227.99.251:3000/auth/callback"><span class="header_inner_btn">Log In</span></a>
 		</div>
 		<transition-group name="fade" mode="out-in">
 			<div class="vue_splash" key="logo" v-if="showLogo">
@@ -100,14 +98,7 @@
 		height: 100px;
 	}
 
-	.header_buttons {
-		display: flex;
-		justify-content: space-between;
-		width: 300px;
-		z-index: 999;
-	}
-
-	.header_buttons .btn {
+	.login_btn {
 		color: #fff;
 		font-weight: 700;
 		font-size: 24px;
@@ -115,6 +106,8 @@
 		background-color: #4FC08D;
 		border-radius: 15px;
 		cursor: pointer;
+
+		z-index: 999;
 	}
 
 
