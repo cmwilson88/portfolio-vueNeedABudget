@@ -76,7 +76,7 @@ passport.use(new Auth0Strategy({
 }))
 
 app.get('/auth/', passport.authenticate('auth0'))
-app.get('/auth/callback/', passport.authenticate('auth0', {successRedirect: 'http://http://165.227.99.251:3000/#/app/budget'}))
+app.get('/auth/callback/', passport.authenticate('auth0', {successRedirect: 'http://165.227.99.251:3000/#/app/budget'}))
 
 passport.serializeUser(function(user, done) {
 	// let tempUserA = profileToSession
