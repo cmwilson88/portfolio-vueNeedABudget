@@ -108,6 +108,7 @@
 						catgroup_act_id: this.spendcategory.catgroup_act_id
 					})
 						.then(() => {
+							console.log('budgeted amount updated')
 							this.getBudgetCategories();
 							this.getToBeBudgeted();
 							this.resetInputData();

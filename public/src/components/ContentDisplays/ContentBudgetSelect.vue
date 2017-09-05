@@ -1,7 +1,6 @@
 <template>
-	<div>
-		<h1>Select a Budget</h1>
-		<p>This is where the user will select their desired budget</p>
+	<div class="select_budget_wrapper">
+		<h1 class="bselect_header">Select a Budget</h1>
 		<app-input-modal v-if="addBudgetStatus" @close="addBudgetStatus = false" @submit="addNewBudget">
 			<h3 slot="header">Add New Budget</h3>
 			<div class="modal_inputs">
@@ -9,15 +8,17 @@
 				<input type="text" v-model="newBudget.name">
 			</div>
 		</app-input-modal>
-		<app-select-budget-button
-			v-for="budget in userBudgets"
-			:budget="budget"
-			:month="month"
-			:year="year"
-			:key="budget.id" 
-			>
-		</app-select-budget-button>
-		<div class="budget_select_div" @click="addBudgetStatus = true">Add Budget</div>
+		<div class="bselect_btn_wrapper">
+			<app-select-budget-button
+				v-for="budget in userBudgets"
+				:budget="budget"
+				:month="month"
+				:year="year"
+				:key="budget.id" 
+				>
+			</app-select-budget-button>
+			<div class="budget_select_div add_budget_btn" @click="addBudgetStatus = true">Add Budget</div>
+		</div>
 	</div>
 </template>
 
@@ -43,16 +44,12 @@
 		},
 		methods: {
 			...mapActions(['getToday', 'getUserBudgets']),
-			// goToBudget() {
-			// 	this.$router.push('/app/budget/'+ this. +'/' + this.month + '/' + this.year)
-			// },
 			addNewBudget() {
 				return axios.post('/api/budgets/new', {
 					name: this.newBudget.name,
 					month: this.month,
 					year: this.year
 				}).then(() => {
-					console.log('added new budget')
 					this.getUserBudgets();
 					this.addBudgetStatus = false;
 					this.newBudget.name = '';
@@ -71,5 +68,33 @@
 </script>
 
 <style>
+	.select_budget_wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 
+		width: 100%;
+	}
+	.bselect_header {
+		margin-top: 50px;
+		font-weight: 900;
+		font-size: 2em;
+	}
+	.bselect_btn_wrapper {
+		display: flex;
+		margin-top: 50px;
+	}
+	.budget_select_div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 150px;
+		height: 150px;
+		border: 15px solid lightblue;
+		margin: 10px;
+	}
+
+	.add_budget_btn {
+		border: solid 15px lightgreen;
+	}
 </style>

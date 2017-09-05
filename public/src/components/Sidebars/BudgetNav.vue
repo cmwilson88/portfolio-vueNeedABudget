@@ -1,7 +1,10 @@
 <template>
 	<div>
-		<button class="button_prefs button_prefs_budget user_data button">
-			Wilson Budget
+		<button v-if="!displayName" class="button_prefs button_prefs_budget user_data button">
+			Loading..
+		</button>
+		<button v-else class="button_prefs button_prefs_budget user_data button">
+			{{displayName | capitalize-words}}
 		</button>
 		<ul class='nav_main'>
 			<li
@@ -73,14 +76,15 @@
 				showModal: false,
 				accountName: '',
 				accountType: '',
-				accountAmount: null
+				accountAmount: null,
+				displayName: ''
 			}
 		},
 		computed: {
 			...mapGetters(['month', 'year']),
 			accounts() {
 				return this.$store.state.accounts
-			}
+			},
 		},
 		components: {
 			appAccountList: AccountListSB,
@@ -91,7 +95,8 @@
 				'getAccounts',
 				'getTransactions',
 				'getToBeBudgeted',
-				'getBudgetCategories'
+				'getBudgetCategories',
+				'getUserBudgets'
 			]),
 			goToAllAccounts() {
 				this.$router.push(
@@ -117,6 +122,12 @@
 					})
 				this.cancelAddAccount()
 			},
+			getBudgetName() {
+				axios.get('/api/' + this.$route.params.b_id + '/name')
+					.then(res => {
+						this.displayName = res.data;
+					})
+			},
 			cancelAddAccount() {
 				this.accountName = '';
 				this.accountAmount = 0;
@@ -126,6 +137,7 @@
 		},
 		created() {
 			this.getAccounts()
+			this.getBudgetName();
 		}
 	}
 </script>

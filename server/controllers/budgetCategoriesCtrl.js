@@ -12,6 +12,12 @@ module.exports = {
 			res.status(200).send(response[0].to_be_budgeted)
 		}).catch(err => console.log(err))
 	},
+	getBudgetName(req, res, next) {
+		const db = req.app.get('db');
+		db.getBudgetName([req.params.b_id]).then(response => {
+			res.status(200).send(response[0].name)
+		}).catch(err => console.log(err))
+	},
 	createCategoryGroup(req, res, next) {
 		const db = req.app.get('db')
 

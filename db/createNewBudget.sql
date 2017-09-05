@@ -691,9 +691,12 @@ newjf1avail as (
 	values
 		($3, $4, (select id from newjf1), (select id from newjf1act), (select id from fun_avail))
 )
-select * from just_fun;
+insert into Payees 
+(name, budget_id)
+values
+('Starting Balance', (select id from new_budget));
 
--- -- Insert previous month to calculate current month available
+-- Insert previous month to calculate current month available
 -- insert into catgroup_act
 -- (month, year, catgroup_id)
 -- select $3-1, $4, catgroup_id from catgroup_act

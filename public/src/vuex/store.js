@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 
+
 Vue.use(Vuex)
 
 const state = {
@@ -140,5 +141,5 @@ export default new Vuex.Store({
 	state,
 	getters,
 	mutations,
-	actions
+	actions,
 })

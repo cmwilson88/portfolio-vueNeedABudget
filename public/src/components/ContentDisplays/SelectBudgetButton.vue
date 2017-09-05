@@ -18,10 +18,5 @@
 </script>
 
 <style>
-	.budget_select_div {
-		width: 150px;
-		height: 150px;
-		border: 15px solid #lightblue;
-		margin: 10px;
-	}
+
 </style>

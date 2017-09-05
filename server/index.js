@@ -41,9 +41,9 @@ massive(config.massiveURL)
 
 		db.init_tables.schema_create_seed().then( res => {
 			console.log('schema init');
-			db.init_tables.schema_row_seed().then( res => {
-				console.log('test rows created');
-			}).catch(err => console.log(err));
+			// db.init_tables.schema_row_seed().then( res => {
+			// 	console.log('test rows created');
+			// }).catch(err => console.log(err));
 		}).catch(err => console.log(err))
 	}).catch(err => console.log(err))
 
@@ -96,6 +96,7 @@ app.get('/api/:b_id/accounts',  accountCtrl.getAllAccounts);
 app.get('/api/budget/:b_id/:month/:year', budgetCtrl.getBudgetCategories);
 app.get('/api/:b_id/payees',  payeeCtrl.getPayees);
 app.get('/api/:b_id',  budgetCtrl.getToBeBudgeted);
+app.get('/api/:b_id/name', budgetCtrl.getBudgetName);
 
 app.post('/api/budgets/new', userCtrl.createNewBudget)
 app.post('/api/:b_id/accounts/new', accountCtrl.createAccount)

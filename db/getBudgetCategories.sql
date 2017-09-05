@@ -25,7 +25,7 @@ from (
     ) as subcategories
     from catgroups c
     where budget_id = $1 
-    order by id
+    order by c.id desc
 ) t;
 
 insert into catgroup_act
