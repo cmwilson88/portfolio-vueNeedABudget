@@ -76,7 +76,7 @@ passport.use(new Auth0Strategy({
 }))
 
 app.get('/auth/', passport.authenticate('auth0'))
-app.get('/auth/callback/', passport.authenticate('auth0', {successRedirect: 'vnab.seewilsoncode.com/#/app/budget'}))
+app.get('/auth/callback/', passport.authenticate('auth0', {successRedirect: 'http://vnab.seewilsoncode.com/#/app/budget'}))
 
 passport.serializeUser(function(user, done) {
 	// let tempUserA = profileToSession
