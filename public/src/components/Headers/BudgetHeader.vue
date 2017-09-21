@@ -74,10 +74,10 @@
 				if(this.displayMonth == 12) {
 					let nextMonth = 1
 					let nextYear = Number(this.displayYear) + 1
-					this.$router.push('/app/budget/1/' + nextMonth + '/' + nextYear)
+					this.$router.push('/app/budget/'+ this.$route.params.user_id + '/'+ nextMonth + '/' + nextYear)
 				} else {
 					let nextMonth = Number(this.displayMonth) + 1
-					this.$router.push('/app/budget/1/' + nextMonth + '/' + Number(this.displayYear))
+					this.$router.push('/app/budget/' + this.$route.params.user_id + '/'+ nextMonth + '/' + Number(this.displayYear))
 				}
 			},
 			goToLastMonth() {

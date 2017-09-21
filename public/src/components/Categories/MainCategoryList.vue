@@ -19,13 +19,16 @@
 	import BudgetGroup from '../Budgets/BudgetGroup.vue'
 	import {mapGetters, mapActions} from 'vuex'
 	export default {
+		data() {
+			return {
+				route: this.$route
+			}
+		},
 		computed: {
 			...mapGetters(['budgetCategories'])
 		},
 		watch: {
-			month() {
-				return this.$route.params.mm
-			}
+			'$route': 'getBudgetCategories'
 		},
 		methods: {
 			...mapActions(['getBudgetCategories'])

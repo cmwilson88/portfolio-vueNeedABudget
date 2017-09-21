@@ -4,6 +4,7 @@
 				<h1 class="site_title">VUE NEED A BUDGET</h1>
 				<a class="login_btn btn" href="http://165.227.99.251:3000/auth/callback"><span class="header_inner_btn">Log In</span></a>
 		</div>
+		<app-info-block></app-info-block>
 		<transition-group name="fade" mode="out-in">
 			<div class="vue_splash" key="logo" v-if="showLogo">
 				<img src="../../assets/vuejs.png" alt="VueJS Logo" class="main_logo" @click="showLogo = false">
@@ -29,6 +30,7 @@
 
 <script>
 	import {mapGetters, mapActions} from 'vuex'
+	import InfoBlock from '../../InfoBlock.vue'
 	export default {
 		data() {
 			return {
@@ -46,6 +48,9 @@
 			goToAuth() {
 
 			}
+		},
+		components: {
+			appInfoBlock: InfoBlock
 		},
 		created() {
 			this.getToday();
