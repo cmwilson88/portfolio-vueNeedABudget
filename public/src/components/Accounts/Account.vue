@@ -61,7 +61,7 @@
 					})
 			},
 			goToAccount() {
-				this.$router.push('/app/budget/1/' + this.month + '/' + this.year + '/acc/' + this.account.id)
+				this.$router.push('/app/budget/' + this.$route.params.b_id + '/' + this.month + '/' + this.year + '/acc/' + this.account.id)
 			}
 		}
 	}

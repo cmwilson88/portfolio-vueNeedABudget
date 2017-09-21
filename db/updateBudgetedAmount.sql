@@ -55,7 +55,7 @@ update catgroup_avail
 			select sum(available) from spendcat_avail sa
 			join spendcats s on sa.spendcat_id = s.id
 			join catgroups c on c.id = s.catgroup_id
-			where month = $4 and year = $5
+			where month = $4+1 and year = $5
 			and catgroup_id = $6
 		)
 	where catgroup_id = $6 and month = $4+1 and year = $5;
