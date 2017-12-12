@@ -8,11 +8,11 @@ insert into Budgets
 values
 ('Test Budget', 0.00, 1);
 
-insert into Accounts
-(name, type, budget_id)
-values
-('USAA Checking', 'Checking', 1),
-('USAA Savings', 'Savings', 1);
+-- insert into Accounts
+-- (name, type, budget_id)
+-- values
+-- ('USAA Checking', 'Checking', 1),
+-- ('USAA Savings', 'Savings', 1);
 
 insert into Payees 
 (name, budget_id)
