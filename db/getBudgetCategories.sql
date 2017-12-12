@@ -25,7 +25,7 @@ from (
     ) as subcategories
     from catgroups c
     where budget_id = $1 
-    order by c.id
+    order by c.id desc
 ) t;
 
 do $$
