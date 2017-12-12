@@ -11,7 +11,7 @@ insert into transactions
 	 inflow, budget_id, type, catgroup_act_id)
 values
 	((select id from new_account), current_timestamp, date_part('month', current_timestamp), date_part('year', current_timestamp),
-	 1, 27, null, 0, 
+	 1, (select id from spendcats where type = 'inflow' and budget_id = $4), null, 0, 
 	 $3, $4, 'inflow', 1);
 
 update 
