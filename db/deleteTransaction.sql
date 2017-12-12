@@ -33,14 +33,89 @@ set
         )
     where spendcat_id = $3 and month = $4 and year = $5;
 
-update spendcat_avail sa
-set available = (select coalesce((select available from spendcat_avail where month = $4-1 and spendcat_id = $3), 0) + (select budgeted + activity from spendcat_act where month = $4 and spendcat_id = $3))
-where spendcat_id = $3 and month = $4;
+-- Update current month on previous month
+do $$
+begin
+if $4 = 1 then
+	update spendcat_avail sa
+		set available = (
+			select coalesce(
+				(select available
+				from spendcat_avail
+				where month = 12
+					AND year = $5 - 1 
+					and spendcat_id = $3)
+			, 0)
+		+ 
+			(select budgeted + activity 
+			from spendcat_act 
+			where month = $4 
+				and spendcat_id = $3)
+		)
+	where spendcat_id = $3 and month = $4;
+else 
+	update spendcat_avail sa
+		set available = (
+			select coalesce(
+				(select available
+				from spendcat_avail
+				where month = $4-1 
+					and year = $5
+					and spendcat_id = $3)
+			, 0)
+		+ 
+			(select budgeted + activity 
+			from spendcat_act 
+			where month = $4 
+				and spendcat_id = $3)
+		)
+	where spendcat_id = $3 and month = $4;
+end if;
+end
+$$;
 
-update spendcat_avail
-	set available = (select coalesce((select available from spendcat_avail where spendcat_id = $3 and month = $4 and year = $5),0) + (select sum(budgeted) + sum(activity) from spendcat_act where spendcat_id = $3 and month = $4+1 and year = $5))
+-- Update next months availability
+do $$
+begin
+if $4 = 12 then
+	update spendcat_avail
+		set available = (
+			select coalesce(
+				(select available
+				from spendcat_avail 
+				where spendcat_id = $3 
+					and month = $4 
+					and year = $5)
+			,0) 
+		+ 
+			(select sum(budgeted) + sum(activity) 
+			from spendcat_act 
+			where spendcat_id = $3 
+				and month = 1 
+				and year = $5+1)
+		)
+	where spendcat_id = $3 and month = 1 and year = $5+1;
+else
+	update spendcat_avail
+		set available = (
+			select coalesce(
+				(select available
+				from spendcat_avail 
+				where spendcat_id = $3 
+					and month = $4 
+					and year = $5)
+			,0) 
+		+ 
+			(select sum(budgeted) + sum(activity) 
+			from spendcat_act 
+			where spendcat_id = $3 
+				and month = $4+1 
+				and year = $5)
+		)
 	where spendcat_id = $3 and month = $4+1 and year = $5;
-
+end if;
+end
+$$;
 
 update catgroup_act  
 	set activity = (
@@ -64,8 +139,22 @@ update catgroup_avail
 		)
 	where catgroup_id = $7 and month = $4 and year = $5;
 
-update catgroup_avail
-	set available = (
+-- Update next months category group avail
+do $$
+begin
+if $4 = 12 then
+	update catgroup_avail
+		set available = (
+			select sum(available) from spendcat_avail sa
+			join spendcats s on sa.spendcat_id = s.id
+			join catgroups c on c.id = s.catgroup_id
+			where month = 1 and year = $5 + 1
+				and catgroup_id = $7
+		)
+	where catgroup_id = $7 and month = 1 and year = $5+1;
+else
+	update catgroup_avail
+		set available = (
 			select sum(available) from spendcat_avail sa
 			join spendcats s on sa.spendcat_id = s.id
 			join catgroups c on c.id = s.catgroup_id
@@ -73,3 +162,6 @@ update catgroup_avail
 			and catgroup_id = $7
 		)
 	where catgroup_id = $7 and month = $4+1 and year = $5;
+end if;
+end
+$$;
