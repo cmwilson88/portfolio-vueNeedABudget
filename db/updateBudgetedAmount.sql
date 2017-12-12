@@ -14,7 +14,7 @@ IF $4 = 1 THEN
 				select coalesce(
 					(select available 
 						from spendcat_avail 
-						where month = 1 and year = $5 - 1 and spendcat_id = $2)
+						where month = 12 and year = $5 - 1 and spendcat_id = $2)
 				,0)
 			+ 
 				(select budgeted + activity 
