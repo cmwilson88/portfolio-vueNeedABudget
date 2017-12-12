@@ -20,7 +20,7 @@
 			<h3 slot="header">Edit Account</h3>
 			<div class="modal_inputs">
 				<label>Account Name:</label>
-				<input type="text" v-model="accountName" @focus="accountName = ''">
+				<input type="text" v-model="accountName" @focus="accountName = ''" required>
 			</div>
 			<div slot="footer"class="modal_edit_buttons">
 				<button @click="updateAccount">Save</button>

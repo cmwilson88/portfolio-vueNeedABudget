@@ -32,7 +32,7 @@
 			<h3 slot="header">Add New Account</h3>
 			<div class="modal_inputs">
 				<label>Account Name:</label>
-				<input type="text" v-model="accountName" placeholder="Account Name">
+				<input type="text" v-model="accountName" placeholder="Account Name" required>
 				
 				<br>
 				

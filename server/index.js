@@ -41,9 +41,9 @@ massive(config.massiveURL)
 
 		db.init_tables.schema_create_seed().then( res => {
 			console.log('schema init');
-			// db.init_tables.schema_row_seed().then( res => {
-			// 	console.log('test rows created');
-			// }).catch(err => console.log(err));
+			db.init_tables.schema_row_seed().then( res => {
+				console.log('test rows created');
+			}).catch(err => console.log(err));
 		}).catch(err => console.log(err))
 	}).catch(err => console.log(err))
 

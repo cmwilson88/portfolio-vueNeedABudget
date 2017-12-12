@@ -57,14 +57,14 @@ inflow_act as (
 	insert into catgroup_act
 		(id, month, year, catgroup_id)
 	values
-		(default, 9, 2017, (select id from inflow_categories))
+		(default, 12, 2017, (select id from inflow_categories))
 	returning id
 ),
 inflow_avail as (
 	insert into catgroup_avail
 		(month, year,catgroup_id, catgroup_act_id)
 	values
-		(9, 2017, (select id from inflow_categories), (select id from inflow_act))
+		(12, 2017, (select id from inflow_categories), (select id from inflow_act))
 	returning id
 ),
 new_inflow as (
@@ -78,13 +78,13 @@ new_inflow_act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default, 9, 2017, (select id from new_inflow), (select id from inflow_act))
+		(default, 12, 2017, (select id from new_inflow), (select id from inflow_act))
 	returning id
 )
 insert into spendcat_avail
 	(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 values
-	(9, 2017, (select id from new_inflow), (select id from new_inflow_act), (select id from inflow_avail));
+	(12, 2017, (select id from new_inflow), (select id from new_inflow_act), (select id from inflow_avail));
 
 
 -- Immediate Obligations Seed
@@ -99,14 +99,14 @@ immediate_obsact as (
 	insert into catgroup_act
 		(id, month, year, catgroup_id)
 	values
-		(default, 9, 2017, (select id from immediate_obs))
+		(default, 12, 2017, (select id from immediate_obs))
 	returning id
 ),
 io_avail as (
 	insert into catgroup_avail
 		(month, year, catgroup_id, catgroup_act_id)
 	values
-		(9, 2017, (select id from immediate_obs), (select id from immediate_obsact))
+		(12, 2017, (select id from immediate_obs), (select id from immediate_obsact))
 	returning id
 ),
 newio8 as (
@@ -120,14 +120,14 @@ newio8act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newio8), (select id from immediate_obsact))
+		(default,12, 2017, (select id from newio8), (select id from immediate_obsact))
 		returning id
 ),
 newio8avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newio8), (select id from newio8act), (select id from io_avail))
+		(12, 2017, (select id from newio8), (select id from newio8act), (select id from io_avail))
 ),
 newio7 as (
 	insert into spendcats
@@ -140,14 +140,14 @@ newio7act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newio7), (select id from immediate_obsact))
+		(default,12, 2017, (select id from newio7), (select id from immediate_obsact))
 		returning id
 ),
 newio7avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newio7), (select id from newio7act), (select id from io_avail))
+		(12, 2017, (select id from newio7), (select id from newio7act), (select id from io_avail))
 ),
 newio6 as (
 	insert into spendcats
@@ -160,14 +160,14 @@ newio6act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default, 9, 2017, (select id from newio6), (select id from immediate_obsact))
+		(default, 12, 2017, (select id from newio6), (select id from immediate_obsact))
 		returning id
 ),
 newio6avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newio6), (select id from newio6act), (select id from io_avail))
+		(12, 2017, (select id from newio6), (select id from newio6act), (select id from io_avail))
 ),
 newio5 as (
 	insert into spendcats
@@ -180,14 +180,14 @@ newio5act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default, 9, 2017, (select id from newio5), (select id from immediate_obsact))
+		(default, 12, 2017, (select id from newio5), (select id from immediate_obsact))
 		returning id
 ),
 newio5avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newio5), (select id from newio5act), (select id from io_avail))
+		(12, 2017, (select id from newio5), (select id from newio5act), (select id from io_avail))
 ),
 newio4 as (
 	insert into spendcats
@@ -200,14 +200,14 @@ newio4act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newio4), (select id from immediate_obsact))
+		(default,12, 2017, (select id from newio4), (select id from immediate_obsact))
 		returning id
 ),
 newio4avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newio4), (select id from newio4act), (select id from io_avail))
+		(12, 2017, (select id from newio4), (select id from newio4act), (select id from io_avail))
 ),
 newio3 as (
 	insert into spendcats
@@ -220,14 +220,14 @@ newio3act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newio3), (select id from immediate_obsact))
+		(default,12, 2017, (select id from newio3), (select id from immediate_obsact))
 		returning id
 ),
 newio3avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newio3), (select id from newio3act), (select id from io_avail))
+		(12, 2017, (select id from newio3), (select id from newio3act), (select id from io_avail))
 ),
 newio2 as (
 	insert into spendcats
@@ -240,14 +240,14 @@ newio2act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newio2), (select id from immediate_obsact))
+		(default,12, 2017, (select id from newio2), (select id from immediate_obsact))
 		returning id
 ),
 newio2avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newio2), (select id from newio2act), (select id from io_avail))
+		(12, 2017, (select id from newio2), (select id from newio2act), (select id from io_avail))
 ),
 newio1 as (
 	insert into spendcats
@@ -260,14 +260,14 @@ newio1act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default, 9, 2017, (select id from newio1), (select id from immediate_obsact))
+		(default, 12, 2017, (select id from newio1), (select id from immediate_obsact))
 		returning id
 ),
 newio1avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newio1), (select id from newio1act), (select id from io_avail))
+		(12, 2017, (select id from newio1), (select id from newio1act), (select id from io_avail))
 )
 select * from immediate_obs;
 
@@ -285,14 +285,14 @@ texpens_act as (
 	insert into catgroup_act
 		(month, year, catgroup_id)
 	values
-		(9, 2017, (select id from true_expenses))
+		(12, 2017, (select id from true_expenses))
 	returning id
 ),
 expense_avail as (
 	insert into catgroup_avail
 		(month, year, catgroup_id, catgroup_act_id)
 	values
-		(9, 2017,(select id from true_expenses), (select id from texpens_act))
+		(12, 2017,(select id from true_expenses), (select id from texpens_act))
 	returning id
 ),
 newte10 as (
@@ -306,14 +306,14 @@ newte10act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017,  (select id from newte10), (select id from texpens_act))
+		(default,12, 2017,  (select id from newte10), (select id from texpens_act))
 	returning id
 ),
 newte10avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017,(select id from newte10), (select id from newte10act), (select id from expense_avail))
+		(12, 2017,(select id from newte10), (select id from newte10act), (select id from expense_avail))
 ),
 newte9 as (
 	insert into spendcats
@@ -326,14 +326,14 @@ newte9act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newte9), (select id from texpens_act))
+		(default,12, 2017, (select id from newte9), (select id from texpens_act))
 	returning id
 ),
 newte9avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newte9), (select id from newte9act), (select id from expense_avail))
+		(12, 2017, (select id from newte9), (select id from newte9act), (select id from expense_avail))
 ),
 newte8 as (
 	insert into spendcats
@@ -346,14 +346,14 @@ newte8act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newte8), (select id from texpens_act))
+		(default,12, 2017, (select id from newte8), (select id from texpens_act))
 	returning id
 ),
 newte8avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newte8), (select id from newte8act), (select id from expense_avail))
+		(12, 2017, (select id from newte8), (select id from newte8act), (select id from expense_avail))
 ),
 newte7 as (
 	insert into spendcats
@@ -366,14 +366,14 @@ newte7act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newte7), (select id from texpens_act))
+		(default,12, 2017, (select id from newte7), (select id from texpens_act))
 		returning id
 ),
 newte7avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newte7), (select id from newte7act), (select id from expense_avail))
+		(12, 2017, (select id from newte7), (select id from newte7act), (select id from expense_avail))
 ),
 newte6 as (
 	insert into spendcats
@@ -386,14 +386,14 @@ newte6act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newte6), (select id from texpens_act))
+		(default,12, 2017, (select id from newte6), (select id from texpens_act))
 		returning id
 ),
 newte6avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newte6), (select id from newte6act), (select id from expense_avail))
+		(12, 2017, (select id from newte6), (select id from newte6act), (select id from expense_avail))
 ),
 newte5 as (
 	insert into spendcats
@@ -406,14 +406,14 @@ newte5act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newte5), (select id from texpens_act))
+		(default,12, 2017, (select id from newte5), (select id from texpens_act))
 		returning id
 ),
 newte5avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newte5), (select id from newte5act), (select id from expense_avail))
+		(12, 2017, (select id from newte5), (select id from newte5act), (select id from expense_avail))
 ),
 newte4 as (
 	insert into spendcats
@@ -426,14 +426,14 @@ newte4act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newte4), (select id from texpens_act))
+		(default,12, 2017, (select id from newte4), (select id from texpens_act))
 	returning id 
 ),
 newte4avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newte4), (select id from newte4act), (select id from expense_avail))
+		(12, 2017, (select id from newte4), (select id from newte4act), (select id from expense_avail))
 ),
 newte3 as (
 	insert into spendcats
@@ -446,14 +446,14 @@ newte3act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newte3), (select id from texpens_act))
+		(default,12, 2017, (select id from newte3), (select id from texpens_act))
 	returning id 
 ),
 newte3avail as (
 	insert into spendcat_avail
 		(month, year,spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017,(select id from newte3), (select id from newte3act), (select id from expense_avail))
+		(12, 2017,(select id from newte3), (select id from newte3act), (select id from expense_avail))
 ),
 newte2 as (
 	insert into spendcats
@@ -466,14 +466,14 @@ newte2act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newte2), (select id from texpens_act))
+		(default,12, 2017, (select id from newte2), (select id from texpens_act))
 	returning id 
 ),
 newte2avail as (
 	insert into spendcat_avail
 		(month, year,spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017,(select id from newte2), (select id from newte2act), (select id from expense_avail))
+		(12, 2017,(select id from newte2), (select id from newte2act), (select id from expense_avail))
 ),
 newte1 as (
 	insert into spendcats
@@ -486,14 +486,14 @@ newte1act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default, 9, 2017, (select id from newte1), (select id from texpens_act))
+		(default, 12, 2017, (select id from newte1), (select id from texpens_act))
 		returning id
 ),
 newte1avail as (
 	insert into spendcat_avail
 		(month, year,spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newte1), (select id from newte1act), (select id from expense_avail))
+		(12, 2017, (select id from newte1), (select id from newte1act), (select id from expense_avail))
 )
 select * from true_expenses;
 
@@ -510,14 +510,14 @@ dpay_act as (
 	insert into catgroup_act
 		(month, year, catgroup_id)
 	values
-		(9, 2017, (select id from debt_payments))
+		(12, 2017, (select id from debt_payments))
 	returning id
 ),
 dpay_avail as (
 	insert into catgroup_avail
 		(month, year, catgroup_id, catgroup_act_id)
 	values
-		(9, 2017, (select id from debt_payments), (select id from dpay_act))
+		(12, 2017, (select id from debt_payments), (select id from dpay_act))
 	returning id
 ),
 newdp2 as (
@@ -531,14 +531,14 @@ newdp2act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default, 9, 2017, (select id from newdp2), (select id from dpay_act))
+		(default, 12, 2017, (select id from newdp2), (select id from dpay_act))
 		returning id
 ),
 newdp2avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-	(9, 2017, (select id from newdp2), (select id from newdp2act), (select id from dpay_avail))
+	(12, 2017, (select id from newdp2), (select id from newdp2act), (select id from dpay_avail))
 ),
 newdp1 as (
 	insert into spendcats
@@ -551,14 +551,14 @@ newdp1act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default, 9, 2017,  (select id from newdp1), (select id from dpay_act))
+		(default, 12, 2017,  (select id from newdp1), (select id from dpay_act))
 		returning id
 ),
 newdp1avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newdp1), (select id from newdp1act), (select id from dpay_avail))
+		(12, 2017, (select id from newdp1), (select id from newdp1act), (select id from dpay_avail))
 )
 select * from debt_payments;
 
@@ -575,14 +575,14 @@ qol_act as (
 	insert into catgroup_act
 		(month, year, catgroup_id)
 	values
-		(9, 2017, (select id from qol_goals))
+		(12, 2017, (select id from qol_goals))
 	returning id
 ),
 qol_avail as (
 	insert into catgroup_avail
 		(month, year, catgroup_id, catgroup_act_id)
 	values
-		(9, 2017, (select id from qol_goals), (select id from qol_act))
+		(12, 2017, (select id from qol_goals), (select id from qol_act))
 	returning id
 ),
 newqg2 as (
@@ -596,14 +596,14 @@ newqg2act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default, 9, 2017, (select id from newqg2), (select id from qol_act))
+		(default, 12, 2017, (select id from newqg2), (select id from qol_act))
 		returning id
 ),
 newqg2avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newqg2), (select id from newqg2act), (select id from qol_avail))
+		(12, 2017, (select id from newqg2), (select id from newqg2act), (select id from qol_avail))
 ),
 newqg1 as (
 	insert into spendcats
@@ -616,14 +616,14 @@ newqg1act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default, 9, 2017, (select id from newqg1), (select id from qol_act))
+		(default, 12, 2017, (select id from newqg1), (select id from qol_act))
 		returning id
 ),
 newqg1avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newqg1), (select id from newqg1act), (select id from qol_avail))
+		(12, 2017, (select id from newqg1), (select id from newqg1act), (select id from qol_avail))
 )
 select * from qol_goals;
 
@@ -641,14 +641,14 @@ fun_act as (
 	insert into catgroup_act
 		(month, year, catgroup_id)
 	values
-		(9, 2017, (select id from just_fun))
+		(12, 2017, (select id from just_fun))
 	returning id
 ),
 fun_avail as (
 	insert into catgroup_avail
 		(month, year, catgroup_id, catgroup_act_id)
 	values
-		(9, 2017, (select id from just_fun), (select id from fun_act))
+		(12, 2017, (select id from just_fun), (select id from fun_act))
 	returning id
 ),
 newjf4 as (
@@ -662,14 +662,14 @@ newjf4act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newjf4), (select id from fun_act))
+		(default,12, 2017, (select id from newjf4), (select id from fun_act))
 		returning id
 ),
 newjf4avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newjf4), (select id from newjf4act), (select id from fun_avail))
+		(12, 2017, (select id from newjf4), (select id from newjf4act), (select id from fun_avail))
 ),
 newjf3 as (
 	insert into spendcats
@@ -682,14 +682,14 @@ newjf3act as (
 	insert into spendcat_act
 		(id, month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newjf3), (select id from fun_act))
+		(default,12, 2017, (select id from newjf3), (select id from fun_act))
 		returning id
 ),
 newjf3avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newjf3), (select id from newjf3act), (select id from fun_avail))
+		(12, 2017, (select id from newjf3), (select id from newjf3act), (select id from fun_avail))
 ),
 newjf2 as (
 	insert into spendcats
@@ -702,14 +702,14 @@ newjf2act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newjf2), (select id from fun_act))
+		(default,12, 2017, (select id from newjf2), (select id from fun_act))
 		returning id
 ),
 newjf2avail as (
 	insert into spendcat_avail
 		(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newjf2), (select id from newjf2act), (select id from fun_avail))
+		(12, 2017, (select id from newjf2), (select id from newjf2act), (select id from fun_avail))
 ),
 newjf1 as (
 	insert into spendcats
@@ -722,14 +722,14 @@ newjf1act as (
 	insert into spendcat_act
 		(id,month, year, spendcat_id, catgroup_act_id)
 	values
-		(default,9, 2017, (select id from newjf1), (select id from fun_act))
+		(default,12, 2017, (select id from newjf1), (select id from fun_act))
 		returning id
 ),
 newjf1avail as (
 	insert into spendcat_avail
 		(month, year,spendcat_id, spendcat_act_id, catgroup_avail_id)
 	values
-		(9, 2017, (select id from newjf1), (select id from newjf1act), (select id from fun_avail))
+		(12, 2017, (select id from newjf1), (select id from newjf1act), (select id from fun_avail))
 )
 select * from just_fun;
 
@@ -738,25 +738,25 @@ select * from just_fun;
 -- Insert previous month to calculate current month available
 insert into catgroup_act
 (month, year, catgroup_id)
-select 8, 2017, catgroup_id from catgroup_act
+select 11, 2017, catgroup_id from catgroup_act
 except
 select month, year, catgroup_id from catgroup_act;
 
 insert into catgroup_avail
 (month, year, catgroup_id, catgroup_act_id)
-select  8, 2017, catgroup_id, catgroup_act_id from catgroup_avail
+select  11, 2017, catgroup_id, catgroup_act_id from catgroup_avail
 except
 select month, year, catgroup_id, catgroup_act_id from catgroup_avail;
 
 insert into spendcat_act
 (month, year, spendcat_id, catgroup_act_id)
-select  8, 2017, spendcat_id, catgroup_act_id from spendcat_act
+select  11, 2017, spendcat_id, catgroup_act_id from spendcat_act
 except
 select month, year, spendcat_id, catgroup_act_id from spendcat_act;
 
 insert into spendcat_avail
 (month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
-select  8, 2017, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail
+select  11, 2017, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail
 except
 select month, year, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail;
 

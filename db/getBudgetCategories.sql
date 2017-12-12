@@ -28,31 +28,66 @@ from (
     order by c.id desc
 ) t;
 
-insert into catgroup_act
-(month, year, catgroup_id)
-select
-$2 + 1, 2017, catgroup_id from catgroup_act
-except
-select month, year, catgroup_id from catgroup_act;
+do $$
+begin
+IF $2 = 12 THEN
 
-insert into spendcat_act
-(month, year, spendcat_id)
-select
-$2+ 1, 2017, spendcat_id from spendcat_act
-except
-select month, year, spendcat_id from spendcat_act;
+    insert into catgroup_act
+    (month, year, catgroup_id)
+    select
+    1, $3 + 1, catgroup_id from catgroup_act
+    except
+    select month, year, catgroup_id from catgroup_act;
 
-insert into catgroup_avail
-(month, year, catgroup_id, catgroup_act_id)
-select $2 + 1, 2017, catgroup_id, catgroup_act_id from catgroup_avail
-except
-select month, year, catgroup_id, catgroup_act_id from catgroup_avail;
+    insert into spendcat_act
+    (month, year, spendcat_id)
+    select
+    1, $3 + 1, spendcat_id from spendcat_act
+    except
+    select month, year, spendcat_id from spendcat_act;
 
-
-insert into spendcat_avail
-(month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
-select $2+1, 2017, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail
-except
-select month, year, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail;
+    insert into catgroup_avail
+    (month, year, catgroup_id, catgroup_act_id)
+    select  1, $3 + 1, catgroup_id, catgroup_act_id from catgroup_avail
+    except
+    select month, year, catgroup_id, catgroup_act_id from catgroup_avail;
 
 
+    insert into spendcat_avail
+    (month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
+    select 1, $3 + 1, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail
+    except
+    select month, year, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail;
+
+ELSE 
+
+    insert into catgroup_act
+    (month, year, catgroup_id)
+    select
+    $2 + 1, $3, catgroup_id from catgroup_act
+    except
+    select month, year, catgroup_id from catgroup_act;
+
+    insert into spendcat_act
+    (month, year, spendcat_id)
+    select
+    $2 + 1, $3, spendcat_id from spendcat_act
+    except
+    select month, year, spendcat_id from spendcat_act;
+
+    insert into catgroup_avail
+    (month, year, catgroup_id, catgroup_act_id)
+    select  $2 + 1, $3, catgroup_id, catgroup_act_id from catgroup_avail
+    except
+    select month, year, catgroup_id, catgroup_act_id from catgroup_avail;
+
+
+    insert into spendcat_avail
+    (month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
+    select $2 + 1, $3, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail
+    except
+    select month, year, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail;
+
+END IF;
+end
+$$;
