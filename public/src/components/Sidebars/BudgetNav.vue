@@ -32,7 +32,8 @@
 			<h3 slot="header">Add New Account</h3>
 			<div class="modal_inputs">
 				<label>Account Name:</label>
-				<input type="text" v-model="accountName" placeholder="Account Name" required>
+				<span :style="{color: 'red'}" v-if="errors.message">{{errors.message}}</span>
+				<input type="text" v-model="accountName" placeholder="Account Name">
 				
 				<br>
 				
@@ -77,7 +78,8 @@
 				accountName: '',
 				accountType: '',
 				accountAmount: null,
-				displayName: ''
+				displayName: '',
+				errors: {}
 			}
 		},
 		computed: {
@@ -108,19 +110,28 @@
 					'/app/budget/' + this.$route.params.b_id + '/' + this.month + '/' + this.year)
 			},
 			addAccount() {
-				axios.post(
-					'/api/' + this.$route.params.b_id + '/accounts/new',
-					{
-						name: this.accountName,
-						type: this.accountType,
-						amount: this.accountAmount
-					}).then(() => {
-						this.getAccounts()
-						this.getBudgetCategories()
-						this.getToBeBudgeted()
-						this.getTransactions()
-					})
-				this.cancelAddAccount()
+				if(this.accountName) {
+					if(!this.accountAmount) {
+						this.accountAmount = 0;
+					}
+					axios.post(
+						'/api/' + this.$route.params.b_id + '/accounts/new',
+						{
+							name: this.accountName,
+							type: this.accountType,
+							amount: this.accountAmount
+						}).then(() => {
+							this.getAccounts()
+							this.getBudgetCategories()
+							this.getToBeBudgeted()
+							this.getTransactions()
+						})
+					this.cancelAddAccount()
+				} else {
+					this.errors = {
+						message: "Invalid Input"
+					}
+				}
 			},
 			getBudgetName() {
 				axios.get('/api/' + this.$route.params.b_id + '/name')
@@ -130,9 +141,10 @@
 			},
 			cancelAddAccount() {
 				this.accountName = '';
-				this.accountAmount = 0;
+				this.accountAmount = null;
 				this.accountType = '';
 				this.showModal = false;
+				this.errors = {};
 			}
 		},
 		created() {
@@ -209,4 +221,7 @@
 		cursor: pointer;
 	}
 	
+	.input-error {
+		outline-color: red;
+	}
 </style>

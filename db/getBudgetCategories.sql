@@ -52,7 +52,6 @@ IF $2 = 12 THEN
     except
     select month, year, catgroup_id, catgroup_act_id from catgroup_avail;
 
-
     insert into spendcat_avail
     (month, year, spendcat_id, spendcat_act_id, catgroup_avail_id)
     select 1, $3 + 1, spendcat_id, spendcat_act_id, catgroup_avail_id from spendcat_avail

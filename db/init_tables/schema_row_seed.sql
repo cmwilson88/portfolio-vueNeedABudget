@@ -6,17 +6,13 @@ values
 insert into Budgets
 (name, to_be_budgeted, user_id)
 values
-('Test Budget', 0.00, 1),
-('Main Budget', 0.00, 1);
+('Test Budget', 0.00, 1);
 
--- insert into Accounts
--- (name, type, budget_id)
--- values
--- ('USAA Checking', 'Checking', 1),
--- ('USAA Savings', 'Savings', 1),
--- ('USAA Visa Credit Card', 'Credit Card', 1),
--- ('US Bank Checking', 'Checking', 2),
--- ('Chase Freedom', 'Credit Card', 2);
+insert into Accounts
+(name, type, budget_id)
+values
+('USAA Checking', 'Checking', 1),
+('USAA Savings', 'Savings', 1);
 
 insert into Payees 
 (name, budget_id)

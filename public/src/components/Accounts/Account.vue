@@ -20,11 +20,12 @@
 			<h3 slot="header">Edit Account</h3>
 			<div class="modal_inputs">
 				<label>Account Name:</label>
-				<input type="text" v-model="accountName" @focus="accountName = ''" required>
+				<span v-if="errors.message" :style="{color: 'red'}">{{errors.message}}</span>
+				<input type="text" v-model="accountName" @focus="accountName = ''">
 			</div>
 			<div slot="footer"class="modal_edit_buttons">
 				<button @click="updateAccount">Save</button>
-				<button @click="editModal=false">Cancel</button>
+				<button @click="cancelEditAccount">Cancel</button>
 			</div>
 		</app-input-modal>
 
@@ -41,7 +42,8 @@
 			return {
 				editModal: false,
 				showEditButton: false,
-				accountName: this.account.name
+				accountName: this.account.name,
+				errors: {}
 			}
 		},
 		computed: {
@@ -53,12 +55,22 @@
 		methods: {
 			...mapActions(['getAccounts']),
 			updateAccount() {
-				axios.patch('/api/accounts/' + this.account.id, {name: this.accountName})
-					.then(() => {
-						this.getAccounts();
-						this.editModal = false;
-						this.accountName = this.account.name
-					})
+				if(this.accountName) {
+					axios.patch('/api/accounts/' + this.account.id, {name: this.accountName})
+						.then(() => {
+							this.getAccounts();
+							this.cancelEditAccount;
+						})
+				} else {
+					this.errors = {
+						message: 'Invalid Input'
+					}
+				}
+			},
+			cancelEditAccount() {
+				this.accountName = this.account.name;
+				this.editModal = false;
+				this.errors = {}
 			},
 			goToAccount() {
 				this.$router.push('/app/budget/' + this.$route.params.b_id + '/' + this.month + '/' + this.year + '/acc/' + this.account.id)
