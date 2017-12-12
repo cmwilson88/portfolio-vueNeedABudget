@@ -3,8 +3,6 @@ module.exports = {
 		const db = req.app.get('db')
 
 		db.getBudgetCategories([req.params.b_id, req.params.month, req.params.year]).then(response => {
-			console.log(req.params.month);
-			console.log(req.params.year);
 			res.status(200).send(response)
 		}).catch(err => console.log(err))
 	},

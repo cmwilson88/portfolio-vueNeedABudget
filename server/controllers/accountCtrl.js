@@ -10,7 +10,6 @@ module.exports = {
 		const db = req.app.get('db');
 
 		db.getAllTransactions([req.params.b_id]).then(response => {
-			console.log('get all transactions')
 			return res.status(200).send(response)
 		}).catch(err => console.log(err))
 	},
